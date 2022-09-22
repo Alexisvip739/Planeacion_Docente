@@ -4,16 +4,19 @@
 
 
 :root{
-    --fuente:22px;
+    --fuente:24px;
     --fuente-1:20px;
+    --fuente3:35px;
     --colorError:rgb(153, 17, 17);
     --text-color:rgb(255, 255, 255);
     --text-color-2:black;
     --fondo:black;
     --succes:#0f1414;
     --redondo:3rem;
+    --redondo1:50px;
     --succes2: rgb(229 213 28);
     --fondo2:#F4F4F4;
+    --amarillo:#F5E129;
 }
 body,html{/*
     height:100%;

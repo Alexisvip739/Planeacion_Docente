@@ -1,0 +1,26 @@
+{% extends 'base_html.html' %}
+{% load static%}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'docentes/css/style.css' %}">  
+{% endblock %}
+
+{% block title %} LAPSOFT Login{% endblock %}
+
+{% block navbar%} {% endblock%}
+
+{% block body %}
+
+
+    <form class="login">
+        <img src="{% static 'icons/logo.svg' %}" alt="">
+        <h3>Correo electronico</h3>
+        <input type="text">
+        <h3>Contraseña</h3>
+        <input type="password">
+        <input class="login-button" type="button" value="Iniciar sesión">
+        <a href="">Registrarme</a>
+        <a href="">Olvide mi contraseña</a>
+
+    </form>
+{% endblock %}

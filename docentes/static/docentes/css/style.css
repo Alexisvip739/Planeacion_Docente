@@ -1,0 +1,106 @@
+
+
+
+/* estilos para el login*/
+.login{
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    width: max-content;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    background-color: var(--fondo2);
+    border-radius: var(--redondo1);
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+    
+}
+.login img{
+    width: 130px;
+    height: 130px;
+    justify-self: center;
+}
+.login h3{
+    font-size: var(--fuente);
+    margin-bottom: 5px;
+    align-self:flex-start;
+    font-family: 'Roboto', sans-serif;
+}
+.login input{
+    border-radius: var(--redondo1);
+    border-color: transparent;
+    font-size: var(--fuente);
+
+    padding-left: 4%;
+    padding-right: 4%;
+    width: -webkit-fill-available;
+    font-family: 'Roboto', sans-serif;
+}
+.login-button{
+    background: var(--amarillo);
+    width: -webkit-fill-available;
+    font-size: var(--fuente);
+    margin-top: 24px;
+    margin-bottom: 10px;
+}
+.login a{
+    color: var(--tex-color-2);
+}
+
+/* fin de los estilos de login*/
+
+/* estilos del search 'barra de busqueda */
+.search{
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    width: max-content;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    border-radius: var(--redondo1);
+    padding-left: 1%;
+    /*box-shadow: 0 4px 8px 0 rgb(255 255 255 / 19%), 0 6px 20px 0 rgb(217 217 217 / 19%);*/
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%)
+}
+.search input{
+    font-size: var(--fuente3);
+    border-radius: 50px 0 0 50px;
+    border-color: transparent;
+    padding-left: 2%;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+}
+.search a img{
+    height: 45px;
+}
+.search a{
+    background:var(--amarillo);
+    border-radius: 0 50px 50px 0;
+}
+
+.search-title{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+.search-container{
+    position: absolute;
+    height: max-content;
+    width: max-content;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+}
+/* fin de estilo barra de busqueda */
