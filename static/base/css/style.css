@@ -13,12 +13,12 @@
     --succes:#0f1414;
     --redondo:3rem;
     --succes2: rgb(229 213 28);
-    --fondo2:black;
+    --fondo2:#F4F4F4;
 }
 body,html{/*
     height:100%;
     width: 100%;*/
-    background: rgb(29, 31, 46);
+    background: rgb(255, 255, 255);
 }
 
 
@@ -46,7 +46,7 @@ body,html{/*
 .nav-icon a{
     margin-left: 5px;
     text-decoration: none;
-    color:var(--text-color);
+    color:var(--text-color2);
     font-family: 'Roboto', sans-serif;
 }
 .nav-item{
@@ -57,6 +57,6 @@ body,html{/*
     margin-left: 5px;
     margin-right: 5px;
     text-decoration: none;
-    color:var(--text-color);
+    color:var(--text-color2);
     font-family: 'Roboto', sans-serif;
 }
