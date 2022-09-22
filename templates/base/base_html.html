@@ -1,0 +1,37 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width={device-width}, initial-scale=1.0">
+    <link rel="icon" href="{% static 'icons/iconCZ.svg' %}">
+    <link rel="stylesheet" href="{% static 'base/style.css' %}">
+    <title>{% block title%} {% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body id="body">
+    {% block navbar %}
+
+    <nav class="nav"> 
+        <div class="nav-icon">
+            <img src="{% static 'icons/iconCZ.svg' %}" alt="logo invernadero" onclick="window.location='{% url 'datos:index' %}'">
+            <a class="center-ex no-decoration text" href="{% url 'datos:index' %}">Invernadero 5.0</a>
+        </div>
+        <div class="nav-item">
+            <a class="center-ex no-decoration text" href="{% url 'datos:index' %}">Invernaderos</a>
+
+            {% if user.is_authenticated == False %}
+            <a class="center-ex no-decoration text" href="{% url 'datos:login' %}">Iniciar sesion</a>
+            {% else%}
+            <a class="center-ex no-decoration text" href="{% url 'datos:cerrar_sesion' %}">Cerrar sesion- {{ user.username }}</a>
+            {% endif%}
+        </div>
+    </nav>
+
+    {% endblock %}
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
