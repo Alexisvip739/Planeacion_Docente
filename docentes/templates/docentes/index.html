@@ -1,93 +1,37 @@
-{% extends 'lectura/base_html.html' %}
 {% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width={device-width}, initial-scale=1.0">
+    <link rel="icon" href="{% static 'icons/iconCZ.svg' %}">
+    <link rel="stylesheet" href="{% static 'base/style.css' %}">
+    <title>{% block title%} {% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body id="body">
+    {% block navbar %}
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'lectura/css/style.css' %}">  
-{% endblock %}
+    <nav class="nav"> 
+        <div class="nav-icon">
+            <img src="{% static 'icons/iconCZ.svg' %}" alt="logo invernadero" onclick="window.location='{% url 'docentes:index' %}'">
+            <a class="center-ex no-decoration text" href="{% url 'datos:index' %}">Invernadero 5.0</a>
+        </div>
+        <div class="nav-item">
+            <a class="center-ex no-decoration text" href="{% url 'datos:index' %}">Invernaderos</a>
 
-{% block title %} Invernadero {{ user.id }} {% endblock %}
-{% block body %}
+            {% if user.is_authenticated == False %}
+            <a class="center-ex no-decoration text" href="{% url 'datos:login' %}">Iniciar sesion</a>
+            {% else%}
+            <a class="center-ex no-decoration text" href="{% url 'datos:cerrar_sesion' %}">Cerrar sesion- {{ user.username }}</a>
+            {% endif%}
+        </div>
+    </nav>
 
-
-
-    <h1 class="center-ex text margin-tb">Invernadero: {{inv.nombre}}</h1>
-
-    <div class="container container2">
-        {% for a in lista %}
-    <div id="lectura-{{a.id}}" class="form">
-        <h2>id:{{ a.id }}</h2>
-        <h2>{{ a.fecha_lectura|date:'d/m/y H:i'}}</h2>
-        <h2>{{ a.temperatura }}</h2>
-        <h2>{{ a.humedad_ambiental }}</h2>
-        <h2>{{ a.humedad_fisica }}</h2>
-        
-        <h2>{{ a.ventilacion }}</h2>
-        <h2>{{ a.extractor }}</h2>
-        <h2>{{ a.riego }}</h2>
-        <h2>{{ a.calefaccion }}</h2>
-        <h2>{{ a.lampara }}</h2>
-        {% if user.is_authenticated and user.id == inv.id_usuario.id %}
-        <button class="button-danger" onclick=" eliminarLectura({{ a.id }})">Eliminar</button>
-        <button class="button-update" onclick="window.location = '{% url 'datos:actualizarLectura' a.id %}';">Modificar</button>
-        {% endif%}
-
-    </div>
-    {% endfor %}
-    </div>
-    
-
-
-    <script>
-        function mostrarModal(info){
-            document.body.innerHTML+=`
-            <div id="modal-info" class="modal-delete">
-                <h1>${info}</h1>
-                <a onclick="borrarElemento('modal-delete')" class="btn-ok-modal">OK</a>
-            </div>
-            `;
-        }
-
-        async function get(url){
-            return await fetch(url).then(response => response.text());
-        }
-        //variable con el path que contiene la eliminacion
-        var urlEliminarLectura="{% url 'datos:apiEliminarLectura' 1 %}";
-        urlEliminarLectura = urlEliminarLectura.replace('1','');//quitamos el 1 de la variable
-
-        function eliminarLectura(id_lectura){
-            document.body.innerHTML+=`
-            <div id="modal-delete" class="modal-delete">
-                <h3 onclick="borrarElemento('modal-delete')" class="close">X</h3>
-                <h1>deseas eliminar el registro:${id_lectura} ?</h1>
-                <a onclick="apiEliminarLectura(${id_lectura},'${urlEliminarLectura}${id_lectura}')" class="btn-ok-modal text-danger">Eliminar</a>
-            </div>
-            `;
-        }
-        function borrarElemento(info){
-            document.getElementById(info).remove();
-        }
-
-        //procesar fetch
-        //get(info).then(function(response){}).catch(function(response){});
-        function apiEliminarLectura(id,url){
-            //borramos el modal
-            borrarElemento('modal-delete');
-            get(url).then( (response) => {
-                if(response == '1'){
-                    console.log('borrado-'+id);
-                    borrarElemento('lectura-'+id);//borramos el registro del div
-                    //mostramos el modal indicando que se eliminio con exito
-                    mostrarModal("registro eliminado con exito");
-                    //mandamos el timer para que se cierre automaticamente el modal
-                    setTimeout(function(){document.getElementById('modal-info').remove()},1050);
-                }else{
-                    mostrarModalError("Error al eliminar registro")
-                }
-
-            }).catch((response) => {
-                mostrarModal("Error al eliminar registro");
-                setTimeout(function(){document.getElementById('modal-info').remove()},1050);
-            });
-        }
-    </script>
-{% endblock %}
+    {% endblock %}
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
