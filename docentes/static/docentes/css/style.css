@@ -25,6 +25,7 @@
     width: 130px;
     height: 130px;
     justify-self: center;
+    cursor: pointer;
 }
 .login h3{
     font-size: var(--fuente);
