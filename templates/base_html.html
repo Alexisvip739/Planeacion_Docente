@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width={device-width}, initial-scale=1.0">
 
-    <link rel="icon" href="">
+    <link rel="icon" href="{% static 'icons/logo.svg' %}">
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
 
     <title>{% block title%} {% endblock %}</title>
@@ -20,7 +20,7 @@
 
     <nav class="nav"> 
         <div class="nav-icon">
-            <img src="" alt="logo invernadero" onclick="window.location='{% url 'docentes:index' %}'">
+            <img src="{% static 'icons/logo.svg' %}" alt="logo invernadero" onclick="window.location='{% url 'docentes:index' %}'">
             <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Invernadero 5.0</a>
         </div>
         <div class="nav-item">
