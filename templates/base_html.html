@@ -21,10 +21,10 @@
     <nav class="nav"> 
         <div class="nav-icon">
             <img src="{% static 'icons/logo.svg' %}" alt="logo invernadero" onclick="window.location='{% url 'docentes:index' %}'">
-            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Invernadero 5.0</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">LAPSOFT</a>
         </div>
         <div class="nav-item">
-            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Invernaderos</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Registrarse</a>
 
             {% if user.is_authenticated == False %}
             <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Iniciar sesion</a>
