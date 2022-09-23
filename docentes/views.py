@@ -6,4 +6,4 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request,'docentes/login.html',{})
+    return render(request,'docentes/index.html',{})

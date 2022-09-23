@@ -20,10 +20,98 @@
                 <img src="{% static 'icons/iconSearch.svg' %}" alt="">
             </a>
         </div>
+
+        <!--  planeacion-->
+    <div class="plan-container">
+
+        <div class="plan">
+            <div>
+                <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
+                <h3>juanito</h3>
+            </div>
+            <div>
+                <div class="plan-star">
+                    <h3>5</h3>
+                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella">
+                </div>
+                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide">
+            </div>
+        </div>
+        <div class="plan-title">
+            <h3>Sumas de primer grado</h3>
+            <h2>12/09/2022 a 16/08/2022</h2>
+        </div>
+        <div class="plan-info">
+            <h3>Tema</h3>
+            <input type="text" name="" id="" placeholder="Tema">
+            <h3>Grado</h3>
+            <input type="text" name="" id="" placeholder="Grado">
+            <h3>Fecha inicio</h3>
+            <input type="datetime-local" name="" id="" placeholder="Fecha inicio">
+            <h3>Fecha finalización</h3>
+            <input type="datetime-local" name="" id="" placeholder="echa finalización">
+            <h2>Actividades</h2>
+
+            <div class="container-activities">
+
+                <div class="container-activitie">
+                    <div class="head-activities">
+                        <h3>Actividad-1 Lunes</h3>
+                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide">
+    
+                    </div>
+                    <div class="body-activities">
+                            <h3>Fecha inicio</h3>
+                            <input type="datetime-local" name="" id="" placeholder="fecha inicio">
+                            <h3>Titulo</h3>
+                            <input type="text" name="" id="" placeholder="Titulo">
+                            <h3>Descripción</h3>
+                            <input type="text" name="" id="" placeholder="Descripción">
+                    </div>
+                </div>
+
+            </div>
+
+            <h2>Observaciones</h2>
+            <input type="text" placeholder="Observaciones">
+
+        </div>
+
+        <div class="plan-coment">
+            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like">
+            <h3>Comentarios</h3>
+            <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios">
+        </div>
+
+        <div class="plan-coments">
+            <div class="container-coments">
+                <div class="coment">
+                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                    <div class="coment-message">
+                        <h3>Karen</h3>
+                        <div>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="plan-coment-send">
+                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                <input type="text" name="" id="" placeholder="Escribe un comentario">
+                <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
+            </div>
+        </div>
+
+        </div>
+    <!-- Fin de planeacion-->
+
     </div>
 
 
-    <script>
-        
-    </script>
+    
+
+
+
+
+
 {% endblock %}
