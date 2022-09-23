@@ -34,22 +34,22 @@
                     <h3>5</h3>
                     <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella">
                 </div>
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide">
+                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan('1',this)">
             </div>
         </div>
         <div class="plan-title">
             <h3>Sumas de primer grado</h3>
             <h2>12/09/2022 a 16/08/2022</h2>
         </div>
-        <div class="plan-info">
+        <div id="plan-info-1" class="plan-info">
             <h3>Tema</h3>
             <input type="text" name="" id="" placeholder="Tema">
             <h3>Grado</h3>
             <input type="text" name="" id="" placeholder="Grado">
             <h3>Fecha inicio</h3>
-            <input type="datetime-local" name="" id="" placeholder="Fecha inicio">
+            <input type="datetime-local" name="" id="">
             <h3>Fecha finalización</h3>
-            <input type="datetime-local" name="" id="" placeholder="echa finalización">
+            <input type="datetime-local" name="" id="">
             <h2>Actividades</h2>
 
             <div class="container-activities">
@@ -57,12 +57,12 @@
                 <div class="container-activitie">
                     <div class="head-activities">
                         <h3>Actividad-1 Lunes</h3>
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide">
+                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
     
                     </div>
-                    <div class="body-activities">
+                    <div id="info-actividad-1" class="body-activities">
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="" placeholder="fecha inicio">
+                            <input type="datetime-local" name="" id="">
                             <h3>Titulo</h3>
                             <input type="text" name="" id="" placeholder="Titulo">
                             <h3>Descripción</h3>
@@ -79,11 +79,11 @@
 
         <div class="plan-coment">
             <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like">
-            <h3>Comentarios</h3>
+            <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
             <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios">
         </div>
 
-        <div class="plan-coments">
+        <div id="info-coment-1" class="plan-coments">
             <div class="container-coments">
                 <div class="coment">
                     <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
@@ -111,7 +111,26 @@
     
 
 
+<script>
+    function desplegarPlan(id,slide){
+        var pl = document.getElementById('plan-info-'+id);
+        pl.classList.toggle('display-none');
+        slide.classList.toggle('rotar')
 
+    }
+
+    function desplegarActividad(id,slide){
+        var pl = document.getElementById('info-actividad-'+id);
+        pl.classList.toggle('display-none');
+        slide.classList.toggle('rotar')
+
+    }
+    function desplegarComentarios(id,slide){
+        var pl = document.getElementById('info-coment-'+id);
+        pl.classList.toggle('display-none');
+
+    }
+</script>
 
 
 {% endblock %}

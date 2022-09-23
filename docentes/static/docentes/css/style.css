@@ -154,7 +154,7 @@
 .plan-coment{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     background: var(--white);
     padding-left: 5%;
     padding-right: 5%;
@@ -179,6 +179,8 @@
     font-family: 'Roboto', sans-serif;
 }
 .plan-info input{
+    width: auto;
+    background: white;
     margin-left: 5%;
     margin-right: 5%;
     border-radius: var(--redondo1);
@@ -196,6 +198,7 @@
     width: 100%;
     justify-content: space-between;
     margin-top: 2%;
+    margin-bottom: 2%;
 }
 .head-activities h3{
     margin-top: 2%;
@@ -271,6 +274,12 @@
 .coment-message h3{
     margin-top: 1%;
     margin-bottom: 1%;
+}
+.display-none{
+    display: none;
+}
+.rotar{
+    transform: rotate(180deg);
 }
 
 /* fin del estilo para la planeacion */ 
