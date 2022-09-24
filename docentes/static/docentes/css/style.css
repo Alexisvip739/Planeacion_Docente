@@ -291,4 +291,30 @@
     transform: rotate(180deg);
 }
 
+.plan-calification{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom:0;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--fondo2);
+    width: fit-content;
+    height: fit-content;
+    border-radius: var(--redondo1);
+    padding: 2%;
+    font-family: 'Roboto', sans-serif;
+    font-size: var(--fuente);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+}
+.plan-calification img{
+    width: 30px;
+    align-self: flex-end;
+}
+.plan-calification h3{
+    align-self:center;
+}
+
 /* fin del estilo para la planeacion */ 

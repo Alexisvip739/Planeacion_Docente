@@ -107,6 +107,18 @@
 
     </div>
 
+    <div id="plan-calificar-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModalCalificacion()">
+        <h3>Calificame</h3>
+        <div id="plan-calification-star" >
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(1)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(2)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(3)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(4)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(5)">
+        </div>
+    </div>
+
 
     
 
@@ -146,6 +158,22 @@
         }else{
             li.src = likeOff;
         }
+    }
+    function calificarPlaneacion(puntaje){
+        var pc = document.getElementById('plan-calification-star');
+        pc.innerHTML='';
+        for(var a = 1; a <= puntaje;a++){//agregamos las estrellas amarillas
+            pc.innerHTML+='<img src="{% static 'icons/iconStar.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
+        }
+        for(a ; a <= 5;a++){//agregamos la estrellas grises
+            pc.innerHTML+='<img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
+        }
+        var modal = document.getElementById('plan-calificar-modal');
+        setInterval(function(){modal.remove();},790);
+    }
+    function cerrarModalCalificacion(){
+        var modal = document.getElementById('plan-calificar-modal');
+        modal.remove();
     }
 </script>
 
