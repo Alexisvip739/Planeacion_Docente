@@ -160,6 +160,9 @@
     padding-right: 5%;
     border-radius: 0 0 50px 50px;
 }
+.plan-coment h3,.plan-coment img{
+    cursor:pointer;
+}
 .iconStar{
     width: 30px !important;
 }
