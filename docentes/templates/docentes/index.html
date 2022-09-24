@@ -80,7 +80,7 @@
         <div class="plan-coment">
             <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like">
             <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
-            <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios">
+            <img class="display-none" id="plan-coment-close-1" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(1,this)">
         </div>
 
         <div id="info-coment-1" class="plan-coments">
@@ -114,20 +114,29 @@
 <script>
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
-        pl.classList.toggle('display-none');
+        pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar')
 
     }
 
     function desplegarActividad(id,slide){
         var pl = document.getElementById('info-actividad-'+id);
-        pl.classList.toggle('display-none');
+        pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar')
 
     }
     function desplegarComentarios(id,slide){
         var pl = document.getElementById('info-coment-'+id);
-        pl.classList.toggle('display-none');
+        pl.classList.toggle('display-flex');
+
+        var pl1 = document.getElementById('plan-coment-close-'+id);
+        pl1.classList.toggle('display-flex');
+
+    }
+    function cerrarComentarios(id,x){
+        var pl = document.getElementById('info-coment-'+id);
+        pl.classList.toggle('display-flex');
+        x.classList.toggle('display-flex');
 
     }
 </script>
