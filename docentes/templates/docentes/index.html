@@ -32,7 +32,7 @@
             <div>
                 <div class="plan-star">
                     <h3>5</h3>
-                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella">
+                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
                 </div>
                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan('1',this)">
             </div>
@@ -107,17 +107,7 @@
 
     </div>
 
-    <div id="plan-calificar-modal" class="plan-calification">
-        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModalCalificacion()">
-        <h3>Calificame</h3>
-        <div id="plan-calification-star" >
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(1)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(2)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(3)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(4)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(5)">
-        </div>
-    </div>
+    
 
 
     
@@ -174,6 +164,21 @@
     function cerrarModalCalificacion(){
         var modal = document.getElementById('plan-calificar-modal');
         modal.remove();
+    }
+    function mostrarModalCalificacion(){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="plan-calificar-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModalCalificacion()">
+        <h3>Calificame</h3>
+        <div id="plan-calification-star" >
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(1)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(2)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(3)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(4)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(5)">
+        </div>
+        </div>`;
     }
 </script>
 
