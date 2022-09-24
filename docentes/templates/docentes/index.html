@@ -78,7 +78,7 @@
         </div>
 
         <div class="plan-coment">
-            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like">
+            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like" onclick="darLike(1,this)" >
             <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
             <img class="display-none" id="plan-coment-close-1" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(1,this)">
         </div>
@@ -112,6 +112,8 @@
 
 
 <script>
+    var likeOff = '{% static 'icons/iconLike.svg' %}';
+    var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');
@@ -137,7 +139,13 @@
         var pl = document.getElementById('info-coment-'+id);
         pl.classList.toggle('display-flex');
         x.classList.toggle('display-flex');
-
+    }
+    function darLike(id,li){
+        if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos
+            li.src = likeOn;
+        }else{
+            li.src = likeOff;
+        }
     }
 </script>
 
