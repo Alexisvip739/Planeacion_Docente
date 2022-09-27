@@ -1,0 +1,189 @@
+{% extends 'base_html.html' %}
+{% load static%}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'docentes/css/style.css' %}">  
+{% endblock %}
+
+{% block title %} LAPSOFT {% endblock %}
+{% block body %}
+
+
+    
+    <h1 class="text-center">Crea tu planeación</h1>    
+
+
+    <div class="plan-favoritos-container">
+        
+        
+
+        <!--  planeacion-->
+    <div class="plan-container position-relative">
+        
+
+        
+        <div id="plan-info-1" class="plan-info display-flex border-radius-top">
+            <img src="{% static 'icons/iconPlan.svg' %}" alt="icono de planeación" class="plan-info-icon">
+            <h3>Tema</h3>
+            <input type="text" name="" id="" placeholder="Tema">
+            <h3>Grado</h3>
+            <input type="text" name="" id="" placeholder="Grado">
+            <h3>Fecha inicio</h3>
+            <input type="datetime-local" name="" id="">
+            <h3>Fecha finalización</h3>
+            <input type="datetime-local" name="" id="">
+            <h2>Actividades</h2>
+
+            <!--Agregar actividad-->
+            <div class="container-add-activitie">
+
+                <div class="container-activitie">
+                    <div class="head-activities">
+                        <h3>Agregar actividad</h3>
+                        <img class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad('1',this)">
+    
+                    </div>
+                    <div id="info-add-actividad-1" class="body-activities">
+                            <h3>Fecha inicio</h3>
+                            <input type="datetime-local" name="" id="">
+                            <h3>Titulo</h3>
+                            <input type="text" name="" id="" placeholder="Titulo">
+                            <h3>Descripción</h3>
+                            <input type="text" name="" id="" placeholder="Descripción">
+                            
+                    </div>
+                    <div id="info-button-add-actividad-1" class="container-button-add-activitie display-none">
+                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Actividad-->
+            <div class="container-activities">
+
+                <div id="add-actividad-1" class="container-activitie">
+                    <div class="head-activities">
+                        <h3>Actividad-1 Lunes</h3>
+                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad('1',this)">
+                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
+    
+                    </div>
+                    <div id="info-actividad-1" class="body-activities">
+                            <h3>Fecha inicio</h3>
+                            <input type="datetime-local" name="" id="">
+                            <h3>Titulo</h3>
+                            <input type="text" name="" id="" placeholder="Titulo">
+                            <h3>Descripción</h3>
+                            <input type="text" name="" id="" placeholder="Descripción">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="plan-anonimo">
+                <h3>Planeación aninima</h3>
+                <input type="checkbox">
+            </div>
+
+        </div>
+
+        <button class="plan-coment button-bottom-succes">Guardar</button>
+
+
+        </div>
+    <!-- Fin de planeacion-->
+    
+
+    </div><!-- Fin del contenedor de la plaeacion-->
+
+    
+
+
+    
+
+
+<script>
+    var likeOff = '{% static 'icons/iconLike.svg' %}';
+    var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
+    function desplegarPlan(id,slide){
+        var pl = document.getElementById('plan-info-'+id);
+        pl.classList.toggle('display-flex');
+        slide.classList.toggle('rotar')
+
+    }
+
+    function desplegarActividad(id,slide){
+        var pl = document.getElementById('info-actividad-'+id);
+        pl.classList.toggle('display-flex');
+        slide.classList.toggle('rotar')
+
+    }
+    function borrarActividad(id,slide){
+        var pl = document.getElementById('add-actividad-'+id);
+        pl.remove();
+
+    }
+
+    function desplegarAgregarActividad(id,slide){
+        var pl = document.getElementById('info-add-actividad-'+id);
+        pl.classList.toggle('display-flex');
+
+        var btnAdd = document.getElementById('info-button-add-actividad-'+id);
+        btnAdd.classList.toggle('display-flex');        
+    }
+    function desplegarComentarios(id,slide){
+        var pl = document.getElementById('info-coment-'+id);
+        pl.classList.toggle('display-flex');
+
+        var pl1 = document.getElementById('plan-coment-close-'+id);
+        pl1.classList.toggle('display-flex');
+
+    }
+    function cerrarComentarios(id,x){
+        var pl = document.getElementById('info-coment-'+id);
+        pl.classList.toggle('display-flex');
+        x.classList.toggle('display-flex');
+    }
+    function darLike(id,li){
+        if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos
+            li.src = likeOn;
+        }else{
+            li.src = likeOff;
+        }
+    }
+    function calificarPlaneacion(puntaje){
+        var pc = document.getElementById('plan-calification-star');
+        pc.innerHTML='';
+        for(var a = 1; a <= puntaje;a++){//agregamos las estrellas amarillas
+            pc.innerHTML+='<img src="{% static 'icons/iconStar.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
+        }
+        for(a ; a <= 5;a++){//agregamos la estrellas grises
+            pc.innerHTML+='<img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
+        }
+        var modal = document.getElementById('plan-calificar-modal');
+        setInterval(function(){modal.remove();},790);
+    }
+    function cerrarModalCalificacion(){
+        var modal = document.getElementById('plan-calificar-modal');
+        modal.remove();
+    }
+    function mostrarModalCalificacion(){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="plan-calificar-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModalCalificacion()">
+        <h3>Calificame</h3>
+        <div id="plan-calification-star" >
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(1)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(2)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(3)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(4)">
+            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(5)">
+        </div>
+        </div>`;
+    }
+</script>
+
+
+{% endblock %}
