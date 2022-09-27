@@ -18,11 +18,11 @@
         
 
         <!--  planeacion-->
-    <div class="plan-container position-relative">
+    <div id='plan-1' class="plan-container position-relative">
 
         
         
-        <div class="plan">
+        <div class="plan border-bottom">
             <div>
                 <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
                 <h3>juanito</h3>
@@ -199,7 +199,11 @@
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');
-        slide.classList.toggle('rotar')
+        slide.classList.toggle('rotar');
+        btn.classList.toggle('display-flex');
+        var plan1 = document.getElementById('plan-'+id);
+        plan1.classList.toggle('border-bottom');
+        slide.classList.toggle('rotar');
 
     }
 

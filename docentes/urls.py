@@ -15,4 +15,9 @@ urlpatterns = [
     path('login',views.login_user,name='login'),
     path('registrarse',views.registrar_usuario,name='registrar_usuario'),
     path('cerrarsesion',views.cerrar_sesion,name='cerrar_sesion'),
+
+    path('crearPlaneacion',views.crearPlaneacion,name='crearPlaneacion'),
+    path('favoritos',views.favoritos,name='favoritos'),
+    path('misPlaneaciones',views.misPlaneaciones,name='misPlaneaciones'),
+    path('perfil',views.perfil,name='perfil'),
 ]

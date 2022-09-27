@@ -9,6 +9,19 @@ from django.contrib.auth.models import User
 def index(request):
     return render(request,'docentes/tus_planeaciones.html',{})
 
+
+def crearPlaneacion(request):
+    return render(request,'docentes/crear_planeacion.html',{})
+
+def favoritos(request):
+    return render(request,'docentes/favoritos.html',{})
+
+def misPlaneaciones(request):
+    return render(request,'docentes/tus_planeaciones.html',{})
+
+def perfil(request):
+    return render(request,'docentes/perfil_usuario.html',{})
+
     
 
 #para logiar al usuario
