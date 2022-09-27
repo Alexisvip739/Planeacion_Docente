@@ -13,4 +13,8 @@ app_name = 'docentes'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
+    
+    path('login',views.login_user,name='login'),
+    path('registrarse',views.registrar_usuario,name='registrar_usuario'),
+    path('cerrarsesion',views.cerrar_sesion,name='cerrar_sesion'),
 ]

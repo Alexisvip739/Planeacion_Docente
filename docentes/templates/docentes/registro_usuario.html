@@ -12,16 +12,17 @@
 {% block body %}
 
 
-    <form class="login">
+    <form class="login" action="{% url 'docentes:registrar_usuario' %}" method="POST">
+        {% csrf_token %}
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
         <h3>Correo electronico</h3>
-        <input type="text">
+        <input name="username" type="text">
         <h3>Contraseña</h3>
-        <input type="password">
+        <input name="password" type="password">
         <h3>Confirma la contraseña</h3>
-        <input type="password">
-        <input class="login-button" type="button" value="Registrarme">
-        <a href="">Iniciar sesión</a>
+        <input name="password2" type="password">
+        <input class="login-button" type="submit" value="Registrarme">
+        <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
     </form>
 {% endblock %}
