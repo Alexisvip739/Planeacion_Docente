@@ -24,12 +24,15 @@
             <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">LAPSOFT</a>
         </div>
         <div class="nav-item">
-            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Registrarse</a>
-
             {% if user.is_authenticated == False %}
-            <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">Iniciar sesion</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}">Iniciar sesion</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:registrar_usuario' %}">Registrarse</a>
             {% else%}
-            <a class="center-ex no-decoration text" href="">Cerrar sesion- {{ user.username }}</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}"><img src="{% static 'icons/iconPlan.svg' %}" alt="icono planeacion">Crear</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}"><img src="{% static 'icons/iconLikeDark.svg' %}" alt="icono favoritos">Favoritos</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}"><img src="{% static 'icons/iconPlan.svg' %}" alt="icono planeacion">Mis planeaciónes</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}"><img src="{% static 'icons/iconUser.svg' %}" alt="icono usuario">{{user.username}}</a>
+            <a class="center-ex no-decoration text" href="{% url 'docentes:cerrar_sesion' %}">Cerrar sesión</a>
             {% endif%}
         </div>
     </nav>

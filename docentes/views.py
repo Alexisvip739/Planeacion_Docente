@@ -9,8 +9,7 @@ from django.contrib.auth.models import User
 def index(request):
     return render(request,'docentes/tus_planeaciones.html',{})
 
-
-
+    
 
 #para logiar al usuario
 def login_user(request):
@@ -38,7 +37,7 @@ def cerrar_sesion(request):
 def registrar_usuario(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return redirect('datos:index')
+            return redirect('docentes:index')
         return render(request,'docentes/registro_usuario.html',{})
     elif request.method == 'POST':
         if request.POST['password'] == request.POST['password2']:
