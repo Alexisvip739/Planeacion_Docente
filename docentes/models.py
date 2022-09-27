@@ -13,7 +13,8 @@ class Planeacion(models.Model):
     titulo=models.CharField(max_length=60,null=False)
     fecha_de_inicio=models.DateField(null=False)
     id_usuario=models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
-    check=models.BooleanField(default=False)
+    anonima = models.BooleanField(default=False)
+    finalizada = models.BooleanField(default=False)
     def __str__(self) -> str:
         return self.titulo
 
