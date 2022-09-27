@@ -12,22 +12,7 @@ urlpatterns = [
 
     path('v1/Customer',Customer_APIView.as_view()), 
     path('v1/Customer/<int:pk>/',Customer_APIView_Detail.as_view()), 
-<<<<<<< HEAD
-
 
     path('obtenerPlaneacion/<str:titulo>/',Planeacion_APIView.as_view(),name='obtenerPlaneacion'), 
-=======
-    
-    path('v1/Favorito',Favorito_APIView.as_view()),
-    path('v1/Favorito/<int:pk>/',Favorito_APIView_Detail.as_view()),
-    
-    path('v1/Rating',Rating_APIView.as_view()),
-    path('v1/Rating/<int:pk>/',Rating_APIView_Detail.as_view()),
-    
-    path('v1/Actividad',Actividad_APIView.as_view()),
-    path('v1/Actividad/<int:pk>/',Actividad_APIView_Detail.as_view()),
-    
-    path('v1/Comentario',Comentario_APIView.as_view()),
-    path('v1/Comentario/<int:pk>/',Comentario_APIView_Detail.as_view())
->>>>>>> 440db7b8d64e7ca9b91e008ef67e7f1ecc42057c
+
 ]
