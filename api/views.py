@@ -51,6 +51,9 @@ class Planeacion_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSerializers(post, many=True)
+    def get(self, request, titulo):# para obtener las planeaciones por su titulo
+        post = Planeacion.objects.filter(titulo__contains=titulo)
+        serializer = PlaneacionSerializers(post, many=True)
         
         return Response(serializer.data)
     def post(self, request, format=None):

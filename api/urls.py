@@ -11,4 +11,7 @@ urlpatterns = [
     path('v1/Planeacion/<int:pk>/', Planeacion_APIView_Detail.as_view()),
     path('v1/Customer',Customer_APIView.as_view()), 
     path('v1/Customer/<int:pk>/',Customer_APIView_Detail.as_view()), 
+
+
+    path('obtenerPlaneacion/<str:titulo>/',Planeacion_APIView.as_view(),name='obtenerPlaneacion'), 
 ]
