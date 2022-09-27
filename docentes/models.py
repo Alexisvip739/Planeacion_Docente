@@ -11,12 +11,13 @@ class Planeacion(models.Model):
     fecha_de_finalizacion=models.DateField(null=False)
     titulo=models.CharField(max_length=60,null=False)
     fecha_de_inicio=models.DateField(null=False)
+    id_usuario=models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
 
     def __str__(self) -> str:
         return self.titulo
 
 
-class Actividades(models.Model):
+class Actividad(models.Model):
     titulo=models.CharField(max_length=50,null=False)
     fecha_de_inicio=models.DateField(null=False)
     descripcion=models.CharField(max_length=50, null=False)
@@ -47,6 +48,6 @@ class Favorito(models.Model):
     id_usuario=models.ForeignKey(Customer,on_delete=models.CASCADE)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
     fecha_agregad=models.DateField(null=False)
-    
+
     def __str__(self)->str:
         return self.id_planeacion
