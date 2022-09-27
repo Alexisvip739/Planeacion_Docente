@@ -14,6 +14,8 @@
 
     <form class="login" action="{% url 'docentes:login' %}" method="POST">
         {% csrf_token %}
+
+
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
         <h3>Correo electronico</h3>
         <input name="username" type="text" placeholder="Usuario">
@@ -23,5 +25,9 @@
         <a href="{% url 'docentes:registrar_usuario' %}">Registrarme</a>
         <a href="">Olvide mi contraseña</a>
 
+        {%if mensajeError%}
+            <p class="text-user-login">Usuario no existente</p>
+        {%endif%}
+        
     </form>
 {% endblock %}
