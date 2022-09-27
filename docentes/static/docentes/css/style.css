@@ -295,6 +295,7 @@
     padding-right: 2%;
     padding-bottom: 2%;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+    width: max-content;
 }
 .coment-message h3{
     margin-top: 1%;
