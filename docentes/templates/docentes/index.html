@@ -46,11 +46,12 @@
             fetch(ulrObenerPlaneacion+busca).then(response =>{
                 if(response.ok){
                     response.json().then(data =>{
+                        contPlan.innerHTML='';
                         for(a in data){
                             var f1= new Date(data[a].fecha_de_inicio);
                             var f2= new Date(data[a].fecha_de_finalizacion);
                             
-                            contPlan.innerHTML='';
+                            
                             contPlan.innerHTML+=`
                     <!-- Inicio de la planeacion-->
                     <div class="item-plan">

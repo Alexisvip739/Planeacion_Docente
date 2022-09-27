@@ -3,6 +3,7 @@ from pyexpat import model
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer, Rating
+from docentes.models import Favorito
 
 class CustomerSerializers(serializers.ModelSerializer):
     class Meta:
