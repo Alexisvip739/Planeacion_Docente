@@ -47,11 +47,17 @@
                 if(response.ok){
                     response.json().then(data =>{
                         for(a in data){
+                            var f1= new Date(data[a].fecha_de_inicio);
+                            var f2= new Date(data[a].fecha_de_finalizacion);
+                            
+                            contPlan.innerHTML='';
                             contPlan.innerHTML+=`
+                    <!-- Inicio de la planeacion-->
+                    <div class="item-plan">
                         <div class="plan border-bottom">
                             <div>
                                 <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].id_usuario}</h3>
+                                <h3>${data[a].id_usuario.username}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
@@ -62,18 +68,18 @@
                             </div>
                         </div>
                         <div class="plan-title">
-                            <h3>${data[a].titulo}</h3>
-                            <h2>${data[a].fecha_de_inicio} a ${data[a].fecha_de_finalizacion}</h2>
+                            <h2>${data[a].titulo}</h2>
+                            <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
                         </div>
                         <div id="plan-info-${data[a].id}" class="plan-info">
                             <h3>Tema</h3>
-                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].titulo}">
+                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].tema}">
                             <h3>Grado</h3>
                             <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}">
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="" value="${data[a].fecha_de_inicio}">
+                            <input type="datetime-local" name="" id="" value="${f1.getDate()+'-'+f1.getMonth()+'-'+f1.getFullYear()}">
                             <h3>Fecha finalización</h3>
-                            <input type="datetime-local" name="" id="" value="${data[a].fecha_de_finalizacion}">
+                            <input type="datetime-local" name="" id="" value="${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}">
                             <h2>Actividades</h2>
                 
                             <div class="container-activities">
@@ -97,7 +103,7 @@
                             </div>
                 
                             <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].titulo}">
+                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones}">
                 
                         </div>
                 
@@ -127,6 +133,7 @@
                         </div>
                 
                         </div>
+                    </div>
                     <!-- Fin de planeacion-->
                         
                         `;

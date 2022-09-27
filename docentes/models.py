@@ -8,15 +8,19 @@ class Customer(User):
     
     
 class Planeacion(models.Model):
-    grado=models.IntegerField(null=False)
-    fecha_de_finalizacion=models.DateField(null=False)
-    titulo=models.CharField(max_length=60,null=False)
+    grado = models.IntegerField(null=False)
+    fecha_de_finalizacion = models.DateField(null=False)
+    titulo = models.CharField(max_length=60,null=False)
+    tema = models.CharField(max_length=60,null=False)
     fecha_de_inicio=models.DateField(null=False)
-    id_usuario=models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
+    id_usuario = models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
     anonima = models.BooleanField(default=False)
     finalizada = models.BooleanField(default=False)
+    observaciones = models.TextField(null=True)
     def __str__(self) -> str:
         return self.titulo
+    def nombreUsuario(self):
+        return User.objects.get(id=self.id_usuario).username
 
 
 class Actividad(models.Model):

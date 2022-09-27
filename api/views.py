@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets
+from rest_framework import permissions
 from rest_framework.response import Response
 from .serializers import ActividadSerielizers, ComentarioSerielizers, CustomerSerializers, FavoritoSerielizers, PlaneacionSerializers, RatingSerielizers
 from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer, Rating
@@ -48,10 +50,13 @@ class Customer_APIView_Detail(APIView):
 
 
 
+
+#para obtener las planeaciones
 class Planeacion_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSerializers(post, many=True)
+
     def get(self, request, titulo):# para obtener las planeaciones por su titulo
         post = Planeacion.objects.filter(titulo__contains=titulo)
         serializer = PlaneacionSerializers(post, many=True)
@@ -63,6 +68,7 @@ class Planeacion_APIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class Planeacion_APIView_Detail(APIView):

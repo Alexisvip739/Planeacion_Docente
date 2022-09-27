@@ -1,5 +1,6 @@
 from dataclasses import fields
 from pyexpat import model
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer, Rating
 
@@ -9,10 +10,20 @@ class CustomerSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields =['username']
+
 class PlaneacionSerializers(serializers.ModelSerializer):
+    id_usuario = UserSerializer()
     class Meta:
         model = Planeacion
         fields = '__all__'
+        depth = 1
+
+
 
     
 

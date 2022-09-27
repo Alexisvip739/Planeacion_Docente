@@ -127,7 +127,8 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 50px;
-    padding: 5%;
+    padding: 15px;
+    
 }
 .plan div img{
     width: 50px;
@@ -144,12 +145,16 @@
 .plan-star h3{
     font-size: var(--fuente);
     font-family: 'Roboto', sans-serif;
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-left: 10px;
 }
 .plan-title{
     background:var(--fondo2);
     padding-left: 5%;
     font-family: 'Roboto', sans-serif;
+}
+.plan-title h2,.plan-title h3{
+    margin:0;
 }
 
 .plan-coment{
