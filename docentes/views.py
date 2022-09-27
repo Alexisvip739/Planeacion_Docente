@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 
 def index(request):
-    return render(request,'docentes/tus_planeaciones.html',{})
+    return render(request,'docentes/index.html',{})
 
 
 def crearPlaneacion(request):

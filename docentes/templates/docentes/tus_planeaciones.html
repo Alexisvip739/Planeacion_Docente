@@ -160,6 +160,13 @@
         slide.classList.toggle('rotar');
 
     }
+    function desplegarAgregarActividad(id,slide){
+        var pl = document.getElementById('info-add-actividad-'+id);
+        pl.classList.toggle('display-flex');
+
+        var btnAdd = document.getElementById('info-button-add-actividad-'+id);
+        btnAdd.classList.toggle('display-flex');        
+    }
     function desplegarComentarios(id,slide){
         var pl = document.getElementById('info-coment-'+id);
         pl.classList.toggle('display-flex');
