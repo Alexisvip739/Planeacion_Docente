@@ -65,7 +65,14 @@ class Planeacion_APIView(APIView):
         serializer = PlaneacionSerializers(post, many=True)
 
     def get(self, request, titulo):# para obtener las planeaciones por su titulo
-        post = Planeacion.objects.filter(titulo__contains=titulo)
+        post = Planeacion.objects.prefetch_related('favorito_set').all()
+        #.filter(titulo__contains=titulo).
+        print('lista----------')
+        print(post)#imprimimos la lista
+        for a in post:
+            print(a.favorito_set)
+        
+
         serializer = PlaneacionSerializers(post, many=True)
         
         return Response(serializer.data)
