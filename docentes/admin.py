@@ -14,8 +14,7 @@ class ActividadesAdmin(admin.ModelAdmin):
    search_fields=['titulo']
 
 
-class FavoritoAdmin(admin.ModelAdmin):
-    list_display=('pk','votos','fecha_agregad')
+
 
 class ComentarioAdmin(admin.ModelAdmin):
     list_display=('pk','comentario')
@@ -24,4 +23,4 @@ admin.site.register(Planeacion,PlaneacionAdmin)
 admin.site.register(Actividad,ActividadesAdmin)
 admin.site.register(Comentario,ComentarioAdmin)
 admin.site.register(Rating)
-admin.site.register(Favorito,FavoritoAdmin)
+admin.site.register(Favorito)

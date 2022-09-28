@@ -15,14 +15,14 @@
     <div class="search-container">
         <h1 class="search-title">Escribe el nombre de tu  tema</h1>
         <div class="search">
-            <input id="input-buscar-planeacion" type="text" placeholder="Titilo del tema" onkeypress="enter(event)">
+            <input id="input-buscar-planeacion" type="text" placeholder="Titulo del tema" onkeypress="enter(event)">
             <a onclick="buscarPlaneacion()">
                 <img src="{% static 'icons/iconSearch.svg' %}" alt="icono buscar">
             </a>
         </div>
 
         <!--  Contenedor de planeacion -->
-    <div id='container-plan' class="plan-container">
+    <div id='container-plan' class="plan-search-container">
 
         
 
@@ -38,6 +38,24 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1/','');
+    var urlObtenerFavorito = '{% url 'api:obtenerFavorito' 1 %}'.replace('1/','');
+    var urlInsertarFavorito = '{% url 'api:insertarFavorito'  %}';
+
+    var fav = false;
+
+    async function obtenerFavorito(id){
+        return fetch('http://127.0.0.1:8000/api/obtenerFavorito/'+id).then((response1)=>{
+            if(response1.ok){
+                return response1.json().then((data1) =>{
+                    if(data1.length != 0){// si el json esta vacio entonces no lo tenemos de favorito
+                        return true;  
+                    }else{
+                        return false;
+                    }
+                }).catch(console.error());
+            }
+        }).catch(console.error());
+    }
 
     async function buscarPlaneacion(){
         var busca = document.getElementById('input-buscar-planeacion').value;
@@ -48,6 +66,22 @@
                     response.json().then(data =>{
                         contPlan.innerHTML='';
                         for(a in data){
+                            
+                            obtenerFavorito(data[a].id).then((data1)=>{
+                                fav = data1;
+                                console.log(data1)
+                            });
+                            console.log(fav)
+                            
+                            var favIcon='';
+                            
+                            if(fav == true){
+                                favIcon = '{% static 'icons/iconLikeOn.svg' %}';
+                                
+                            }else{
+                                favIcon = '{% static 'icons/iconLike.svg' %}';
+                            }
+                            
                             var f1= new Date(data[a].fecha_de_inicio);
                             var f2= new Date(data[a].fecha_de_finalizacion);
                             
@@ -88,7 +122,7 @@
                                 <div class="container-activitie">
                                     <div class="head-activities">
                                         <h3>Actividad-1 Lunes</h3>
-                                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
+                                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${data[a].id},this)">
                     
                                     </div>
                                     <div id="info-actividad-1" class="body-activities">
@@ -109,12 +143,12 @@
                         </div>
                 
                         <div class="plan-coment">
-                            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like" onclick="darLike(1,this)" >
-                            <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
-                            <img class="display-none" id="plan-coment-close-1" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(1,this)">
+                            <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id},this)" >
+                            <h3 onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
+                            <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
                         </div>
                 
-                        <div id="info-coment-1" class="plan-coments">
+                        <div id="info-coment-${data[a].id}" class="plan-coments">
                             <div class="container-coments">
                                 <div class="coment">
                                     <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
@@ -179,9 +213,17 @@
     }
     function darLike(id,li){
         if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos
-            li.src = likeOn;
+            fetch(urlInsertarFavorito+id).then(response=>{
+                if(response.ok){
+                    li.src = likeOn;// like ON
+                }
+            }).catch(console.error())
         }else{
-            li.src = likeOff;
+            fetch(urlInsertarFavorito+id).then(response=>{
+                if(response.ok){
+                    li.src = likeOff;// like OFF
+                }
+            }).catch(console.error())
         }
     }
     function calificarPlaneacion(puntaje){
@@ -215,6 +257,7 @@
         </div>
         </div>`;
     }
+
 </script>
 
 

@@ -1,3 +1,5 @@
+from nis import cat
+from urllib import request
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,6 +11,11 @@ from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.http import Http404
+
+
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from django.core.exceptions import ObjectDoesNotExist
     
 
 # Create your views here.
@@ -70,7 +77,19 @@ class Planeacion_APIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class Favorito_APIView_Detail2(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        post = Favorito.objects.all()
+        serializer = FavoritoSerielizers(post, many=True)
+    def get(self,request,id):
+        post = Favorito.objects.filter(id_planeacion=id).filter(id_usuario=request.user.id)
+        serializer = FavoritoSerielizers(post, many=True)
+        return Response(serializer.data)
 
+
+
+
+#para las Planeaciones
 class Planeacion_APIView_Detail(APIView):
     def get_object(self, pk):
         try:
@@ -94,7 +113,7 @@ class Planeacion_APIView_Detail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+#para las actividades
 class Actividad_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Actividad.objects.all()
@@ -108,7 +127,7 @@ class Actividad_APIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+#para las Actividades
 class Actividad_APIView_Detail(APIView):
     def get_object(self, pk):
         try:
@@ -132,14 +151,30 @@ class Actividad_APIView_Detail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+class FavoritoInserView(APIView):
+    def get(self, request,id_plan):
+        try:
+            
+            fav = Favorito.objects.get(id_planeacion=id_plan,id_usuario=request.user.id)
+            print(fav)
+            
+        except ObjectDoesNotExist:
+            print('insertando')
+            fav = Favorito(id_planeacion=id_plan,id_usuario=request.user.id)
+            
+            return Response(status= status.HTTP_200_OK)
+        return Response(status= status.HTTP_200_OK)
+        
+        
+#para los favoritos
 class Favorito_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Favorito.objects.all()
         serializer = FavoritoSerielizers(post, many=True)
         
         return Response(serializer.data)
-    def post(self, request, format=None):
+    def post(self, request, format=None):# aqui recibiremos los like
+        print('holaaaaaaa--------------')
         serializer = FavoritoSerielizers(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -149,7 +184,7 @@ class Favorito_APIView(APIView):
 class Favorito_APIView_Detail(APIView):
     def get_object(self, pk):
         try:
-            return Favorito.objects.get(pk=pk)
+            return Favorito.objects.get(id_planeacion=pk)
         except Favorito.DoesNotExist:
             raise Http404
     def get(self, request, pk, format=None):

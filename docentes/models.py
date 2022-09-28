@@ -52,6 +52,5 @@ class Rating(models.Model):
 class Favorito(models.Model):
     id_usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
-    fecha_agregad=models.DateField(null=False)
-    votos=models.IntegerField(default=0)
+    fecha_agregad=models.DateField(auto_now_add=True)
 

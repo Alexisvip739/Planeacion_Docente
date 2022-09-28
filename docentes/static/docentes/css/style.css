@@ -110,12 +110,22 @@
 /* fin de estilo barra de busqueda */
 
 
+.margin-1{
+    margin: 1%;
+}
+
+.plan-search-container{
+    position:absolute;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+}
 /* estilo para la planeacion */
 .plan-container{
     position:absolute;
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+    border-radius: 50px;
 }
 .item-plan{
     border-radius: var(--redondo1);
@@ -288,6 +298,7 @@
 .coment div{
     
 }
+
 .coment-message{
     background:var(--white);
     border-radius: 10px;
@@ -416,6 +427,9 @@
 }
 .display-colum h2{
     margin: 0;
+}
+.display-block{
+    display: block !important;
 }
 .pading-top{
     margin-top: 5%;
