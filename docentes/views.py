@@ -22,7 +22,9 @@ def misPlaneaciones(request):
 def perfil(request):
     return render(request,'docentes/perfil_usuario.html',{})
 
+def actualizarPassword(request):
     
+    return render(request,'docentes/actualizacion_password.html',{})
 
 #para logiar al usuario
 def login_user(request):
