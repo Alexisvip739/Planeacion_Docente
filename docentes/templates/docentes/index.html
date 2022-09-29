@@ -254,7 +254,7 @@
             pc.innerHTML+='<img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
         }
         var modal = document.getElementById('plan-calificar-modal');
-        setInterval(function(){modal.remove();},790);
+        setTimeout(function(){modal.remove();},790);
     }
     function cerrarModalCalificacion(){
         var modal = document.getElementById('plan-calificar-modal');

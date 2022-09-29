@@ -35,6 +35,9 @@
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var urlObtenerPlaneacionesUsuario ='{% url 'api:obtenerPlaneacionUsuario' %}';
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
+    var urlBorrarActividad = '{% url 'api:borrarActividad' 1 %}'.replace('1','');
+    var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
+
 
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
@@ -59,7 +62,7 @@
                 if(response.ok){
                     response.json().then(lista=>{
                         let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
-                        console.log(lista)
+                        
                         for(a in lista){
                             var f1= new Date(lista[a].fecha_de_inicio);
 
@@ -75,14 +78,14 @@
                                 </div>
                                 <div id="info-actividad-${lista[a].id}" class="body-activities">
                                         <h3>Fecha inicio</h3>
-                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                                        <input type="date" name="" id="info-act-date-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
                                         <h3>Titulo</h3>
-                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}">
+                                        <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
                                 </div>
                                 <div id="info-button-update-${lista[a].id}" class="container-button-add-activitie display-none">
-                                    <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
+                                    <input class="button-succes" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
                                 </div>
                             </div>`;
                         }
@@ -139,7 +142,7 @@
             pc.innerHTML+='<img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
         }
         var modal = document.getElementById('plan-calificar-modal');
-        setInterval(function(){modal.remove();},790);
+        setTimeout(function(){modal.remove();},790);
     }
     function cerrarModalCalificacion(){
         var modal = document.getElementById('plan-calificar-modal');
@@ -216,15 +219,15 @@
                     </div>
                     <div id="info-add-actividad-${lista[a].id}" class="body-activities">
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
+                            <input type="datetime-local" name="" id="info-add-date-${lista[a].id}">
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
+                            <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Titulo">
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
+                            <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción">
                             
                     </div>
                     <div id="info-button-add-actividad-${lista[a].id}" class="container-button-add-activitie display-none">
-                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
+                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
                     </div>
                 </div>
 
@@ -263,12 +266,51 @@
     obtenerPlaneacionUsuario();
 
     function borrarActividad(id,element){
-        var actividad = document.getElementById('container-activitie-'+id);
-        actividad.remove();
+        fetch(urlBorrarActividad+id).then(response=>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                var actividad = document.getElementById('container-activitie-'+id);
+                actividad.remove();
+                mostrarModalMensaje('Registro eliminado con exito',650);
+            }else{
+                mostrarModalMensaje('Error al eliminar',650);
+            }
+        });
     }
+
+    function actualizarActividad(id){
+        var date1 = document.getElementById('info-act-date-'+id).value;
+        var titulo1 = document.getElementById('info-act-titulo-'+id).value;
+        var desc1 = document.getElementById('info-act-descripcion-'+id).value;
+        fetch(urlActualizarActividad+id+','+date1+','+titulo1+','+desc1).then(response=>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                
+
+                console.log(date1+titulo1+desc1)
+
+
+            }else{
+                
+            }
+        });
+    }
+
     function borrarPlaneacion(id,element){
         var actividad = document.getElementById('contenedor-plan-'+id);
         actividad.remove();
+    }
+    /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
+    */
+    function mostrarModalMensaje(texto,duracion){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <h3>${texto}</h3>
+        </div>`;
+        setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
+    }
+    function borrarModal(){
+        document.getElementById('cerrarModal').remove();
     }
 </script>
 

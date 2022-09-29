@@ -13,6 +13,8 @@ from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.http import Http404
+from rest_framework import permissions
+from datetime import datetime
 
 
 from django.http.response import JsonResponse
@@ -149,6 +151,11 @@ class ActividadListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, id, format=None):
+        print('borrando ---------------------------------------------')
+        post = self.get_object(id)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 #para las Actividades
 class Actividad_APIView_Detail(APIView):
@@ -172,6 +179,49 @@ class Actividad_APIView_Detail(APIView):
         post = self.get_object(pk)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+#para borrar las actividades
+class ActividadDeleteView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            return Actividad.objects.get(pk=id)
+        except Actividad.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        post = self.get_object(id)
+        print('----------------------------- Actualizando')
+        if post.id_planeacion.id_usuario.id == request.user.id:
+            print('')
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#para actualizar las actividades
+class ActividadUpdateView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            list = str(id).split(',')
+            return Actividad.objects.get(pk=int(list[0]))
+        except Actividad.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        list = str(id).split(',')
+        post = self.get_object(int(list[0]))
+        if post.id_planeacion.id_usuario.id == request.user.id:
+            post.fecha_de_inicio=list[1]
+            post.titulo = list[2]
+            post.descripcion = list[3]
+            post.save()
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 
 class FavoritoInserView(APIView):
