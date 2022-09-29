@@ -28,6 +28,7 @@ class Actividad(models.Model):
     fecha_de_inicio=models.DateField(null=False)
     descripcion=models.CharField(max_length=50, null=False)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
+    finalizada = models.BooleanField(default=False)
     def __str__(self) -> str:
         return self.titulo
 

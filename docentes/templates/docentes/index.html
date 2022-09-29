@@ -174,9 +174,10 @@
         slide.classList.toggle('rotar')
 
         var contAct = document.getElementById('container-activities-'+id);
-        if(contAct.innerHTML == ''){
+        if(contAct.innerHTML.trim() == ''){
             //console.log('siii')
             fetch(urlObtenerActividades+id).then(response=>{
+                console.log(response.url)
                 if(response.ok){
                     response.json().then(lista=>{
                         let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];

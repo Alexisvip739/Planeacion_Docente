@@ -34,6 +34,7 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var urlObtenerPlaneacionesUsuario ='{% url 'api:obtenerPlaneacionUsuario' %}';
+    var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
 
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
@@ -50,14 +51,56 @@
         plan1.classList.toggle('border-bottom');
         slide.classList.toggle('rotar');
 
+        
+        var contAct = document.getElementById('container-activities-'+id);
+        if(contAct.innerHTML.trim() == ''){
+            //console.log('siii')
+            fetch(urlObtenerActividades+id).then(response=>{
+                if(response.ok){
+                    response.json().then(lista=>{
+                        let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+                        console.log(lista)
+                        for(a in lista){
+                            var f1= new Date(lista[a].fecha_de_inicio);
+
+                            
+                            contAct.innerHTML+=`
+                            <div id="container-activitie-${lista[a].id}" class="container-activitie">
+                                <div class="head-activities">
+                                    <h3>${lista[a].titulo} ${dias[f1.getDay()+1]}</h3>
+                                    <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
+                                    <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
+                                    <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                
+                                </div>
+                                <div id="info-actividad-${lista[a].id}" class="body-activities">
+                                        <h3>Fecha inicio</h3>
+                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                                        <h3>Titulo</h3>
+                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <h3>Descripción</h3>
+                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}">
+                                </div>
+                                <div id="info-button-update-${lista[a].id}" class="container-button-add-activitie display-none">
+                                    <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
+                                </div>
+                            </div>`;
+                        }
+                    }).catch(console.error())
+                }
+            });
+        }else{
+            //console.log('esta lleno')
+        }
 
     }
 
     function desplegarActividad(id,slide){
         var pl = document.getElementById('info-actividad-'+id);
+        var btn = document.getElementById('info-button-update-'+id);
         pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar');
-
+        btn.classList.toggle('display-none')
     }
     function desplegarAgregarActividad(id,slide){
         var pl = document.getElementById('info-add-actividad-'+id);
@@ -134,24 +177,24 @@
                         var f2= new Date(lista[a].fecha_de_finalizacion);
                         direccion.innerHTML+=`
                         <!--  planeacion-->
-    <div id="contenedor-planeaciones-no-terminadas" class="plan-container position-relative margin-1">
+    <div id="contenedor-plan-${lista[a].id}" class="plan-container position-relative margin-1">
 
         
         
-        <div id='plan-1' class="plan">
+        <div id='plan-${lista[a].id}' class="plan">
             <div class="display-colum">
                 <h2>${lista[a].titulo}</h2>
                 <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
             </div>
             <div>
                 <div class="plan-star">
-                    <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                    <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan('1',this)">
+                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
                 <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
             </div>
         </div>
-        <div id="plan-info-1" class="plan-info">
+        <div id="plan-info-${lista[a].id}" class="plan-info">
             <h3>Tema</h3>
             <input type="text" name="" id="" placeholder="Tema" value="${lista[a].tema}">
             <h3>Grado</h3>
@@ -168,10 +211,10 @@
                 <div class="container-activitie">
                     <div class="head-activities">
                         <h3>Agregar actividad</h3>
-                        <img class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad('1',this)">
+                        <img class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad(${lista[a].id},this)">
     
                     </div>
-                    <div id="info-add-actividad-1" class="body-activities">
+                    <div id="info-add-actividad-${lista[a].id}" class="body-activities">
                             <h3>Fecha inicio</h3>
                             <input type="datetime-local" name="" id="">
                             <h3>Titulo</h3>
@@ -180,7 +223,7 @@
                             <input type="text" name="" id="" placeholder="Descripción">
                             
                     </div>
-                    <div id="info-button-add-actividad-1" class="container-button-add-activitie display-none">
+                    <div id="info-button-add-actividad-${lista[a].id}" class="container-button-add-activitie display-none">
                         <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
                     </div>
                 </div>
@@ -188,27 +231,7 @@
             </div>
 
             <!-- Actividad-->
-            <div class="container-activities">
-
-                <div id="add-actividad-1" class="container-activitie">
-                    <div class="head-activities">
-                        <h3>Actividad-1 Lunes</h3>
-                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad('1',this)">
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
-                        <input class="check-box" type="checkbox">
-    
-                    </div>
-                    <div id="info-actividad-1" class="body-activities">
-                            <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
-                            <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
-                            <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
-                    </div>
-                </div>
-
-            </div>
+            <div id="container-activities-${lista[a].id}" class="container-activities"></div>
 
             <div class="plan-anonimo">
                 <h3>Planeación anonima</h3>
@@ -238,6 +261,15 @@
     }
 
     obtenerPlaneacionUsuario();
+
+    function borrarActividad(id,element){
+        var actividad = document.getElementById('container-activitie-'+id);
+        actividad.remove();
+    }
+    function borrarPlaneacion(id,element){
+        var actividad = document.getElementById('contenedor-plan-'+id);
+        actividad.remove();
+    }
 </script>
 
 
