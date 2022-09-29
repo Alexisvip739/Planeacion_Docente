@@ -16,7 +16,24 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields =['username']
+class FavoritoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favorito
+        fields ='__all__'
 
+class PlaneacionFullSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planeacion
+        fields ='__all__'
+
+
+
+class PlaneacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planeacion
+        fields ='__all__'
+
+# para serializar la lista de planeaciones----------------------- todas
 class PlaneacionSerializers(serializers.ModelSerializer):
     id_usuario = UserSerializer()
     class Meta:
@@ -26,6 +43,14 @@ class PlaneacionSerializers(serializers.ModelSerializer):
 
 
 
+
+class PlaneacionFavoritoSerializers(serializers.ModelSerializer):
+    id_usuario = UserSerializer()
+    id_planeacion = PlaneacionSerializer()
+    class Meta:
+        model = Favorito
+        fields = '__all__'
+        depth = 1
     
 
 class ActividadSerielizers(serializers.ModelSerializer):
@@ -33,10 +58,16 @@ class ActividadSerielizers(serializers.ModelSerializer):
         model=Actividad
         fields='__all__'
 
-class FavoritoSerielizers(serializers.ModelSerializer):
+
+#lista de planeacionnes favoritas de un usuario
+class FavoritoListSerielizers(serializers.ModelSerializer):
+    id_planeacion = PlaneacionFullSerializer()
+    id_usuario = UserSerializer()
     class Meta:
         model=Favorito
         fields='__all__'
+        depth = 1
+
 
 class RatingSerielizers(serializers.ModelSerializer):
     class Meta:

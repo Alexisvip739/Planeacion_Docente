@@ -13,181 +13,11 @@
     <h1 class="text-center">Tus Planeaciónes Favoritas</h1>    
 
 
-    <div class="plan-favoritos-container">
+    <div id="plan-favoritos-container" class="plan-favoritos-container">
         
-        
-
-        <!--  planeacion-->
-    <div id='plan-1' class="plan-container position-relative margin-1">
-
-        
-        
-        <div class="plan border-bottom">
-            <div>
-                <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
-                <h3>juanito</h3>
-            </div>
-            <div>
-                <div class="plan-star">
-                    <h3>5</h3>
-                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
-                </div>
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan('1',this)">
-            </div>
-        </div>
-        <div class="plan-title">
-            <h3>Sumas de primer grado</h3>
-            <h2>12/09/2022 a 16/08/2022</h2>
-        </div>
-        <div id="plan-info-1" class="plan-info">
-            <h3>Tema</h3>
-            <input type="text" name="" id="" placeholder="Tema">
-            <h3>Grado</h3>
-            <input type="text" name="" id="" placeholder="Grado">
-            <h3>Fecha inicio</h3>
-            <input type="datetime-local" name="" id="">
-            <h3>Fecha finalización</h3>
-            <input type="datetime-local" name="" id="">
-            <h2>Actividades</h2>
-
-            <div class="container-activities">
-
-                <div class="container-activitie">
-                    <div class="head-activities">
-                        <h3>Actividad-1 Lunes</h3>
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
     
-                    </div>
-                    <div id="info-actividad-1" class="body-activities">
-                            <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
-                            <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
-                            <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
-                    </div>
-                </div>
-
-            </div>
-
-            <h2>Observaciones</h2>
-            <input type="text" placeholder="Observaciones">
-
-        </div>
-
-        <div class="plan-coment">
-            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like" onclick="darLike(1,this)" >
-            <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
-            <img class="display-none" id="plan-coment-close-1" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(1,this)">
-        </div>
-
-        <div id="info-coment-1" class="plan-coments">
-            <div class="container-coments">
-                <div class="coment">
-                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
-                    <div class="coment-message">
-                        <h3>Karen</h3>
-                        <div>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</div>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="plan-coment-send">
-                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
-                <input type="text" name="" id="" placeholder="Escribe un comentario">
-                <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
-            </div>
-        </div>
-
-        </div>
-    <!-- Fin de planeacion-->
-    <div class="plan-container position-relative margin-1">
-
-        <div class="plan">
-            <div>
-                <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
-                <h3>juanito</h3>
-            </div>
-            <div>
-                <div class="plan-star">
-                    <h3>5</h3>
-                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
-                </div>
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan('1',this)">
-            </div>
-        </div>
-        <div class="plan-title">
-            <h3>Sumas de primer grado</h3>
-            <h2>12/09/2022 a 16/08/2022</h2>
-        </div>
-        <div id="plan-info-1" class="plan-info">
-            <h3>Tema</h3>
-            <input type="text" name="" id="" placeholder="Tema">
-            <h3>Grado</h3>
-            <input type="text" name="" id="" placeholder="Grado">
-            <h3>Fecha inicio</h3>
-            <input type="datetime-local" name="" id="">
-            <h3>Fecha finalización</h3>
-            <input type="datetime-local" name="" id="">
-            <h2>Actividades</h2>
-
-            <div class="container-activities">
-
-                <div class="container-activitie">
-                    <div class="head-activities">
-                        <h3>Actividad-1 Lunes</h3>
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
-    
-                    </div>
-                    <div id="info-actividad-1" class="body-activities">
-                            <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
-                            <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
-                            <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
-                    </div>
-                </div>
-
-            </div>
-
-            <h2>Observaciones</h2>
-            <input type="text" placeholder="Observaciones">
-
-        </div>
-
-        <div class="plan-coment">
-            <img src="{% static 'icons/iconLike.svg' %}" alt="icono de like" onclick="darLike(1,this)" >
-            <h3 onclick="desplegarComentarios('1',this)">Comentarios</h3>
-            <img class="display-none" id="plan-coment-close-1" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(1,this)">
-        </div>
-
-        <div id="info-coment-1" class="plan-coments">
-            <div class="container-coments">
-                <div class="coment">
-                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
-                    <div class="coment-message">
-                        <h3>Karen</h3>
-                        <div>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</div>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="plan-coment-send">
-                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
-                <input type="text" name="" id="" placeholder="Escribe un comentario">
-                <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
-            </div>
-        </div>
-
-        </div>
-    <!-- Fin de planeacion-->
 
     </div>
-
-    
 
 
     
@@ -196,6 +26,10 @@
 <script>
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
+
+    //url para la api
+    var urlObtenerFavoritos = '{% url 'api:obtenerFavoritos' %}';
+
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');
@@ -264,6 +98,122 @@
         </div>
         </div>`;
     }
+
+    /**
+    Para obtener las planeaciones favoritas
+    */
+    async function obtenerFavoritos(){
+            fetch(urlObtenerFavoritos).then(response =>{
+                if(response.ok){
+                    response.json().then(data =>{
+                        var contPlan = document.getElementById('plan-favoritos-container');
+                        contPlan.innerHTML='';
+                        var fav=true;
+                        var favIcon='';
+                        for(a in data){
+                            if(fav == true){
+                                favIcon = '{% static 'icons/iconLikeOn.svg' %}';
+                                
+                            }else{
+                                favIcon = '{% static 'icons/iconLike.svg' %}';
+                            }
+                            
+                            var f1= new Date(data[a].id_planeacion.fecha_de_inicio);
+                            var f2= new Date(data[a].id_planeacion.fecha_de_finalizacion);
+                            
+                            
+                            contPlan.innerHTML+=`
+                    <!-- Inicio de la planeacion-->
+                    <div class="item-plan">
+                        <div class="plan border-bottom">
+                            <div>
+                                <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
+                                <h3>${data[a].id_usuario.username}</h3>
+                            </div>
+                            <div>
+                                <div class="plan-star">
+                                    <h3>5</h3>
+                                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                </div>
+                                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id_planeacion.id},this)">
+                            </div>
+                        </div>
+                        <div class="plan-title">
+                            <h2>${data[a].id_planeacion.titulo}</h2>
+                            <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
+                        </div>
+                        <div id="plan-info-${data[a].id_planeacion.id}" class="plan-info">
+                            <h3>Tema</h3>
+                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].id_planeacion.tema}">
+                            <h3>Grado</h3>
+                            <input type="text" name="" id="" placeholder="Grado" value="${data[a].id_planeacion.grado}">
+                            <h3>Fecha inicio</h3>
+                            <input type="datetime-local" name="" id="" value="${f1.getDate()+'-'+f1.getMonth()+'-'+f1.getFullYear()}">
+                            <h3>Fecha finalización</h3>
+                            <input type="datetime-local" name="" id="" value="${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}">
+                            <h2>Actividades</h2>
+                
+                            <div class="container-activities">
+                
+                                <div class="container-activitie">
+                                    <div class="head-activities">
+                                        <h3>Actividad-1 Lunes</h3>
+                                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${data[a].id_planeacion.id},this)">
+                    
+                                    </div>
+                                    <div id="info-actividad-1" class="body-activities">
+                                            <h3>Fecha inicio</h3>
+                                            <input type="datetime-local" name="" id="">
+                                            <h3>Titulo</h3>
+                                            <input type="text" name="" id="" placeholder="Titulo">
+                                            <h3>Descripción</h3>
+                                            <input type="text" name="" id="" placeholder="Descripción">
+                                    </div>
+                                </div>
+                
+                            </div>
+                
+                            <h2>Observaciones</h2>
+                            <input type="text" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones}">
+                
+                        </div>
+                
+                        <div class="plan-coment">
+                            <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id_planeacion.id},this)" >
+                            <h3 onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
+                            <img class="display-none" id="plan-coment-close-${data[a].id_planeacion.id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id_planeacion.id},this)">
+                        </div>
+                
+                        <div id="info-coment-${data[a].id_planeacion.id}" class="plan-coments">
+                            <div class="container-coments">
+                                <div class="coment">
+                                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                    <div class="coment-message">
+                                        <h3>Karen</h3>
+                                        <div>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</div>
+                                    </div>
+                
+                                </div>
+                
+                            </div>
+                            <div class="plan-coment-send">
+                                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                <input type="text" name="" id="" placeholder="Escribe un comentario">
+                                <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
+                            </div>
+                        </div>
+                
+                        </div>
+                    </div>
+                    <!-- Fin de planeacion-->
+                        
+                        `;
+                        }
+                    }).catch(console.error());
+                }
+            });
+    }//fin funcion obtener favoritos
+    obtenerFavoritos();
 </script>
 
 

@@ -38,7 +38,7 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1/','');
-    var urlObtenerFavorito = '{% url 'api:obtenerFavorito' 1 %}'.replace('1/','');
+    var urlObtenerFavorito = '{% url 'api:obtenerFavoritos'  %}';
     var urlInsertarFavorito = '{% url 'api:insertarFavorito'  %}';
 
     var fav = false;

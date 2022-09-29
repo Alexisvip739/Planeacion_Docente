@@ -1,3 +1,4 @@
+from curses.ascii import NUL
 from nis import cat
 from urllib import request
 from django.shortcuts import render
@@ -6,7 +7,8 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.response import Response
-from .serializers import ActividadSerielizers, ComentarioSerielizers, CustomerSerializers, FavoritoSerielizers, PlaneacionSerializers, RatingSerielizers
+from .serializers import *
+#importamos todos los serializadores
 from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer, Rating
 from rest_framework import status
 from django.contrib.auth.models import User
@@ -64,14 +66,15 @@ class Planeacion_APIView(APIView):
         post = Planeacion.objects.all()
         serializer = PlaneacionSerializers(post, many=True)
 
-    def get(self, request, titulo):# para obtener las planeaciones por su titulo
+    def get(self, request, titulo):# para obtener las planeaciones por su titulo-------------------------------------------------------------------
+        #post = Favorito.objects.select_related('id_usuario','id_planeacion').all().filter(id_planeacion__titulo__contains=titulo)
         post = Planeacion.objects.prefetch_related('favorito_set').all()
         #.filter(titulo__contains=titulo).
-        print('lista----------')
-        print(post)#imprimimos la lista
-        for a in post:
-            print(a.favorito_set)
-        
+        print('---------------------------------------------------------------')
+        print(post)
+        for a in post.favorito_set.all():
+            print(a)
+        print('---------------------------------------------------------------')
 
         serializer = PlaneacionSerializers(post, many=True)
         
@@ -84,13 +87,14 @@ class Planeacion_APIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Favorito_APIView_Detail2(APIView):
+#para obtener la lista de planeaciones favoritas de cada usuario
+class FavoritoListView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Favorito.objects.all()
-        serializer = FavoritoSerielizers(post, many=True)
-    def get(self,request,id):
-        post = Favorito.objects.filter(id_planeacion=id).filter(id_usuario=request.user.id)
-        serializer = FavoritoSerielizers(post, many=True)
+        serializer = FavoritoListSerielizers(post, many=True)
+    def get(self,request):
+        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
+        serializer = FavoritoListSerielizers(post, many=True)
         return Response(serializer.data)
 
 
