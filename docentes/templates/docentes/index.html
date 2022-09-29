@@ -118,7 +118,7 @@
                             <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
                             <h2>Actividades</h2>
                 
-                            <div id="container-activities" class="container-activities"></div>
+                            <div id="container-activities-${data[a].id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
                             <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}">
@@ -173,7 +173,7 @@
         pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar')
 
-        var contAct = document.getElementById('container-activities');
+        var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML == ''){
             //console.log('siii')
             fetch(urlObtenerActividades+id).then(response=>{

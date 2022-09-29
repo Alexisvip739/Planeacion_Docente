@@ -40,7 +40,7 @@
         var plan1 = document.getElementById('plan-'+id);
         //plan1.classList.toggle('border-bottom');
         
-        var contAct = document.getElementById('container-activities');
+        var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML == ''){
             //console.log('siii')
             fetch(urlObtenerActividades+id).then(response=>{
@@ -189,7 +189,7 @@
                             <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
                             <h2>Actividades</h2>
                 
-                            <div id="container-activities" class="container-activities"></div>
+                            <div id="container-activities-${data[a].id_planeacion.id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
                             <input type="text" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}">

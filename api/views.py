@@ -57,22 +57,40 @@ class Customer_APIView_Detail(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+#para obtener las planeaciones de un usuario
+class PlaneacionListViewUser(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        post = Planeacion.objects.all()
+        serializer = PlaneacionSearchListSerializers(post, many=True)
+
+    def get(self, request):# para las planeaciones de un usuario
+        post = Planeacion.objects.all().filter(id_usuario=request.user.id).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
+        serializer = PlaneacionSearchListSerializers(post, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        serializer = PlaneacionSearchListSerializers(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-#para obtener las planeaciones
+#para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSearchListSerializers(post, many=True)
 
     def get(self, request, titulo):# para obtener las planeaciones por su titulo-------------------------------------------------------------------
-        post = Planeacion.objects.prefetch_related('favorito_set').all().filter(favorito__id_planeacion__titulo__contains=titulo).distinct()
+        #post = Planeacion.objects.prefetch_related('favorito_set').all().filter(favorito__id_planeacion__titulo__contains=titulo).distinct()
+        post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
         #post = Planeacion.objects.prefetch_related('favorito_set').all()
         #.filter(titulo__contains=titulo).
         serializer = PlaneacionSearchListSerializers(post, many=True)
         
         return Response(serializer.data)
+    
     def post(self, request, format=None):
         serializer = PlaneacionSearchListSerializers(data=request.data)
         if serializer.is_valid():
