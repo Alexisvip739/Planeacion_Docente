@@ -38,6 +38,8 @@
     var urlBorrarActividad = '{% url 'api:borrarActividad' 1 %}'.replace('1','');
     var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
 
+    let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+
 
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
@@ -61,7 +63,7 @@
             fetch(urlObtenerActividades+id).then(response=>{
                 if(response.ok){
                     response.json().then(lista=>{
-                        let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+                        
                         
                         for(a in lista){
                             var f1= new Date(lista[a].fecha_de_inicio);
@@ -70,7 +72,7 @@
                             contAct.innerHTML+=`
                             <div id="container-activitie-${lista[a].id}" class="container-activitie">
                                 <div class="head-activities">
-                                    <h3>${lista[a].titulo} ${dias[f1.getDay()+1]}</h3>
+                                    <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
                                     <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
                                     <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
                                     <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
@@ -83,10 +85,9 @@
                                         <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
                                         <h3>Descripción</h3>
                                         <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
+                                        <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
                                 </div>
-                                <div id="info-button-update-${lista[a].id}" class="container-button-add-activitie display-none">
-                                    <input class="button-succes" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
-                                </div>
+                                
                             </div>`;
                         }
                     }).catch(console.error())
@@ -224,11 +225,9 @@
                             <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Titulo">
                             <h3>Descripción</h3>
                             <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción">
-                            
+                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
                     </div>
-                    <div id="info-button-add-actividad-${lista[a].id}" class="container-button-add-activitie display-none">
-                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
-                    </div>
+            
                 </div>
 
             </div>
@@ -278,18 +277,18 @@
     }
 
     function actualizarActividad(id){
+        
         var date1 = document.getElementById('info-act-date-'+id).value;
         var titulo1 = document.getElementById('info-act-titulo-'+id).value;
         var desc1 = document.getElementById('info-act-descripcion-'+id).value;
-        fetch(urlActualizarActividad+id+','+date1+','+titulo1+','+desc1).then(response=>{
+        fetch(urlActualizarActividad+id+','+date1+','+titulo1+','+desc1).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
+                var f1= new Date(date1);
+                tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
                 
-
-                console.log(date1+titulo1+desc1)
-
-
             }else{
-                
+                mostrarModalMensaje('Error al actualizar',600);
             }
         });
     }
