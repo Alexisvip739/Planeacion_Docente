@@ -392,7 +392,7 @@
     background:var(--amarillo) !important;
     color: var(--text-color-2) !important;
     font-size: var(--fuente);
-    width: -webkit-fill-available;
+    width: 100%;
     outline: none;
     border-color: transparent;
 }
