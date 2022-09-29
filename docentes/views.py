@@ -25,14 +25,19 @@ def actualizarPassword(request):
     if request.method == 'POST':
         password1=request.POST['password1']
         password2=request.POST['password2']
+        user=User.objects.get(id=request.user.id)
+        print(user.password)
         if password1 == password2:
-            user = User.objects.get(username=request.user.id)
-            user.password=password1
-            user.save
+            user.set_password(password1)
+            user.save()
             logout(request)
             return redirect('docentes:login')
-    return render(request,'docentes/actualizacion_password.html',{})
+        elif password1!=password2 or password2!=password1:
+            return render(request,'docentes/actualizacion_password.html',{'mensajeError':'Una de las contrasenas no es valida'})
+        
+           
 
+    return render(request,'docentes/actualizacion_password.html',{})
 #para logiar al usuario
 def login_user(request):
     if request.method == 'GET':

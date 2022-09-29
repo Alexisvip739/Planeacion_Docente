@@ -13,7 +13,7 @@
 
     <form class="login">
         <img src="{% static 'icons/iconUser.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
-        <h2>Pedrito</h2>
+        <h2>{{user.username}}</h2>
         <a href="{% url 'docentes:index' %}"><h2>Cambiar información</h2></a>
         <a href="{% url 'docentes:actualizarPassword' %}"><h2>Cambiar contraseña</h2></a>
     </form>
