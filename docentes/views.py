@@ -21,9 +21,16 @@ def misPlaneaciones(request):
 
 def perfil(request):
     return render(request,'docentes/perfil_usuario.html',{})
-
 def actualizarPassword(request):
-    
+    if request.method == 'POST':
+        password1=request.POST['password1']
+        password2=request.POST['password2']
+        if password1 == password2:
+            user = User.objects.get(username=request.user.id)
+            user.password=password1
+            user.save
+            logout(request)
+            return redirect('docentes:login')
     return render(request,'docentes/actualizacion_password.html',{})
 
 #para logiar al usuario
