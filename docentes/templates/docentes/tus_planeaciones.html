@@ -212,7 +212,7 @@
                 <div class="container-activitie">
                     <div class="head-activities">
                         <h3>Agregar actividad</h3>
-                        <img class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad(${lista[a].id},this)">
+                        <img id='boton-agregar-actividad-${lista[a].id}' class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad(${lista[a].id},this)">
     
                     </div>
                     <div id="info-add-actividad-${lista[a].id}" class="body-activities">
@@ -296,29 +296,32 @@
         var titulo1 = document.getElementById('info-add-titulo-'+id_plan).value;
         var desc1 = document.getElementById('info-add-descripcion-'+id_plan).value;
         fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1).then(response =>{
+            mostrarModalMensaje('Actividad agregada con exito',850);
+            var btnOK = document.getElementById('boton-agregar-actividad-'+id_plan);
+            btnOK.click()
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 response.json().then(lista =>{
-                    console.log(datos);
-                var contenedorActividades = document.getElementById('container-activities-'+id_plan);//contenedor de las actividades
+    
+                var contenedorActividades = document.getElementById('container-activities-'+lista[0].id_planeacion);//contenedor de las actividades
                 var f1= new Date(date1);
-                tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
+                //tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
                 contenedorActividades.innerHTML+=`
-                <div id="container-activitie-${lista[a].id}" class="container-activitie">
+                <div id="container-activitie-${lista[0].id}" class="container-activitie">
                     <div class="head-activities">
-                        <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
-                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
-                        <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                        <h3 id="info-act-titulo-principal-${lista[0].id}">${lista[0].titulo} ${dias[f1.getDay()]}</h3>
+                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[0].id},this)">
+                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[0].id},this)">
+                        <input class="check-box" type="checkbox" ${lista[0].finalizada==true?'checked':'unchecked'}>
     
                     </div>
-                    <div id="info-actividad-${lista[a].id}" class="body-activities">
+                    <div id="info-actividad-${lista[0].id}" class="body-activities">
                             <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="info-act-date-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="info-act-date-${lista[0].id}" value="${f1.toISOString().split('T')[0]}">
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
+                            <input type="text" name="" id="info-act-titulo-${lista[0].id}" placeholder="Titulo" value="${lista[0].titulo}">
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
-                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
+                            <input type="text" name="" id="info-act-descripcion-${lista[0].id}" placeholder="Descripción" value="${lista[0].descripcion}">
+                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[0].id})">
                     </div>
                     
                 </div>`;
@@ -326,7 +329,7 @@
                 }).catch(console.error());
                 
             }else{
-                mostrarModalMensaje('Error al guardar',600);
+                mostrarModalMensaje('Error al guardar',850);
             }
         });
     }

@@ -192,8 +192,9 @@ class ActividadDeleteView(APIView):
             raise Http404
     def get(self, request, id, format=None):
         post = self.get_object(id)
-        print('----------------------------- Actualizando')
+        print('----------------------------- Borrando')
         if post.id_planeacion.id_usuario.id == request.user.id:
+            post.delete()
             print('')
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -231,18 +232,18 @@ class ActividadAddView(APIView):
         except Planeacion.DoesNotExist:
             raise Http404
     def get(self, request, id, format=None):
-        print('siiiiiiiiiiiiiiiiiiiiiii')
-        list = str(id).split(',')
+        list = str(id).split(',')#lista con los datos pasados por el path
         post = self.get_object(int(list[0]))
         if post.id_usuario.id == request.user.id:
             act = Actividad()
+            act.id_planeacion = post
             act.fecha_de_inicio=list[1]
             act.titulo = list[2]
             act.descripcion = list[3]
             act.save()
-            print(act,' -------------------')
-            #serializer = ActividadSerializer(act, many=True) 
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            p = Actividad.objects.all().filter(id=act.id)# mandamos la lista con elementos en este caso solo es 1
+            serializer = ActividadSerializer(p, many=True) 
+            return Response(serializer.data)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
