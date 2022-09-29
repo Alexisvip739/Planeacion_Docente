@@ -37,6 +37,7 @@
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlBorrarActividad = '{% url 'api:borrarActividad' 1 %}'.replace('1','');
     var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
+    var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
 
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
 
@@ -101,17 +102,13 @@
 
     function desplegarActividad(id,slide){
         var pl = document.getElementById('info-actividad-'+id);
-        var btn = document.getElementById('info-button-update-'+id);
         pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar');
-        btn.classList.toggle('display-none')
     }
     function desplegarAgregarActividad(id,slide){
         var pl = document.getElementById('info-add-actividad-'+id);
         pl.classList.toggle('display-flex');
-
-        var btnAdd = document.getElementById('info-button-add-actividad-'+id);
-        btnAdd.classList.toggle('display-flex');        
+       
     }
     function desplegarComentarios(id,slide){
         var pl = document.getElementById('info-coment-'+id);
@@ -219,13 +216,14 @@
     
                     </div>
                     <div id="info-add-actividad-${lista[a].id}" class="body-activities">
+                        
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="info-add-date-${lista[a].id}">
+                            <input type="date" name="" id="info-add-date-${lista[a].id}">
                             <h3>Titulo</h3>
                             <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Titulo">
                             <h3>Descripción</h3>
                             <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción">
-                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
+                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="agregarActividad(${lista[a].id})">
                     </div>
             
                 </div>
@@ -289,6 +287,46 @@
                 
             }else{
                 mostrarModalMensaje('Error al actualizar',600);
+            }
+        });
+    }
+    function agregarActividad(id_plan){
+        
+        var date1 = document.getElementById('info-add-date-'+id_plan).value;
+        var titulo1 = document.getElementById('info-add-titulo-'+id_plan).value;
+        var desc1 = document.getElementById('info-add-descripcion-'+id_plan).value;
+        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1).then(response =>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                response.json().then(lista =>{
+                    console.log(datos);
+                var contenedorActividades = document.getElementById('container-activities-'+id_plan);//contenedor de las actividades
+                var f1= new Date(date1);
+                tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
+                contenedorActividades.innerHTML+=`
+                <div id="container-activitie-${lista[a].id}" class="container-activitie">
+                    <div class="head-activities">
+                        <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
+                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
+                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
+                        <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+    
+                    </div>
+                    <div id="info-actividad-${lista[a].id}" class="body-activities">
+                            <h3>Fecha inicio</h3>
+                            <input type="date" name="" id="info-act-date-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
+                            <h3>Titulo</h3>
+                            <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
+                            <h3>Descripción</h3>
+                            <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
+                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
+                    </div>
+                    
+                </div>`;
+
+                }).catch(console.error());
+                
+            }else{
+                mostrarModalMensaje('Error al guardar',600);
             }
         });
     }

@@ -221,7 +221,30 @@ class ActividadUpdateView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+#para guardar las actividades
+class ActividadAddView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            list = str(id).split(',')
+            return Planeacion.objects.get(pk=int(list[0]))#verificamos que la planeacion exista
+        except Planeacion.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        print('siiiiiiiiiiiiiiiiiiiiiii')
+        list = str(id).split(',')
+        post = self.get_object(int(list[0]))
+        if post.id_usuario.id == request.user.id:
+            act = Actividad()
+            act.fecha_de_inicio=list[1]
+            act.titulo = list[2]
+            act.descripcion = list[3]
+            act.save()
+            print(act,' -------------------')
+            #serializer = ActividadSerializer(act, many=True) 
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class FavoritoInserView(APIView):

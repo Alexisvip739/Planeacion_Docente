@@ -25,7 +25,10 @@ class PlaneacionFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Planeacion
         fields ='__all__'
-
+class ActividadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actividad
+        fields ='__all__'
 
 
 class PlaneacionSerializer(serializers.ModelSerializer):
