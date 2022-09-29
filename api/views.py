@@ -64,30 +64,24 @@ class Customer_APIView_Detail(APIView):
 class Planeacion_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
-        serializer = PlaneacionSerializers(post, many=True)
+        serializer = PlaneacionSearchListSerializers(post, many=True)
 
     def get(self, request, titulo):# para obtener las planeaciones por su titulo-------------------------------------------------------------------
-        #post = Favorito.objects.select_related('id_usuario','id_planeacion').all().filter(id_planeacion__titulo__contains=titulo)
-        post = Planeacion.objects.prefetch_related('favorito_set').all()
+        post = Planeacion.objects.prefetch_related('favorito_set').all().filter(favorito__id_planeacion__titulo__contains=titulo).distinct()
+        #post = Planeacion.objects.prefetch_related('favorito_set').all()
         #.filter(titulo__contains=titulo).
-        print('---------------------------------------------------------------')
-        print(post)
-        for a in post.favorito_set.all():
-            print(a)
-        print('---------------------------------------------------------------')
-
-        serializer = PlaneacionSerializers(post, many=True)
+        serializer = PlaneacionSearchListSerializers(post, many=True)
         
         return Response(serializer.data)
     def post(self, request, format=None):
-        serializer = PlaneacionSerializers(data=request.data)
+        serializer = PlaneacionSearchListSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#para obtener la lista de planeaciones favoritas de cada usuario
+#para obtener la lista de planeaciones favoritas de cada usuario---------------------------------------------
 class FavoritoListView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         post = Favorito.objects.all()
@@ -124,10 +118,10 @@ class Planeacion_APIView_Detail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-#para las actividades
-class Actividad_APIView(APIView):
-    def get(self, request, format=None, *args, **kwargs):
-        post = Actividad.objects.all()
+#para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
+class ActividadListView(APIView):
+    def get(self, request,id):
+        post = Actividad.objects.all().filter(id_planeacion=id).order_by('fecha_de_inicio')#ordenamos por fecha de inicio
         serializer = ActividadSerielizers(post, many=True)
         
         return Response(serializer.data)

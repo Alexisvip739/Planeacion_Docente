@@ -33,13 +33,14 @@ class PlaneacionSerializer(serializers.ModelSerializer):
         model = Planeacion
         fields ='__all__'
 
-# para serializar la lista de planeaciones----------------------- todas
-class PlaneacionSerializers(serializers.ModelSerializer):
+# para mostrar todas las planeaciones buscadas por titulo -------------------------------------------------
+class PlaneacionSearchListSerializers(serializers.ModelSerializer):
     id_usuario = UserSerializer()
     class Meta:
         model = Planeacion
         fields = '__all__'
         depth = 1
+        
 
 
 
@@ -66,7 +67,6 @@ class FavoritoListSerielizers(serializers.ModelSerializer):
     class Meta:
         model=Favorito
         fields='__all__'
-        depth = 1
 
 
 class RatingSerielizers(serializers.ModelSerializer):

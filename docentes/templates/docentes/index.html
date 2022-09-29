@@ -10,7 +10,7 @@
 
 
     
-    
+
 
     <div class="search-container">
         <h1 class="search-title">Escribe el nombre de tu  tema</h1>
@@ -37,7 +37,8 @@
 <script>
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
-    var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1/','');
+    var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1','');
+    var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlObtenerFavorito = '{% url 'api:obtenerFavoritos'  %}';
     var urlInsertarFavorito = '{% url 'api:insertarFavorito'  %}';
 
@@ -91,8 +92,8 @@
                     <div class="item-plan">
                         <div class="plan border-bottom">
                             <div>
-                                <img src="{% static 'icons/logo.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].id_usuario.username}</h3>
+                                <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
+                                <h3>${data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
@@ -112,33 +113,15 @@
                             <h3>Grado</h3>
                             <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}">
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="" value="${f1.getDate()+'-'+f1.getMonth()+'-'+f1.getFullYear()}">
+                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
                             <h3>Fecha finalización</h3>
-                            <input type="datetime-local" name="" id="" value="${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}">
+                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
                             <h2>Actividades</h2>
                 
-                            <div class="container-activities">
-                
-                                <div class="container-activitie">
-                                    <div class="head-activities">
-                                        <h3>Actividad-1 Lunes</h3>
-                                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${data[a].id},this)">
-                    
-                                    </div>
-                                    <div id="info-actividad-1" class="body-activities">
-                                            <h3>Fecha inicio</h3>
-                                            <input type="datetime-local" name="" id="">
-                                            <h3>Titulo</h3>
-                                            <input type="text" name="" id="" placeholder="Titulo">
-                                            <h3>Descripción</h3>
-                                            <input type="text" name="" id="" placeholder="Descripción">
-                                    </div>
-                                </div>
-                
-                            </div>
+                            <div id="container-activities" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones}">
+                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}">
                 
                         </div>
                 
@@ -151,7 +134,7 @@
                         <div id="info-coment-${data[a].id}" class="plan-coments">
                             <div class="container-coments">
                                 <div class="coment">
-                                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                    <img src="{% static 'icons/iconUser.svg' %}" alt="icono de like">
                                     <div class="coment-message">
                                         <h3>Karen</h3>
                                         <div>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</div>
@@ -185,11 +168,45 @@
         }
     }
 
-    function desplegarPlan(id,slide){
+    async function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar')
 
+        var contAct = document.getElementById('container-activities');
+        if(contAct.innerHTML == ''){
+            //console.log('siii')
+            fetch(urlObtenerActividades+id).then(response=>{
+                if(response.ok){
+                    response.json().then(lista=>{
+                        let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+                        for(a in lista){
+                            var f1= new Date(lista[a].fecha_de_inicio);
+
+                            
+                            contAct.innerHTML+=`
+                            <div  class="container-activitie">
+                                <div class="head-activities">
+                                    <h3>${lista[a].titulo} ${dias[f1.getDay()+1]}</h3>
+                                    <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
+                
+                                </div>
+                                <div id="info-actividad-${lista[a].id}" class="body-activities">
+                                        <h3>Fecha inicio</h3>
+                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                                        <h3>Titulo</h3>
+                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <h3>Descripción</h3>
+                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}">
+                                </div>
+                            </div>`;
+                        }
+                    }).catch(console.error())
+                }
+            });
+        }else{
+            //console.log('esta lleno')
+        }
     }
 
     function desplegarActividad(id,slide){
