@@ -50,11 +50,12 @@
     }
     function desplegarTuPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
+        var btn = document.getElementById('plan-button-save-'+id);
+        var planx = document.getElementById('plan-'+id);
         pl.classList.toggle('display-flex');
-        var btn = document.getElementById('plan-button-save');
         btn.classList.toggle('display-flex');
-        var plan1 = document.getElementById('plan-'+id);
-        plan1.classList.toggle('border-bottom');
+        planx.classList.toggle('border-bottom');
+        pl.classList.toggle('border-bottom');
         slide.classList.toggle('rotar');
 
         
@@ -87,6 +88,7 @@
                                         <h3>Descripción</h3>
                                         <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
                                         <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
+                                        
                                 </div>
                                 
                             </div>`;
@@ -195,7 +197,7 @@
                 <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
             </div>
         </div>
-        <div id="plan-info-${lista[a].id}" class="plan-info">
+        <div id="plan-info-${lista[a].id}" class="plan-info border-bottom">
             <h3>Tema</h3>
             <input type="text" name="" id="" placeholder="Tema" value="${lista[a].tema}">
             <h3>Grado</h3>
@@ -248,7 +250,7 @@
 
         </div>
 
-        <button id="plan-button-save" class="plan-coment button-bottom-succes display-none">Guardar</button>
+        <button id="plan-button-save-${lista[a].id}" class="plan-coment button-bottom-succes display-none">Guardar</button>
 
 
         </div>
@@ -284,6 +286,10 @@
                 var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
                 var f1= new Date(date1);
                 tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
+                /*var a1 =document.getElementById('info-act-date-'+id).value = date1;
+                var a2 =document.getElementById('info-act-titulo-'+id).value = titulo1;
+                var a3 =document.getElementById('info-act-descripcion-'+id).value = desc1;*/
+                mostrarModalMensaje('Actualizada correctamente',800);
                 
             }else{
                 mostrarModalMensaje('Error al actualizar',600);
