@@ -1,26 +1,34 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import  login_required
 # Create your views here.
 
 
 
+ 
 
+@login_required(login_url='docentes:login')
 def index(request):
     return render(request,'docentes/index.html',{})
 
-
+@login_required(login_url='docentes:login')
 def crearPlaneacion(request):
     return render(request,'docentes/crear_planeacion.html',{})
 
+@login_required(login_url='docentes:login')
 def favoritos(request):
     return render(request,'docentes/favoritos.html',{})
 
+@login_required(login_url='docentes:login')
 def misPlaneaciones(request):
     return render(request,'docentes/tus_planeaciones.html',{})
 
+@login_required(login_url='docentes:login')
 def perfil(request):
     return render(request,'docentes/perfil_usuario.html',{})
+
+@login_required(login_url='docentes:login')
 def actualizarPassword(request):
     if request.method == 'POST':
         password1=request.POST['password1']
@@ -38,6 +46,22 @@ def actualizarPassword(request):
            
 
     return render(request,'docentes/actualizacion_password.html',{})
+    
+@login_required(login_url='docentes:login')  
+def actualizarUsuario(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        name = request.POST['name']
+        user = User.objects.get(id=request.user.id)
+
+        if len(name)!=0 and len(email)!=0:
+            user.username = name
+            user.email = email
+            user.save()
+            return render(request,'docentes/index.html',{})
+
+    return render(request,'docentes/actualizacion_informacion.html',{'mensajeError' : 'Rellene los campos para hacer el cambio'})
+    
 #para logiar al usuario
 def login_user(request):
     if request.method == 'GET':
