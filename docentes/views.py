@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import  login_required
 
  
 
-@login_required(login_url='docentes:login')
+#@login_required(login_url='docentes:login')
 def index(request):
     return render(request,'docentes/index.html',{})
 

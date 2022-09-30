@@ -15,9 +15,9 @@
     <form class="login">
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
         <h3>Correo electronico</h3>
-        <input type="text" value="pedrito" >
+        <input type="text" value="pedrito"  placeholder="Correo electronico">
         <h3>Contraseña</h3>
-        <input type="password" value="12343kdjsnkjdnsjnd3" >
+        <input type="password" value="12343kdjsnkjdnsjnd3" placeholder="Contraseña">
         <input class="login-button" type="button" value="Guardar cambios">
         <a href="{% url 'docentes:index' %}">Regresar</a>
 
