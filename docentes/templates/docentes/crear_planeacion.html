@@ -99,6 +99,29 @@
 
     var listaActividades=[];
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+    var contador=0;
+
+    /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
+    */
+    function mostrarModalMensaje(texto,duracion){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <h3>${texto}</h3>
+        </div>`;
+        setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
+    }
+
+    async function agregarActividad(id_plan,date1,titulo1,desc1){
+        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1).then(response =>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente    
+
+            }else{
+                console.error('error al guardar actividad');
+            }
+        });
+    }
 
     /** Este metodo nos ayuda a agregar una planeacion a la base de datos
     */
@@ -112,7 +135,21 @@
         fetch(urlAgregarPlaneacion+titulo+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima).then(response=>{
             if(response.ok){
                 response.json().then(lista =>{
-                    console.log(lista)
+                    var id_planeacion = lista[0].id;
+                    for( i in listaActividades){//recorremos todas las actividades de la lista y las agregamos a la planeacion
+                        agregarActividad(id_planeacion,
+                        listaActividades[i].fecha,
+                        listaActividades[i].titulo,
+                        listaActividades[i].descripcion);
+                    }
+                    document.getElementById('contenedor-actividades').innerHTML='';//vaciamos el contenedor de actividades
+                    document.getElementById('plan-titulo').value='';
+                    document.getElementById('plan-tema').value='';
+                    document.getElementById('plan-grado').value='';
+                    document.getElementById('plan-fecha-inicio').value='';
+                    document.getElementById('plan-fecha-fin').value='';
+                    document.getElementById('plan-anonima').checked=false;
+                    mostrarModalMensaje('Planeación agregada correctamente',850);
                 });
             }
         }).catch(console.error());
@@ -125,15 +162,22 @@
 
         var contenedor = document.getElementById('contenedor-actividades');
         var f= new Date(fecha);
+        var actividad = {
+            id:contador,
+            fecha: fecha,
+            titulo: titulo,
+            descripcion: descripcion
+        };
+        listaActividades.push(actividad);
         contenedor.innerHTML+=`
-        <div id="add-actividad-${listaActividades.length}" class="container-activitie">
+        <div id="add-actividad-${contador}" class="container-activitie">
             <div class="head-activities">
                 <h3>${titulo} ${dias[f.getDay()]}</h3>
-                <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${listaActividades.length},this)">
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${listaActividades.length},this)">
+                <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${contador},this)">
+                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${contador},this)">
 
             </div>
-            <div id="info-actividad-${listaActividades.length}" class="body-activities">
+            <div id="info-actividad-${contador}" class="body-activities">
                     <h3>Fecha inicio</h3>
                     <input type="date" name="" id="" value="${fecha}">
                     <h3>Titulo</h3>
@@ -143,12 +187,7 @@
             </div>
         </div>
         `;
-        var actividad = {
-            fecha: fecha,
-            titulo: titulo,
-            descripcion: descripcion
-        };
-        listaActividades.push(actividad);
+        contador++;
         document.getElementById('actividad-fecha-inicio').value=''
         document.getElementById('actividad-titulo').value=''
         document.getElementById('actividad-descripcion').value=''
@@ -168,10 +207,19 @@
         slide.classList.toggle('rotar')
 
     }
+    /**
+    Este metodo nos ayuda a borrar una actividad de la lista del actividades 
+    */
     function borrarActividad(id,slide){
         var pl = document.getElementById('add-actividad-'+id);
         pl.remove();
-
+        var lista2=[]
+        for(a in listaActividades){
+            if(listaActividades[a].id != id){// agregamos todos los datos Menos el que queremos eliminar
+                lista2.push(listaActividades[a]);
+            }
+        }
+        listaActividades =lista2;
     }
 
     function desplegarAgregarActividad(id,slide){

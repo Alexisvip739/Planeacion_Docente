@@ -46,6 +46,17 @@
 
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
 
+    /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
+    */
+    function mostrarModalMensaje(texto,duracion){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="plan-calification">
+        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <h3>${texto}</h3>
+        </div>`;
+        setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
+    }
 
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
@@ -285,6 +296,7 @@
         fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 document.getElementById('plan-check-'+id).checked = finalizacion;// es el check de la parte superior cambie por el valor de la parte inferior
+                
                 alert('guardado correctamente');
             }else{
                 mostrarModalMensaje('Error al actualizar',600);
@@ -381,17 +393,7 @@
             }
         });
     }
-    /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
-    */
-    function mostrarModalMensaje(texto,duracion){
-        var b = document.getElementById('body');
-        b.innerHTML+=`
-        <div id="info-modal" class="plan-calification">
-        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
-        <h3>${texto}</h3>
-        </div>`;
-        setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
-    }
+    
     function borrarModal(){
         document.getElementById('cerrarModal').remove();
     }
