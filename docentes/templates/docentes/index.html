@@ -68,11 +68,11 @@
                         contPlan.innerHTML='';
                         for(a in data){
                             
-                            obtenerFavorito(data[a].id).then((data1)=>{
+                            /*obtenerFavorito(data[a].id).then((data1)=>{
                                 fav = data1;
                                 console.log(data1)
                             });
-                            console.log(fav)
+                            console.log(fav)*/
                             
                             var favIcon='';
                             
@@ -177,7 +177,7 @@
         if(contAct.innerHTML.trim() == ''){
             //console.log('siii')
             fetch(urlObtenerActividades+id).then(response=>{
-                console.log(response.url)
+                //console.log(response.url)
                 if(response.ok){
                     response.json().then(lista=>{
                         let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
