@@ -169,6 +169,54 @@ class PlaneacionUpdateView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+#---------------------------------------------------------------------------- Para borrar una planeacion
+class PlaneacionDeleteView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            return Planeacion.objects.get(pk=id)
+        except Planeacion.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        post = self.get_object(id)
+        print('----------------------------- Borrando')
+        if post.id_usuario.id == request.user.id:
+            post.delete()
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#----------------------------------------------------------------------------- Para agregar una planeacion
+#para guardar las actividades
+class PlaneacionAddView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            list = str(id).split(',')
+            return Planeacion.objects.get(pk=int(list[0]))#verificamos que la planeacion exista
+        except Planeacion.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        list = str(id).split(',')#lista con los datos pasados por el path
+        post = self.get_object(int(list[0]))
+        if post.id_usuario.id == request.user.id:
+            act = Actividad()
+            act.id_planeacion = post
+            act.fecha_de_inicio=list[1]
+            act.titulo = list[2]
+            act.descripcion = list[3]
+            act.save()
+            p = Actividad.objects.all().filter(id=act.id)# mandamos la lista con elementos en este caso solo es 1
+            serializer = ActividadSerializer(p, many=True) 
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
 #para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
 class ActividadListView(APIView):
     def get(self, request,id):

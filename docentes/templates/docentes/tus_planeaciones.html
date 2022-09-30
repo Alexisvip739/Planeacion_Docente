@@ -39,6 +39,8 @@
     var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
     var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
     var urlActualizarPlaneacion = '{% url 'api:actualizarPlaneacion' 1 %}'.replace('1','');
+    var urlBorrarPlaneacion = '{% url 'api:borrarPlaneacion' 1 %}'.replace('1','');
+
 
     
 
@@ -369,8 +371,15 @@
     }
 
     function borrarPlaneacion(id,element){
-        var actividad = document.getElementById('contenedor-plan-'+id);
-        actividad.remove();
+        fetch(urlBorrarPlaneacion+id).then(response=>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                var actividad = document.getElementById('contenedor-plan-'+id);
+                actividad.remove();
+                mostrarModalMensaje('Registro eliminado con exito',650);
+            }else{
+                mostrarModalMensaje('Error al eliminar',650);
+            }
+        });
     }
     /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
     */

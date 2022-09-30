@@ -106,6 +106,8 @@
 <script>
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
+    var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
+    var urlAgregarPlaneacion = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');
