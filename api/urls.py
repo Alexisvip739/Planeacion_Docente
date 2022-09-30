@@ -15,6 +15,9 @@ urlpatterns = [
      path('obtenerPlaneacionUsuario',v.PlaneacionListViewUser.as_view(),name='obtenerPlaneacionUsuario'), #para obtener las planeaciones de un usuario 
 
 
+    path('actualizarPlaneacion/<str:id>',v.PlaneacionUpdateView.as_view(),name='actualizarPlaneacion'),# para actualizar la planeacion
+
+
     path('obtenerFavorito',v.FavoritoListView.as_view(),name='obtenerFavoritos'),# para obtener la lista de planeaciones favoritas
 
     path('obtenerActividades/<str:id>',v.ActividadListView.as_view(),name='obtenerActividades'),# para obtener la lista de actividades de una planeacion

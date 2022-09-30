@@ -138,6 +138,36 @@ class Planeacion_APIView_Detail(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+#para actualizar la Planeacion------------------------------------------------ Actualizar la planeacion
+class PlaneacionUpdateView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, id):
+        try:
+            list = str(id).split(',')
+            return Planeacion.objects.get(pk=int(list[0]))
+        except Planeacion.DoesNotExist:
+            raise Http404
+    def get(self, request, id, format=None):
+        list = str(id).split(',')
+        post = self.get_object(int(list[0]))
+        if post.id_usuario.id == request.user.id:
+            post.tema=list[1]
+            post.grado = list[2]
+            post.fecha_de_inicio = list[3]
+            post.fecha_de_finalizacion = list[4]
+            if list[5] == 'true':
+                post.anonima = True
+            else:
+                post.anonima = False
+            post.observaciones = list[6]
+            if list[7] == 'true':
+                post.finalizada = True
+            else:
+                post.finalizada = False
+            post.save()
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 #para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
 class ActividadListView(APIView):

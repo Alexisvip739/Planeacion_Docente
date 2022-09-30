@@ -38,6 +38,9 @@
     var urlBorrarActividad = '{% url 'api:borrarActividad' 1 %}'.replace('1','');
     var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
     var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
+    var urlActualizarPlaneacion = '{% url 'api:actualizarPlaneacion' 1 %}'.replace('1','');
+
+    
 
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
 
@@ -165,6 +168,8 @@
         </div>
         </div>`;
     }
+
+    //------------------------------------------------------------------------------------- Para obtener las planeaciones
     async function obtenerPlaneacionUsuario(){
         var planSi = document.getElementById('contenedor-planeaciones-si-terminadas');
         var planNo = document.getElementById('contenedor-planeaciones-no-terminadas');
@@ -196,18 +201,18 @@
                     <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
-                <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
             </div>
         </div>
         <div id="plan-info-${lista[a].id}" class="plan-info border-bottom">
             <h3>Tema</h3>
-            <input type="text" name="" id="" placeholder="Tema" value="${lista[a].tema}">
+            <input type="text" name="" id="plan-tema-${lista[a].id}" placeholder="Tema" value="${lista[a].tema}">
             <h3>Grado</h3>
-            <input type="text" name="" id="" placeholder="Grado" value="${lista[a].grado}">
+            <input type="text" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}">
             <h3>Fecha inicio</h3>
-            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
             <h3>Fecha finalización</h3>
-            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${f2.toISOString().split('T')[0]}">
             <h2>Actividades</h2>
 
              <!--Agregar actividad-->
@@ -239,20 +244,20 @@
 
             <div class="plan-anonimo">
                 <h3>Planeación anonima</h3>
-                <input type="checkbox" ${lista[a].anonima==true?'checked':'unchecked'}>
+                <input id="plan-anonima-${lista[a].id}" type="checkbox" ${lista[a].anonima==true?'checked':'unchecked'}>
             </div>
 
             <h2>Observaciones</h2>
-            <input type="text" placeholder="Observaciones" value="${lista[a].observaciones==null?'':lista[a].observaciones}">
+            <input id="plan-observaciones-${lista[a].id}" type="text" placeholder="Observaciones" value="${lista[a].observaciones==null?'':lista[a].observaciones}">
 
             <div class="plan-anonimo">
                 <h3>Finalización</h3>
-                <input type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                <input id="plan-finalizacion-${lista[a].id}" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
             </div>
 
         </div>
 
-        <button id="plan-button-save-${lista[a].id}" class="plan-coment button-bottom-succes display-none">Guardar</button>
+        <button id="plan-button-save-${lista[a].id}" class="plan-coment button-bottom-succes display-none" onclick="actualizarPlaneacion(${lista[a].id})">Guardar</button>
 
 
         </div>
@@ -265,6 +270,26 @@
     }
 
     obtenerPlaneacionUsuario();
+    async function actualizarPlaneacion(id){
+        
+        var tema = document.getElementById('plan-tema-'+id).value;
+        var grado = document.getElementById('plan-grado-'+id).value;
+        var fechaInicio = document.getElementById('plan-fecha-inicio-'+id).value;
+        var fechaFin = document.getElementById('plan-fecha-fin-'+id).value;
+        var anonima = document.getElementById('plan-anonima-'+id).checked;
+        var observaciones = document.getElementById('plan-observaciones-'+id).value;
+        var finalizacion = document.getElementById('plan-finalizacion-'+id).checked;   
+
+        fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion).then(response =>{
+            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                document.getElementById('plan-check-'+id).checked = finalizacion;// es el check de la parte superior cambie por el valor de la parte inferior
+                alert('guardado correctamente');
+            }else{
+                mostrarModalMensaje('Error al actualizar',600);
+            }
+        }).catch(console.error());
+
+    }
 
     function borrarActividad(id,element){
         fetch(urlBorrarActividad+id).then(response=>{
