@@ -16,7 +16,8 @@ class Planeacion(models.Model):
     id_usuario = models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
     anonima = models.BooleanField(default=False)
     finalizada = models.BooleanField(default=False)
-    observaciones = models.TextField(null=True)
+    observaciones = models.TextField(null=True,blank=True)
+    #blank true indica que si se puede dejar vacio
     def __str__(self) -> str:
         return self.titulo
     def nombreUsuario(self):

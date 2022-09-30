@@ -24,14 +24,16 @@
         
         <div id="plan-info-1" class="plan-info display-flex border-radius-top">
             <img src="{% static 'icons/iconPlan.svg' %}" alt="icono de planeación" class="plan-info-icon">
+            <h3>Título</h3>
+            <input type="text" name="" id="plan-titulo" placeholder="Tema">
             <h3>Tema</h3>
-            <input type="text" name="" id="" placeholder="Tema">
+            <input type="text" name="" id="plan-tema" placeholder="Tema">
             <h3>Grado</h3>
-            <input type="text" name="" id="" placeholder="Grado">
+            <input type="text" name="" id="plan-grado" placeholder="Grado">
             <h3>Fecha inicio</h3>
-            <input type="datetime-local" name="" id="">
+            <input type="date" name="" id="plan-fecha-inicio">
             <h3>Fecha finalización</h3>
-            <input type="datetime-local" name="" id="">
+            <input type="date" name="" id="plan-fecha-fin">
             <h2>Actividades</h2>
 
             <!--Agregar actividad-->
@@ -40,55 +42,40 @@
                 <div class="container-activitie">
                     <div class="head-activities">
                         <h3>Agregar actividad</h3>
-                        <img class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad('1',this)">
+                        <img id="btn-agregar-actividad" class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad('1',this)">
     
                     </div>
                     <div id="info-add-actividad-1" class="body-activities">
                             <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
+                            <input type="date" name="" id="actividad-fecha-inicio">
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
+                            <input type="text" name="" id="actividad-titulo" placeholder="Titulo">
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
+                            <input type="text" name="" id="actividad-descripcion" placeholder="Descripción">
                             
                     </div>
                     <div id="info-button-add-actividad-1" class="container-button-add-activitie display-none">
-                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad">
+                        <input class="button-succes" type="button" name="" id="" value="Guardar actividad" onclick="guardarActividad()">
                     </div>
                 </div>
 
             </div>
 
             <!-- Actividad-->
-            <div class="container-activities">
+            <div id="contenedor-actividades" class="container-activities">
 
-                <div id="add-actividad-1" class="container-activitie">
-                    <div class="head-activities">
-                        <h3>Actividad-1 Lunes</h3>
-                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad('1',this)">
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad('1',this)">
-    
-                    </div>
-                    <div id="info-actividad-1" class="body-activities">
-                            <h3>Fecha inicio</h3>
-                            <input type="datetime-local" name="" id="">
-                            <h3>Titulo</h3>
-                            <input type="text" name="" id="" placeholder="Titulo">
-                            <h3>Descripción</h3>
-                            <input type="text" name="" id="" placeholder="Descripción">
-                    </div>
-                </div>
+               
 
             </div>
 
             <div class="plan-anonimo">
                 <h3>Planeación anonima</h3>
-                <input type="checkbox">
+                <input type="checkbox" id="plan-anonima">
             </div>
 
         </div>
 
-        <button class="plan-coment button-bottom-succes">Guardar</button>
+        <button class="plan-coment button-bottom-succes" onclick="guardarPlaneacion()">Guardar</button>
 
 
         </div>
@@ -106,8 +93,68 @@
 <script>
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
+
     var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
-    var urlAgregarPlaneacion = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
+    var urlAgregarPlaneacion = '{% url 'api:agregarPlaneacion' 1 %}'.replace('1','');
+
+    var listaActividades=[];
+    let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
+
+    /** Este metodo nos ayuda a agregar una planeacion a la base de datos
+    */
+    async function guardarPlaneacion(){
+        var titulo = document.getElementById('plan-titulo').value;
+        var tema = document.getElementById('plan-tema').value;
+        var grado = document.getElementById('plan-grado').value;
+        var fechaInicio = document.getElementById('plan-fecha-inicio').value;
+        var fechaFin = document.getElementById('plan-fecha-fin').value;
+        var anonima = document.getElementById('plan-anonima').checked;
+        fetch(urlAgregarPlaneacion+titulo+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima).then(response=>{
+            if(response.ok){
+                response.json().then(lista =>{
+                    console.log(lista)
+                });
+            }
+        }).catch(console.error());
+    }
+
+    function guardarActividad(){
+        var fecha = document.getElementById('actividad-fecha-inicio').value;
+        var titulo = document.getElementById('actividad-titulo').value;
+        var descripcion = document.getElementById('actividad-descripcion').value;
+
+        var contenedor = document.getElementById('contenedor-actividades');
+        var f= new Date(fecha);
+        contenedor.innerHTML+=`
+        <div id="add-actividad-${listaActividades.length}" class="container-activitie">
+            <div class="head-activities">
+                <h3>${titulo} ${dias[f.getDay()]}</h3>
+                <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${listaActividades.length},this)">
+                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${listaActividades.length},this)">
+
+            </div>
+            <div id="info-actividad-${listaActividades.length}" class="body-activities">
+                    <h3>Fecha inicio</h3>
+                    <input type="date" name="" id="" value="${fecha}">
+                    <h3>Titulo</h3>
+                    <input type="text" name="" id="" placeholder="Titulo" value="${titulo}">
+                    <h3>Descripción</h3>
+                    <input type="text" name="" id="" placeholder="Descripción" value="${descripcion}">
+            </div>
+        </div>
+        `;
+        var actividad = {
+            fecha: fecha,
+            titulo: titulo,
+            descripcion: descripcion
+        };
+        listaActividades.push(actividad);
+        document.getElementById('actividad-fecha-inicio').value=''
+        document.getElementById('actividad-titulo').value=''
+        document.getElementById('actividad-descripcion').value=''
+        document.getElementById('btn-agregar-actividad').click();
+    }
+
     function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
         pl.classList.toggle('display-flex');

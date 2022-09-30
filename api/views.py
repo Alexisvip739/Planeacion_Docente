@@ -198,20 +198,23 @@ class PlaneacionAddView(APIView):
         except Planeacion.DoesNotExist:
             raise Http404
     def get(self, request, id, format=None):
-        list = str(id).split(',')#lista con los datos pasados por el path
-        post = self.get_object(int(list[0]))
-        if post.id_usuario.id == request.user.id:
-            act = Actividad()
-            act.id_planeacion = post
-            act.fecha_de_inicio=list[1]
-            act.titulo = list[2]
-            act.descripcion = list[3]
-            act.save()
-            p = Actividad.objects.all().filter(id=act.id)# mandamos la lista con elementos en este caso solo es 1
-            serializer = ActividadSerializer(p, many=True) 
-            return Response(serializer.data)
+        list = str(id).split(',')#lista con los elementos
+        u = User.objects.get(id=request.user.id)
+        plan = Planeacion()
+        plan.id_usuario = u
+        plan.titulo = list[0]
+        plan.tema = list[1]
+        plan.grado = list[2]
+        plan.fecha_de_inicio = list[3]
+        plan.fecha_de_finalizacion = list[4]
+        if list[5] == 'true':
+            plan.anonima = True
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            plan.anonima = False
+        plan.save()
+        lista = Planeacion.objects.all().filter(id=plan.id)
+        serializer = PlaneacionFullSerializer(lista, many=True) 
+        return Response(serializer.data)
 
 
 
