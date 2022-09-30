@@ -1,0 +1,25 @@
+{% extends 'base_html.html' %}
+{% load static%}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'docentes/css/style.css' %}">  
+{% endblock %}
+
+{% block title %} Cambio de información {% endblock %}
+
+{% block navbar%} {% endblock%}
+
+{% block body %}
+
+
+    <form class="login" method="POST">
+        {% csrf_token %}
+        <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
+        <h3>actualizar correo</h3>
+        <input type="email" name="email">
+        <h3>actualizar nombre de usuario</h3>
+        <input type="username" name="name">
+        <button class="login-button" type="submit">Cambiar</button>
+
+    </form>
+{% endblock %}

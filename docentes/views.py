@@ -38,6 +38,22 @@ def actualizarPassword(request):
            
 
     return render(request,'docentes/actualizacion_password.html',{})
+    
+    
+def actualizarUsuario(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        name = request.POST['name']
+        user = User.objects.get(id=request.user.id)
+
+        if len(name)!=0 and len(email)!=0:
+            user.username = name
+            user.email = email
+            user.save()
+            return render(request,'docentes/index.html',{})
+
+    return render(request,'docentes/actualizacion_informacion.html',{'mensajeError' : 'Rellene los campos para hacer el cambio'})
+    
 #para logiar al usuario
 def login_user(request):
     if request.method == 'GET':

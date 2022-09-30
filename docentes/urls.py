@@ -16,6 +16,7 @@ urlpatterns = [
     path('registrarse',views.registrar_usuario,name='registrar_usuario'),
     path('cerrarsesion',views.cerrar_sesion,name='cerrar_sesion'),
     path('actualizarPassword',views.actualizarPassword,name='actualizarPassword'),
+    path('actualizarUsuario',views.actualizarUsuario,name='actualizarUsuario'),
     path('crearPlaneacion',views.crearPlaneacion,name='crearPlaneacion'),
     path('favoritos',views.favoritos,name='favoritos'),
     path('misPlaneaciones',views.misPlaneaciones,name='misPlaneaciones'),
