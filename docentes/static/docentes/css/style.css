@@ -118,10 +118,13 @@
 }
 
 .plan-search-container{
-    /*position:absolute;*/
+    position:absolute;
     display: flex;
     flex-direction:row;
     justify-content: space-around;
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr;
 }
 /* estilo para la planeacion */
 .plan-container{
@@ -133,7 +136,7 @@
 .item-plan{
     border-radius: var(--redondo1);
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
-    margin: 1%;
+    margin: 3%;
     height: fit-content;
 }
 

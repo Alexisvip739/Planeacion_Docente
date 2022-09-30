@@ -29,7 +29,7 @@
             <h3>Tema</h3>
             <input type="text" name="" id="plan-tema" placeholder="Tema">
             <h3>Grado</h3>
-            <input type="text" name="" id="plan-grado" placeholder="Grado">
+            <input type="number" name="" id="plan-grado" placeholder="Grado" onkeypress="quitarNumeros(event)">
             <h3>Fecha inicio</h3>
             <input type="date" name="" id="plan-fecha-inicio">
             <h3>Fecha finalización</h3>
@@ -100,6 +100,17 @@
     var listaActividades=[];
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
     var contador=0;
+
+    function quitarNumeros(e){
+        if( e.charCode > 48 && e.charCode <=54){
+            console.log(e.charCode)
+        }else{
+            e.preventDefault();
+        }
+        if( document.getElementById('plan-grado').value.length > 0){
+            e.preventDefault();
+        }
+    }
 
     /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
     */
