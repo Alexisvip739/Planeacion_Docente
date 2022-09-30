@@ -77,7 +77,7 @@
                                     <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
                                     <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
                                     <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
-                                    <input class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                                    <input id="info-act-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
                 
                                 </div>
                                 <div id="info-actividad-${lista[a].id}" class="body-activities">
@@ -87,7 +87,7 @@
                                         <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
                                         <h3>Descripción</h3>
                                         <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
-                                        <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[a].id})">
+                                        <input class="button-succes margin-top" type="button" name="" value="Guardar actividad" id="" onclick="actualizarActividad(${lista[a].id})">
                                         
                                 </div>
                                 
@@ -101,6 +101,8 @@
         }
 
     }
+    
+
 
     function desplegarActividad(id,slide){
         var pl = document.getElementById('info-actividad-'+id);
@@ -276,25 +278,26 @@
         });
     }
 
-    function actualizarActividad(id){
+    async function actualizarActividad(id){
         
-        var date1 = document.getElementById('info-act-date-'+id).value;
-        var titulo1 = document.getElementById('info-act-titulo-'+id).value;
-        var desc1 = document.getElementById('info-act-descripcion-'+id).value;
-        fetch(urlActualizarActividad+id+','+date1+','+titulo1+','+desc1).then(response =>{
+        var date2 = document.getElementById('info-act-date-'+id).value;
+        var titulo2 = document.getElementById('info-act-titulo-'+id).value;
+        var desc2 = document.getElementById('info-act-descripcion-'+id).value;
+        var ch = document.getElementById('info-act-check-'+id).checked;
+        var exito = false;
+
+        fetch(urlActualizarActividad+id+','+date2+','+titulo2+','+desc2+','+ch.toString()).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
-                var f1= new Date(date1);
-                tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
-                /*var a1 =document.getElementById('info-act-date-'+id).value = date1;
-                var a2 =document.getElementById('info-act-titulo-'+id).value = titulo1;
-                var a3 =document.getElementById('info-act-descripcion-'+id).value = desc1;*/
-                mostrarModalMensaje('Actualizada correctamente',800);
-                
+                var f1= new Date(date2);
+                tituloPrincipal.innerHTML=titulo2+' '+dias[f1.getDay()];
+            
+                //mostrarModalMensaje('Actualizada correctamente',800);
             }else{
                 mostrarModalMensaje('Error al actualizar',600);
             }
-        });
+        }).catch(console.error());
+
     }
     function agregarActividad(id_plan){
         

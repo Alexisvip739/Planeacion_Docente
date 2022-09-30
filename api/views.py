@@ -1,6 +1,7 @@
 from curses.ascii import NUL
 from nis import cat
 from urllib import request
+from xmlrpc.client import Boolean
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -217,6 +218,10 @@ class ActividadUpdateView(APIView):
             post.fecha_de_inicio=list[1]
             post.titulo = list[2]
             post.descripcion = list[3]
+            if list[4] == 'true':
+                post.finalizada = True
+            else:
+                post.finalizada = False
             post.save()
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
