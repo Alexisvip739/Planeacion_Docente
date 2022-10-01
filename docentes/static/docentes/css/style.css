@@ -124,6 +124,7 @@
     width:fit-content;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 /* estilo para la planeacion */
 .plan-container{
@@ -493,8 +494,5 @@
     }
     .search input{
         width: inherit;
-    }
-    .plan-search-container{
-        justify-content: center;
     }
 }
