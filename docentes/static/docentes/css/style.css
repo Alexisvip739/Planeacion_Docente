@@ -465,6 +465,10 @@
     color: red;
 }
 
+.w-min-content{
+    width: min-content;
+}
+
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){
 
