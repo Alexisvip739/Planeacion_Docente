@@ -463,3 +463,38 @@
 .text-user-login{
     color: red;
 }
+
+/* Escritorio extra grande */
+@media only screen and (min-width: 1200px){
+
+}
+/* Escritorio grande */
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+
+}
+
+/* Escritorio pequeño / tablet */
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+}
+
+/* Tablets y phablets */
+@media only screen and (min-width: 576px) and (max-width: 767px){
+
+}
+
+/* Teléfonos */
+@media only screen and (max-width: 575px){
+    .search-container{
+        width: 100%;
+    }
+    .search{
+        width: 100%;
+    }
+    .search input{
+        width: inherit;
+    }
+    .plan-search-container{
+        justify-content: center;
+    }
+}
