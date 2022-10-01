@@ -119,9 +119,6 @@
 
 .plan-search-container{
     position:absolute;
-    display: flex;
-    flex-direction:row;
-    justify-content: space-around;
     width:100%;
     display: grid;
     grid-template-columns: 1fr;
