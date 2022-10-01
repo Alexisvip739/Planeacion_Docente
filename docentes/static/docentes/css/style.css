@@ -103,7 +103,6 @@
 .search-container{
     position: absolute;
     height: max-content;
-    width: max-content;
     left: 0;
     right: 0;
     bottom: 0;
@@ -119,9 +118,12 @@
 
 .plan-search-container{
     position:absolute;
-    width:100%;
-    display: grid;
-    grid-template-columns: 1fr;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width:fit-content;
+    display: flex;
+    flex-wrap: wrap;
 }
 /* estilo para la planeacion */
 .plan-container{
