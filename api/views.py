@@ -320,7 +320,7 @@ class ActividadAddView(APIView):
     def get(self, request, id, format=None):
         list = str(id).split(',')#lista con los datos pasados por el path
         post = self.get_object(int(list[0]))
-        if post.id_usuario.id == request.user.id:
+        if post.id_usuario.id == request.user.id: #revisamos que la planeacion aya sido echa por ese usuario
             act = Actividad()
             act.id_planeacion = post
             act.fecha_de_inicio=list[1]
