@@ -23,5 +23,8 @@
     <input class="login-button" type="submit" value="Registrarme">
     <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
+    {% if mensajeError %}
+        <p>Password no considen</p>    
+    {% endif %}
 </form>
 {% endblock %}

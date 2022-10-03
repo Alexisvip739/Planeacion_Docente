@@ -23,7 +23,6 @@
         <input name="password" type="password" placeholder="Password">
         <input class="login-button" type="submit" value="Iniciar sesión">
         <a href="{% url 'docentes:registrar_usuario' %}">Registrarme</a>
-        <a href="">Olvide mi contraseña</a>
 
         {%if mensajeError%}
             <p class="text-user-login">Usuario no existente</p>

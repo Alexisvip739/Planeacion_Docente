@@ -72,7 +72,6 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-
         if user is not None: # si si se valido el usuario entonces creamos la sesion
             login(request,user)
             return redirect('docentes:index')
@@ -94,4 +93,6 @@ def registrar_usuario(request):
     elif request.method == 'POST':
         if request.POST['password'] == request.POST['password2']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
+        elif request.POST['password'] != request.POST['password2']:
+            return render(request,'docentes/registro_usuario.html',{'mensajeError':'contrasena no valida'})
         return redirect('docentes:login')
