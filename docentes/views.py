@@ -85,6 +85,7 @@ def cerrar_sesion(request):
     return redirect('docentes:login')
 
 #para registrar un usuario nuevo
+
 def registrar_usuario(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -92,5 +93,5 @@ def registrar_usuario(request):
         return render(request,'docentes/registro_usuario.html',{})
     elif request.method == 'POST':
         if request.POST['password'] == request.POST['password2']:
-            user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'])
+            user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
         return redirect('docentes:login')

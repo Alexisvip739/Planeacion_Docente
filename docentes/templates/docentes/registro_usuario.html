@@ -1,28 +1,16 @@
-{% extends 'base_html.html' %}
-{% load static%}
+<form class="login" action="{% url 'docentes:registrar_usuario' %}" method="POST">
+    {% csrf_token %}
+    <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
+    <h3>Username</h3>
+    <input name="username" type="text">
+    <h3>Correo Electronico</h3>
+    <input name="email" type="text">
+    <h3>Contraseña</h3>
+    <input name="password" type="password">
+    <h3>Confirma la contraseña</h3>
+    <input name="password2" type="password">
+    <input class="login-button" type="submit" value="Registrarme">
+    <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'docentes/css/style.css' %}">  
-{% endblock %}
-
-{% block title %} LAPSOFT Login{% endblock %}
-
-{% block navbar%} {% endblock%}
-
-{% block body %}
-
-
-    <form class="login" action="{% url 'docentes:registrar_usuario' %}" method="POST">
-        {% csrf_token %}
-        <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
-        <h3>Correo electronico</h3>
-        <input name="username" type="text">
-        <h3>Contraseña</h3>
-        <input name="password" type="password">
-        <h3>Confirma la contraseña</h3>
-        <input name="password2" type="password">
-        <input class="login-button" type="submit" value="Registrarme">
-        <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
-
-    </form>
+</form>
 {% endblock %}
