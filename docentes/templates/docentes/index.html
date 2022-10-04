@@ -183,20 +183,11 @@
                         `;
                         }
                     }).catch(console.error());
-                }else{
-                    console.log('eror 404')
+                }else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
+                    contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
+                    mostrarModalMensaje('No se enontraron planeaciones',850);
                 }
             });
-            console.log(resul)
-            resul.then(
-                function(object){
-                    console.log('siii'+object);
-                },
-                function(error){
-                    console.log('nooo'+error)
-                }
-                
-            ).catch(console.error());
         }
     }
 
