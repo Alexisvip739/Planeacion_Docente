@@ -497,7 +497,8 @@
 /* Teléfonos */
 @media only screen and (max-width: 575px){
     .search-container{
-        width: 100%;
+        margin-left: 4%;
+        margin-right: 4%;
     }
     .search{
         width: 100%;

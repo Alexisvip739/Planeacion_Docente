@@ -56,7 +56,7 @@
         <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
         <h3>${texto}</h3>
         </div>`;
-        var id = setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
+        const id = setTimeout(()=>{document.getElementById('info-modal').remove();},duracion);
         
     }
 
@@ -79,13 +79,22 @@
     async function buscarPlaneacion(){
         var busca = document.getElementById('input-buscar-planeacion').value;
         var contPlan = document.getElementById('container-plan');
+
+        var res = await fetch(ulrObenerPlaneacion+busca);
+        if(res.ok){
+            let js= await res.json();
+            if(js.length==0){
+                mostrarModalMensaje('no se encontraron cosas',800)
+            }
+        }
+
         if( busca != ''){
             fetch(ulrObenerPlaneacion+busca).then(response =>{
                 if(response.ok){
                     response.json().then(data =>{
                         if(data.length == 0){
                             contPlan.innerHTML='';
-                            mostrarModalMensaje('No se enontraron planeaciones',850);
+                            mostrarModalMensaje('No se enontraron planeaciones',850)
                         }
                         contPlan.innerHTML='';
                         for(a in data){
