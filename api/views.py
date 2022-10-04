@@ -88,6 +88,11 @@ class Planeacion_APIView(APIView):
     def get(self, request, titulo):# para obtener las planeaciones por su titulo-------------------------------------------------------------------
         #post = Planeacion.objects.prefetch_related('favorito_set').all().filter(favorito__id_planeacion__titulo__contains=titulo).distinct()
         post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
+
+        if len(post) == 0:
+            #mandamos el error 404 ya que no hay planeaciones con ese titulo
+            raise Http404
+
         #post = Planeacion.objects.prefetch_related('favorito_set').all()
         #.filter(titulo__contains=titulo).
         serializer = PlaneacionSearchListSerializers(post, many=True)

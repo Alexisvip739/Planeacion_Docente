@@ -53,12 +53,15 @@
         var b = document.getElementById('body');
         b.innerHTML+=`
         <div id="info-modal" class="plan-calification">
-        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
         <h3>${texto}</h3>
         </div>`;
+
         const id = setTimeout(()=>{document.getElementById('info-modal').remove();},duracion);
         
     }
+
+   
 
     var fav = false;
 
@@ -80,21 +83,13 @@
         var busca = document.getElementById('input-buscar-planeacion').value;
         var contPlan = document.getElementById('container-plan');
 
-        var res = await fetch(ulrObenerPlaneacion+busca);
-        if(res.ok){
-            let js= await res.json();
-            if(js.length==0){
-                mostrarModalMensaje('no se encontraron cosas',800)
-            }
-        }
-
         if( busca != ''){
-            fetch(ulrObenerPlaneacion+busca).then(response =>{
+            var resul = fetch(ulrObenerPlaneacion+busca).then(response =>{
                 if(response.ok){
                     response.json().then(data =>{
                         if(data.length == 0){
                             contPlan.innerHTML='';
-                            mostrarModalMensaje('No se enontraron planeaciones',850)
+                            //mostrarModalMensaje('No se enontraron planeaciones',850)
                         }
                         contPlan.innerHTML='';
                         for(a in data){
@@ -188,8 +183,20 @@
                         `;
                         }
                     }).catch(console.error());
+                }else{
+                    console.log('eror 404')
                 }
             });
+            console.log(resul)
+            resul.then(
+                function(object){
+                    console.log('siii'+object);
+                },
+                function(error){
+                    console.log('nooo'+error)
+                }
+                
+            ).catch(console.error());
         }
     }
 
@@ -306,6 +313,9 @@
         </div>
         </div>`;
     }
+
+
+   
 
 </script>
 
