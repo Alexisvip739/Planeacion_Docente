@@ -91,8 +91,10 @@ def registrar_usuario(request):
             return redirect('docentes:index')
         return render(request,'docentes/registro_usuario.html',{})
     elif request.method == 'POST':
-        if request.POST['password'] == request.POST['password2']:
+        if request.POST['username']=='' or request.POST['email']=='' or request.POST['password']=='' or request.POST['password2']=='':
+            return render(request,'docentes/registro_usuario.html',{'campoERROR':'los campos no estan completados'})
+        if request.POST['password'] == request.POST['password2'] or request.POST['password2']==request.POST['password']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
-        elif request.POST['password'] != request.POST['password2']:
+        elif request.POST['password'] != request.POST['password2'] or request.POST['password2']!=request.POST['password']:
             return render(request,'docentes/registro_usuario.html',{'mensajeError':'contrasena no valida'})
         return redirect('docentes:login')
