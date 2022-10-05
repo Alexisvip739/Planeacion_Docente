@@ -1,4 +1,5 @@
 {% extends 'base_html.html' %}
+{% extends 'base_html.html' %}
 {% load static%}
 
 {% block head %}
@@ -14,12 +15,26 @@
 
     <form class="login" method="POST">
         {% csrf_token %}
+
+
+        
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
-        <h3>actualizar correo</h3>
+        <h3>Actualizar correo</h3>
         <input type="email" name="email" placeholder="{{user.email}}">
-        <h3>actualizar nombre de usuario</h3>
+        <h3>Actualizar nombre de usuario</h3>
         <input type="username" name="name" placeholder={{user.username}}>
         <button class="login-button" type="submit">Cambiar</button>
+
+        {% if noUser %}
+        <p style="color:red">{{noUser}}</p>
+
+        {% endif %}        
+        {% if noAcualizado %}
+        <p style="color:red">{{noAcualizado}}</p>
+        {% endif %}
+        
+        
+       
 
     </form>
 {% endblock %}

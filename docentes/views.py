@@ -34,16 +34,16 @@ def actualizarPassword(request):
         password1=request.POST['password1']
         password2=request.POST['password2']
         user=User.objects.get(id=request.user.id)
-        print(user.password)
-        if password1 == password2:
+        if password1 == password2 and password1!='' or password2!='':
             user.set_password(password1)
             user.save()
             logout(request)
             return redirect('docentes:login')
-        elif password1!=password2 or password2!=password1:
-            return render(request,'docentes/actualizacion_password.html',{'mensajeError':'Una de las contrasenas no es valida'})
-        
-           
+        if password1!=password2 or password2!=password1:
+            return render(request,'docentes/actualizacion_password.html',{'mensajeError1':'Una de las contrasenas no es valida'})
+        if password1=='' and password2!='' or  password1!='' and password2=='':
+            return render(request,'docentes/actualizacion_password.html',{'mensajeError2':'La contrasena no esta asignada'})
+ 
 
     return render(request,'docentes/actualizacion_password.html',{})
     
@@ -53,13 +53,25 @@ def actualizarUsuario(request):
         email = request.POST['email']
         name = request.POST['name']
         user = User.objects.get(id=request.user.id)
-
+        allUser=User.objects.all()
+        for user_ahutenticate in allUser:
+            if user_ahutenticate.username==request.POST['name']:
+                return render(request,'docentes/actualizacion_informacion.html',{'noUser':'Usuario ya existente'})
+        if email=='' and name!='':
+            user.username=name
+            user.save()
+            return render(request,'docentes/index.html',{})
+        elif email!='' and name=='':
+            user.email=email
+            user.save()
+            return render(request,'docentes/index.html',{})
+        elif  email=='' and name=='':
+            return render(request,'docentes/actualizacion_informacion.html',{'noAcualizado':'No se actualiza ningun dato'})
         if len(name)!=0 and len(email)!=0:
             user.username = name
             user.email = email
             user.save()
             return render(request,'docentes/index.html',{})
-
     return render(request,'docentes/actualizacion_informacion.html',{'mensajeError' : 'Rellene los campos para hacer el cambio'})
     
 #para logiar al usuario
@@ -86,15 +98,28 @@ def cerrar_sesion(request):
 #para registrar un usuario nuevo
 
 def registrar_usuario(request):
+    
+
     if request.method == 'GET':
         if request.user.is_authenticated:
             return redirect('docentes:index')
-        return render(request,'docentes/registro_usuario.html',{})
+        return render(request,'docentes/registro_usuario.html',{})     
     elif request.method == 'POST':
+        allUser=User.objects.all()
+        for user_ahutenticate in allUser:
+            if user_ahutenticate.username==request.POST['username']:
+                return render(request,'docentes/registro_usuario.html',{'noUser':'Usuario ya existente'})
+
+        if request.POST['username']=='' and request.POST['email']=='' and request.POST['password']=='' and request.POST['password2']=='':
+            return render(request,'docentes/registro_usuario.html',{'noregistrado':'Los campos no estan completados'})
+        
         if request.POST['username']=='' or request.POST['email']=='' or request.POST['password']=='' or request.POST['password2']=='':
-            return render(request,'docentes/registro_usuario.html',{'campoERROR':'los campos no estan completados'})
+            return render(request,'docentes/registro_usuario.html',{'mensajeError':'Los campos no estan completados'})
+        
+        
         if request.POST['password'] == request.POST['password2'] or request.POST['password2']==request.POST['password']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
+        
         elif request.POST['password'] != request.POST['password2'] or request.POST['password2']!=request.POST['password']:
-            return render(request,'docentes/registro_usuario.html',{'mensajeError':'contrasena no valida'})
+            return render(request,'docentes/registro_usuario.html',{'mensajeError':'Contrasena no valida'})
         return redirect('docentes:login')

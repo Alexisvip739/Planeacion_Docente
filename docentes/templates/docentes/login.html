@@ -27,6 +27,10 @@
         {%if mensajeError%}
             <p class="text-user-login">Usuario no existente</p>
         {%endif%}
+
+        {% if no_user %}
+            <p style="color:red">{{no_user}}</p>
+        {% endif %}
         
     </form>
 {% endblock %}

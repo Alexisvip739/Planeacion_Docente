@@ -23,12 +23,23 @@
     <input class="login-button" type="submit" value="Registrarme">
     <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
+    {% if noregistrado %}
+        <p style="color:red">{{noregistrado}}</p>
+    {% endif %}
+
+    
     {% if campoERROR %}
-        <p>Campos no completados</p>
+        <p style="color:red">Campos no completados</p>
     {% endif %}
     
     {% if mensajeError %}
-        <p>Password no considen</p>    
+        <p style="color:red">Password no considen</p>    
     {% endif %}
+
+    {% if noUser %}
+            <p style="color:red">{{noUser}}</p>
+    {% endif %}
+
+   
 </form>
 {% endblock %}
