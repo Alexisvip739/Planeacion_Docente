@@ -24,7 +24,7 @@
         <!--  Contenedor de planeacion -->
     <div id='container-plan' class="plan-search-container">
 
-        
+   
 
     </div><!--fin el contenedor de planeacion-->
 
@@ -82,7 +82,7 @@
     async function buscarPlaneacion(){
         var busca = document.getElementById('input-buscar-planeacion').value;
         var contPlan = document.getElementById('container-plan');
-
+        
         if( busca != ''){
             var resul = fetch(ulrObenerPlaneacion+busca).then(response =>{
                 if(response.ok){
@@ -119,7 +119,7 @@
                         <div class="plan border-bottom">
                             <div>
                                 <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
+                                <hmostrarModalMensaje('No se enontraron planeaciones',850);3>${data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
@@ -183,7 +183,8 @@
                         `;
                         }
                     }).catch(console.error());
-                }else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
+                }
+                else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
                     contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
                     mostrarModalMensaje('No se enontraron planeaciones',850);
                 }
