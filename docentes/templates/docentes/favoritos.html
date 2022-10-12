@@ -60,11 +60,11 @@
                                 </div>
                                 <div id="info-actividad-${lista[a].id}" class="body-activities">
                                         <h3>Fecha inicio</h3>
-                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
                                         <h3>Titulo</h3>
-                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}" readonly>
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}">
+                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}" readonly>
                                 </div>
                             </div>`;
                         }
@@ -180,19 +180,19 @@
                         </div>
                         <div id="plan-info-${data[a].id_planeacion.id}" class="plan-info">
                             <h3>Tema</h3>
-                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].id_planeacion.tema}">
+                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].id_planeacion.tema}" readonly>
                             <h3>Grado</h3>
-                            <input type="number" name="" id="" placeholder="Grado" value="${data[a].id_planeacion.grado}">
+                            <input type="number" name="" id="" placeholder="Grado" value="${data[a].id_planeacion.grado}" readonly>
                             <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
                             <h3>Fecha finalización</h3>
-                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}" readonly>
                             <h2>Actividades</h2>
                 
                             <div id="container-activities-${data[a].id_planeacion.id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}">
+                            <input type="text" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}" readonly>
                 
                         </div>
                 
