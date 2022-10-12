@@ -168,8 +168,8 @@
                             </div>
                             <div>
                                 <div class="plan-star">
-                                    <h3>5</h3>
-                                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                    <h3 class="display-none">5</h3>
+                                    <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
                                 </div>
                                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id_planeacion.id},this)">
                             </div>
@@ -196,9 +196,9 @@
                 
                         </div>
                 
-                        <div class="plan-coment">
+                        <div class="plan-coment mt2 mb2">
                             <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id_planeacion.id},this)" >
-                            <h3 onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
+                            <h3 class="display-none" onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id_planeacion.id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id_planeacion.id},this)">
                         </div>
                 

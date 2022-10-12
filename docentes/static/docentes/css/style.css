@@ -1,5 +1,7 @@
-
-
+/* ponemos el tipo de letra para todas las partes iguales ya que es la misma*/
+*{
+    font-family: 'Roboto', sans-serif;
+}
 
 /* estilos para el login*/
 .login{
@@ -181,7 +183,8 @@
 .plan-coment{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    /*justify-content: space-around; <-- para cuando se vean los comentarios*/
+    justify-content: flex-start;
     background: var(--white);
     padding-left: 5%;
     padding-right: 5%;
@@ -361,7 +364,10 @@
 
 /*  para el contenedor de las planeaciones favoritas */
 .plan-favoritos-container{
-    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
     font-family: 'Roboto', sans-serif;
     left: 0;
     right: 0;
@@ -402,6 +408,8 @@
     font-size: var(--fuente);
 }
 .button-bottom-succes{
+    display: flex;
+    justify-content: center;
     background:var(--amarillo) !important;
     color: var(--text-color-2) !important;
     font-size: var(--fuente);
@@ -469,6 +477,12 @@
 
 .w-min-content{
     width: min-content;
+}
+.mt2{
+    margin-top: 2%;
+}
+.mb2{
+    margin-bottom: 2%;
 }
 
 /* Escritorio extra grande */

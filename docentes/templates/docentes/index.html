@@ -123,8 +123,8 @@
                             </div>
                             <div>
                                 <div class="plan-star">
-                                    <h3>5</h3>
-                                    <img class="iconStar" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                    <h3 class="display-none">5</h3>
+                                    <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
                                 </div>
                                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id},this)">
                             </div>
@@ -135,25 +135,25 @@
                         </div>
                         <div id="plan-info-${data[a].id}" class="plan-info">
                             <h3>Tema</h3>
-                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].tema}">
+                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].tema}" readonly>
                             <h3>Grado</h3>
-                            <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}">
+                            <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}" readonly>
                             <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
                             <h3>Fecha finalización</h3>
-                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}" readonly>
                             <h2>Actividades</h2>
                 
                             <div id="container-activities-${data[a].id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}">
+                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}" readonly>
                 
                         </div>
                 
-                        <div class="plan-coment">
+                        <div class="plan-coment mt2 mb2">
                             <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id},this)" >
-                            <h3 onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
+                            <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
                         </div>
                 
@@ -224,11 +224,11 @@
                                 </div>
                                 <div id="info-actividad-${lista[a].id}" class="body-activities">
                                         <h3>Fecha inicio</h3>
-                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}">
+                                        <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
                                         <h3>Titulo</h3>
-                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}" readonly>
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}">
+                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}" readonly>
                                 </div>
                             </div>`;
                         }

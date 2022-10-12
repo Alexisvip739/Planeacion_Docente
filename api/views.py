@@ -87,7 +87,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
 #para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]#para que cualquiera pueda encontrar una planeacion sin logearse
+    permission_classes = [permissions.AllowAny]#para que cualquiera pueda encontrar una planeacion sin logearse
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
