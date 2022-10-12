@@ -26,6 +26,12 @@ class PlaneacionFullSerializer(serializers.ModelSerializer):
         model = Planeacion
         fields ='__all__'
 
+#para cuando se agrega una planeacion
+class PlaneacionPostInicial(serializers.ModelSerializer):
+    class Meta:
+        model = Planeacion
+        exclude = ('finalizada','observaciones', )
+
         
 class ActividadSerializer(serializers.ModelSerializer):
     class Meta:

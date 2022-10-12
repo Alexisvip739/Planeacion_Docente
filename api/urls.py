@@ -10,6 +10,7 @@ from docentes import views
 app_name = 'api'
 urlpatterns = [
 
+    path('obtenerPlaneacion',v.Planeacion_APIView.as_view(),name='obtenerPlaneacion11'),
     path('obtenerPlaneacion/<str:titulo>',v.Planeacion_APIView.as_view(),name='obtenerPlaneacion'), #para obtener las planeaciones por un titulo dado por el usuario
 
      path('obtenerPlaneacionUsuario',v.PlaneacionListViewUser.as_view(),name='obtenerPlaneacionUsuario'), #para obtener las planeaciones de un usuario 

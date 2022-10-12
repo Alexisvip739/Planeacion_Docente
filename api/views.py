@@ -78,9 +78,17 @@ class PlaneacionListViewUser(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 #para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]#para que cualquiera pueda encontrar una planeacion sin logearse
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSearchListSerializers(post, many=True)
@@ -99,8 +107,8 @@ class Planeacion_APIView(APIView):
         
         return Response(serializer.data)
     
-    def post(self, request, format=None):
-        serializer = PlaneacionSearchListSerializers(data=request.data)
+    def post(self, request, format=None):#para agregar planeaciones ---------------------------------------------------POST
+        serializer = PlaneacionPostInicial(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -109,10 +117,12 @@ class Planeacion_APIView(APIView):
 
 #para obtener la lista de planeaciones favoritas de cada usuario---------------------------------------------
 class FavoritoListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None, *args, **kwargs):
         post = Favorito.objects.all()
         serializer = FavoritoListSerielizers(post, many=True)
     def get(self,request):
+        print('hola:',request.user)
         post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
         serializer = FavoritoListSerielizers(post, many=True)
         return Response(serializer.data)
