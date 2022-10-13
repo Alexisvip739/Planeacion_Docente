@@ -91,8 +91,8 @@
                             <div id="container-activitie-${lista[a].id}" class="container-activitie">
                                 <div class="head-activities">
                                     <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
-                                    <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
-                                    <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
+                                    <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
+                                    <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
                                     <input id="info-act-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
                 
                                 </div>
@@ -211,9 +211,9 @@
             </div>
             <div>
                 <div class="plan-star">
-                    <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
+                    <img title="Borrar planeación" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
-                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
+                <img title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
                 <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
             </div>
         </div>
@@ -357,8 +357,8 @@
                 <div id="container-activitie-${lista[0].id}" class="container-activitie">
                     <div class="head-activities">
                         <h3 id="info-act-titulo-principal-${lista[0].id}">${lista[0].titulo} ${dias[f1.getDay()]}</h3>
-                        <img class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[0].id},this)">
-                        <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[0].id},this)">
+                        <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[0].id},this)">
+                        <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[0].id},this)">
                         <input class="check-box" type="checkbox" ${lista[0].finalizada==true?'checked':'unchecked'}>
     
                     </div>
