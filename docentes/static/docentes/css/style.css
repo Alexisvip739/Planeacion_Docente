@@ -333,6 +333,8 @@
 }
 
 .plan-calification{
+    width: 350px;
+    height: fit-content;
     position: fixed;
     left: 0;
     right: 0;
@@ -342,8 +344,6 @@
     display: flex;
     flex-direction: column;
     background: var(--fondo2);
-    width: fit-content;
-    height: fit-content;
     border-radius: var(--redondo1);
     padding: 2%;
     font-family: 'Roboto', sans-serif;
@@ -362,6 +362,8 @@
     align-self: center;
     text-align: center;
     color:var(--fondo);
+    margin-top:2%;
+    margin-bottom: 2%;
 }
 
 /* fin del estilo para la planeacion */ 
@@ -523,6 +525,9 @@
     }
     .search input{
         width: inherit;
+    }
+    .plan-search-container{
+        width: 100%;
     }
 
     .item-plan{
