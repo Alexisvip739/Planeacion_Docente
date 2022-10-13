@@ -358,6 +358,11 @@
     align-self:center;
     text-align: center;
 }
+.plan-calification a{
+    align-self: center;
+    text-align: center;
+    color:var(--fondo);
+}
 
 /* fin del estilo para la planeacion */ 
 
@@ -523,6 +528,10 @@
     .item-plan{
         width: 94%;
         margin: 3%;
+    }
+    .plan-calification{
+        width: 80%;
+        padding:5%;
     }
     
 }

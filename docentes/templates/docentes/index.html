@@ -60,6 +60,21 @@
         const id = setTimeout(()=>{document.getElementById('info-modal').remove();},duracion);
         
     }
+     /** para mostrar un modal en la pantalla que tiene un link de registro o login (texto= texto a mostrar duracion=duracion del modal en milisegundos)
+    */
+    function mostrarModalMensajeRegistro(texto,duracion){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="plan-calification">
+        <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <h3>${texto}</h3>
+        <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
+        <a href="{% url 'docentes:registrar_usuario' %}">Registrarme</a>
+        </div>`;
+
+        const id = setTimeout(()=>{document.getElementById('info-modal').remove();},duracion);
+        
+    }
 
    
 
@@ -152,7 +167,7 @@
                         </div>
                 
                         <div class="plan-coment mt2 mb2">
-                            <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id},this)" >
+                            <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="darLike(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
                             <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
                         </div>
