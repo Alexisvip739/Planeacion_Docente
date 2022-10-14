@@ -30,6 +30,44 @@
     //url para la api
     var urlObtenerFavoritos = '{% url 'api:obtenerFavoritos' %}';
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
+    var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
+
+
+    /**
+    este metodo agrega una planeacion usando el id de la planeacion
+    */
+    async function agregarFavorito(id,li){
+        if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos NO TIENE LIKE
+            var data = {
+                id_usuario:'{{user.id}}',
+                id_planeacion: String(id)
+                };
+            fetch(urlFavorito,{
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(response =>{
+                if(response.ok){// la peticion fue exitosa
+                    li.src = likeOn;// like off like amarillo
+                }
+              }).catch(error => console.error('Error:', error))
+        }else{//si no tiene like entonces vamos a borrar el like
+            fetch(urlFavorito+'/'+id,{
+                method: 'DELETE', // or 'PUT'
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(response =>{
+                if(response.ok){// la peticion fue exitosa
+                    li.src = likeOff;// like off like gris
+                }
+              }).catch(error => console.error('Error:', error));
+        }
+    }
 
     async function desplegarPlan(id,slide){
         var pl = document.getElementById('plan-info-'+id);
@@ -207,7 +245,7 @@
                         </div>
                 
                         <div class="plan-coment mt2 mb2">
-                            <img src="${favIcon}" alt="icono de like" onclick="darLike(${data[a].id_planeacion.id},this)" >
+                            <img src="${favIcon}" alt="icono de like" onclick="agregarFavorito(${data[a].id_planeacion.id},this)" >
                             <h3 class="display-none" onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id_planeacion.id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id_planeacion.id},this)">
                         </div>

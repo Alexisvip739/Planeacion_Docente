@@ -82,12 +82,11 @@
                   'Content-Type': 'application/json',
                   'Authorization':localStorage.getItem('token'),
                 }
-              }).then(res => res.json())
-              .catch(error => console.error('Error:', error))
-              .then(response =>{
-                //respuesta con el json que fue agregado con exito
-                li.src = likeOn;// like ON  ponemos el corazon amarillo
-              });
+              }).then(response =>{
+                if(response.ok){// la peticion fue exitosa
+                    li.src = likeOn;// like off like amarillo
+                }
+              }).catch(error => console.error('Error:', error))
         }else{//si no tiene like entonces vamos a borrar el like
             fetch(urlFavorito+'/'+id,{
                 method: 'DELETE', // or 'PUT'
@@ -95,12 +94,11 @@
                   'Content-Type': 'application/json',
                   'Authorization':localStorage.getItem('token'),
                 }
-              }).then(res => res.json())
-              .catch(error => console.error('Error:', error))
-              .then(response =>{
-                //respuesta con el json que fue agregado con exito
-                li.src = likeOff;// like OFF se pone el corazon gris
-              });
+              }).then(response =>{
+                if(response.ok){// la peticion fue exitosa
+                    li.src = likeOff;// like off like gris
+                }
+              }).catch(error => console.error('Error:', error));
         }
     }
      /**
