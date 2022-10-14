@@ -34,6 +34,8 @@
     font-size: var(--fuente);
     margin-bottom: 5px;
     align-self:flex-start;
+    padding-left: 4%;
+    padding-right: 4%;
 }
 .login input{
     border-radius: var(--redondo1);
