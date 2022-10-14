@@ -78,7 +78,12 @@
         var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML.trim() == ''){
             //console.log('siii')
-            fetch(urlObtenerActividades+id).then(response=>{
+            fetch(urlObtenerActividades+id,{
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response=>{
                 if(response.ok){
                     response.json().then(lista=>{
                         
@@ -186,7 +191,12 @@
     async function obtenerPlaneacionUsuario(){
         var planSi = document.getElementById('contenedor-planeaciones-si-terminadas');
         var planNo = document.getElementById('contenedor-planeaciones-no-terminadas');
-        fetch(urlObtenerPlaneacionesUsuario).then(response=>{
+        fetch(urlObtenerPlaneacionesUsuario,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response=>{
             if(response.ok){
                 response.json().then(lista=>{
                     var direccion;
@@ -293,7 +303,12 @@
         var observaciones = document.getElementById('plan-observaciones-'+id).value;
         var finalizacion = document.getElementById('plan-finalizacion-'+id).checked;   
 
-        fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion).then(response =>{
+        fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 document.getElementById('plan-check-'+id).checked = finalizacion;// es el check de la parte superior cambie por el valor de la parte inferior
                 
@@ -306,7 +321,12 @@
     }
 
     function borrarActividad(id,element){
-        fetch(urlBorrarActividad+id).then(response=>{
+        fetch(urlBorrarActividad+id,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response=>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 var actividad = document.getElementById('container-activitie-'+id);
                 actividad.remove();
@@ -325,7 +345,12 @@
         var ch = document.getElementById('info-act-check-'+id).checked;
         var exito = false;
 
-        fetch(urlActualizarActividad+id+','+date2+','+titulo2+','+desc2+','+ch.toString()).then(response =>{
+        fetch(urlActualizarActividad+id+','+date2+','+titulo2+','+desc2+','+ch.toString(),{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
                 var f1= new Date(date2);
@@ -343,7 +368,12 @@
         var date1 = document.getElementById('info-add-date-'+id_plan).value;
         var titulo1 = document.getElementById('info-add-titulo-'+id_plan).value;
         var desc1 = document.getElementById('info-add-descripcion-'+id_plan).value;
-        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1).then(response =>{
+        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response =>{
             mostrarModalMensaje('Actividad agregada con exito',850);
             var btnOK = document.getElementById('boton-agregar-actividad-'+id_plan);
             btnOK.click()

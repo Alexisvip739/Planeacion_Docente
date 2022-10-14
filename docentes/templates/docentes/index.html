@@ -75,7 +75,6 @@
                 id_usuario:'{{user.id}}',
                 id_planeacion: String(id)
                 };
-                console.log(localStorage.getItem('token'))
             fetch(urlFavorito,{
                 method: 'POST', // or 'PUT'
                 body: JSON.stringify(data), // data can be `string` or {object}!
@@ -87,8 +86,9 @@
               .catch(error => console.error('Error:', error))
               .then(response =>{
                 //respuesta con el json que fue agregado con exito
-                console.log(response);
-                li.src = likeOn;// like ON  ponemos el corazon amarillo
+                    if(response.ok){// si la peticion es fue exitosa entonces ponemos el corazon amarillo
+                        li.src = likeOn;// like ON  ponemos el corazon amarillo
+                    }
               });
         }else{
             li.src = likeOff;// like OFF

@@ -125,7 +125,12 @@
     }
 
     async function agregarActividad(id_plan,date1,titulo1,desc1){
-        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1).then(response =>{
+        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente    
 
             }else{
@@ -143,7 +148,12 @@
         var fechaInicio = document.getElementById('plan-fecha-inicio').value;
         var fechaFin = document.getElementById('plan-fecha-fin').value;
         var anonima = document.getElementById('plan-anonima').checked;
-        fetch(urlAgregarPlaneacion+titulo+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima).then(response=>{
+        fetch(urlAgregarPlaneacion+titulo+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response=>{
             if(response.ok){
                 response.json().then(lista =>{
                     var id_planeacion = lista[0].id;

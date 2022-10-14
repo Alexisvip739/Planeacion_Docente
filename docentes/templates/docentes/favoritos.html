@@ -43,7 +43,12 @@
         var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML == ''){
             //console.log('siii')
-            fetch(urlObtenerActividades+id).then(response=>{
+            fetch(urlObtenerActividades+id,{
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response=>{
                 if(response.ok){
                     response.json().then(lista=>{
                         let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
@@ -139,7 +144,12 @@
     Para obtener las planeaciones favoritas
     */
     async function obtenerFavoritos(){
-            fetch(urlObtenerFavoritos).then(response =>{
+            fetch(urlObtenerFavoritos,{
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response =>{
                 if(response.ok){
                     response.json().then(data =>{
                         var contPlan = document.getElementById('plan-favoritos-container');

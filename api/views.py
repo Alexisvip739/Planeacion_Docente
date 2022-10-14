@@ -115,20 +115,6 @@ class Planeacion_APIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#para obtener la lista de planeaciones favoritas de cada usuario---------------------------------------------
-class FavoritoListView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request, format=None, *args, **kwargs):
-        post = Favorito.objects.all()
-        serializer = FavoritoListSerielizers(post, many=True)
-    def get(self,request):
-        print('hola:',request.user)
-        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
-        serializer = FavoritoListSerielizers(post, many=True)
-        return Response(serializer.data)
-
-
-
 
 #para las Planeaciones
 class Planeacion_APIView_Detail(APIView):
@@ -347,6 +333,18 @@ class ActividadAddView(APIView):
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+#para obtener la lista de planeaciones favoritas de cada usuario---------------------------------------------
+class FavoritoListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, format=None, *args, **kwargs):
+        post = Favorito.objects.all()
+        serializer = FavoritoListSerielizers(post, many=True)
+    def get(self,request):
+        #print('hola:',request.user)
+        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
+        serializer = FavoritoListSerielizers(post, many=True)
+        return Response(serializer.data)
 
 
 class FavoritoInserView(APIView):
