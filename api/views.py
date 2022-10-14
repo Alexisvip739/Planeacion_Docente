@@ -88,7 +88,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 #para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
     permission_classes = [permissions.AllowAny]#para que cualquiera pueda encontrar una planeacion sin logearse
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    #authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSearchListSerializers(post, many=True)
@@ -378,6 +378,10 @@ class Favorito_APIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk, format=None):
+        post = self.get_object(pk)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Favorito_APIView_Detail(APIView):
     def get_object(self, pk):

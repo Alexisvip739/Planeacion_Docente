@@ -20,7 +20,7 @@
 
     <nav class="nav"> 
         <div class="nav-icon">
-            <img src="{% static 'icons/logo.svg' %}" alt="logo invernadero" onclick="window.location='{% url 'docentes:index' %}'">
+            <img src="{% static 'icons/logo.svg' %}" alt="logo aplicacion" onclick="window.location='{% url 'docentes:index' %}';">
             <a class="center-ex no-decoration text" href="{% url 'docentes:index' %}">LAPSOFT</a>
         </div>
         <div class="nav-item">
@@ -32,7 +32,7 @@
             <a class="item center-ex no-decoration text" href="{% url 'docentes:favoritos' %}"><img src="{% static 'icons/iconLikeDark.svg' %}" alt="icono favoritos">Favoritos</a>
             <a class="item center-ex no-decoration text" href="{% url 'docentes:misPlaneaciones' %}"><img src="{% static 'icons/iconPlan.svg' %}" alt="icono planeacion">Mis planeaciónes</a>
             <a class="item center-ex no-decoration text" href="{% url 'docentes:perfil' %}"><img src="{% static 'icons/iconUser.svg' %}" alt="icono usuario">{{user.username}}</a>
-            <a class="item center-ex no-decoration text" href="{% url 'docentes:cerrar_sesion' %}">Cerrar sesión</a>
+            <a class="item center-ex no-decoration text cursor-pointer" onclick="cerrarSesion()">Cerrar sesión</a>
             {% endif%}
         </div>
     </nav>
@@ -40,5 +40,14 @@
     {% endblock %}
     {% block body %}
     {% endblock %}
+    <script>
+        /**
+        para cerrar la sesion borrando el token de local storage y redireccionando para que se borre la sesion
+        */
+        function cerrarSesion(){
+            localStorage.clear();//borramos los tokens del navegador
+            window.location.replace('{% url 'docentes:cerrar_sesion' %}');//redireccionamos para que se cierre la sesion
+        }
+    </script>
 </body>
 </html>

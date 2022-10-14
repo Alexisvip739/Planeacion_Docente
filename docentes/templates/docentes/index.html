@@ -38,8 +38,6 @@
     {% if token %}
         localStorage.setItem('token','{{token}}')
     {% endif %}
-   
-    
 
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
@@ -47,6 +45,7 @@
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlObtenerFavorito = '{% url 'api:obtenerFavoritos'  %}';
     var urlInsertarFavorito = '{% url 'api:insertarFavorito'  %}';
+    var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
 
 
     function cerrarModal(){
@@ -64,7 +63,13 @@
         </div>`;
 
         let id = setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
-        
+       
+    }
+    /**
+    este metodo agrega una planeacion usando el id de la planeacion
+    */
+    async function agregarFavorito(id){
+        fetch
     }
      /**
       para mostrar un modal en la pantalla que tiene un link de registro o login (texto= texto a mostrar duracion=duracion del modal en milisegundos)

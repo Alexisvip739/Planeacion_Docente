@@ -476,6 +476,9 @@
 .border-bottom{
     border-radius: 50px 50px 0 0;
 }
+.cursor-pointer{
+    cursor: pointer;
+}
 
 .text-user-login{
     color: red;

@@ -12,7 +12,6 @@ from rest_framework.authtoken.models import Token
 
 #@login_required(login_url='docentes:login')
 def index(request):
-
     return render(request,'docentes/index.html',{})
 
 @login_required(login_url='docentes:login')
@@ -96,7 +95,11 @@ def login_user(request):
             return render(request,'docentes/login.html',{'mensajeError':'Tu usuario o contaseña son invalidos'})
 
 #para cerrar sesion
+@login_required(login_url='docentes:login')  
 def cerrar_sesion(request):
+    u = User.objects.get(id=request.user.id)
+    token = Token.objects.get(user=u.id)#buscamos o creamos el token del usuario
+    token.delete()#borramos el token de sesion
     logout(request)
     return redirect('docentes:login')
 
