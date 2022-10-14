@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import  login_required
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 
@@ -88,7 +89,9 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None: # si si se valido el usuario entonces creamos la sesion
             login(request,user)
-            return redirect('docentes:index')
+            token = Token.objects.get_or_create(user=user)#buscamos o creamos el token del usuario
+            #regresamos el token del usuario
+            return render(request,'docentes/index.html',{'token':'token '+str(token[0])})
         else:# si los datos del usuario no concuerdan mandamos un error
             return render(request,'docentes/login.html',{'mensajeError':'Tu usuario o contaseña son invalidos'})
 

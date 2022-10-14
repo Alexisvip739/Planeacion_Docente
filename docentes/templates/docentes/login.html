@@ -18,9 +18,9 @@
 
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
         <h3>Nombre de usuario</h3>
-        <input name="username" type="text" placeholder="Usuario">
+        <input name="username" type="text" placeholder="Usuario" required>
         <h3>Contraseña</h3>
-        <input name="password" type="password" placeholder="Password">
+        <input name="password" type="password" placeholder="Password" required>
         <input class="login-button" type="submit" value="Iniciar sesión">
         <a href="{% url 'docentes:registrar_usuario' %}">Registrarme</a>
 
