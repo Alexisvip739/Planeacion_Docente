@@ -86,12 +86,21 @@
               .catch(error => console.error('Error:', error))
               .then(response =>{
                 //respuesta con el json que fue agregado con exito
-                    if(response.ok){// si la peticion es fue exitosa entonces ponemos el corazon amarillo
-                        li.src = likeOn;// like ON  ponemos el corazon amarillo
-                    }
+                li.src = likeOn;// like ON  ponemos el corazon amarillo
               });
-        }else{
-            li.src = likeOff;// like OFF
+        }else{//si no tiene like entonces vamos a borrar el like
+            fetch(urlFavorito+'/'+id,{
+                method: 'DELETE', // or 'PUT'
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response =>{
+                //respuesta con el json que fue agregado con exito
+                li.src = likeOff;// like OFF se pone el corazon gris
+              });
         }
     }
      /**

@@ -365,15 +365,19 @@ class FavoritoInserView(APIView):
 #para los favoritos--------------------------------------------------------------------------------------
 class Favorito_APIView(APIView):
     permission_clases = [permissions.IsAuthenticated]
-    def get(self, request, format=None, *args, **kwargs):
-        post = Favorito.objects.all()
-        serializer = FavoritoSerializerAdd(post, many=True)
-        
+    #nota se esta pasando por parametro el id de la planeacion
+    def get_object(self, pk):
+        try:
+            return Favorito.objects.get(id_planeacion=pk)
+        except Favorito.DoesNotExist:
+            raise Http404
+    def get(self, request, pk, format=None):
+        post = self.get_object(pk)
+        serializer = FavoritoSerializerAdd(post)  
         return Response(serializer.data)
 
     def post(self, request, format=None):# aqui vamos a agregar un elemento a favoritos
         serializer = FavoritoSerializerAdd(data=request.data)
-        print('-----------agregando')
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

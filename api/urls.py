@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('obtenerFavorito',v.FavoritoListView.as_view(),name='obtenerFavoritos'),# para obtener la lista de planeaciones favoritas
     path('favoritos',v.Favorito_APIView.as_view(),name='favoritos'),
+    path('favoritos/<str:pk>',v.Favorito_APIView.as_view(),name='favoritos'),
 
     path('obtenerActividades/<str:id>',v.ActividadListView.as_view(),name='obtenerActividades'),# para obtener la lista de actividades de una planeacion
     path('borrarActividad/<str:id>',v.ActividadDeleteView.as_view(),name='borrarActividad'),# para borrar la actividad dada por id

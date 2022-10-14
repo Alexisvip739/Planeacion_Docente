@@ -187,7 +187,7 @@
     flex-direction: row;
     /*justify-content: space-around; <-- para cuando se vean los comentarios*/
     justify-content: flex-start;
-    background: var(--white);
+    /*background: var(--white);*/
     padding-left: 5%;
     padding-right: 5%;
     border-radius: 0 0 50px 50px;
