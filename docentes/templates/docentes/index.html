@@ -33,14 +33,13 @@
 
     
 
-<script>
+<script>   
 
-    console.log('token creado'+{{token}} );
     {% if token %}
-        console.log('token creado'+{{token}} );
-        localStorage.setItem('token',String({{ token }}));
-            
+        localStorage.setItem('token','{{token}}')
     {% endif %}
+   
+    
 
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
