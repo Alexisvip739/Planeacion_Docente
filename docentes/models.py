@@ -55,3 +55,5 @@ class Favorito(models.Model):
     id_usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
     fecha_agregad=models.DateField(auto_now_add=True)
+    def __str__(self) -> str:
+        return str(self.pk)+' '+str(self.id_usuario)+' '+str(self.id_planeacion)

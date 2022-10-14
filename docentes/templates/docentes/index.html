@@ -65,11 +65,34 @@
         let id = setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
        
     }
+    
     /**
     este metodo agrega una planeacion usando el id de la planeacion
     */
-    async function agregarFavorito(id){
-        fetch
+    async function agregarFavorito(id,li){
+        if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos NO TIENE LIKE
+            var data = {
+                id_usuario:'{{user.id}}',
+                id_planeacion: String(id)
+                };
+                console.log(localStorage.getItem('token'))
+            fetch(urlFavorito,{
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response =>{
+                //respuesta con el json que fue agregado con exito
+                console.log(response);
+                li.src = likeOn;// like ON  ponemos el corazon amarillo
+              });
+        }else{
+            li.src = likeOff;// like OFF
+        }
     }
      /**
       para mostrar un modal en la pantalla que tiene un link de registro o login (texto= texto a mostrar duracion=duracion del modal en milisegundos)
@@ -92,7 +115,7 @@
 
     var fav = false;
 
-    async function obtenerFavorito(id){
+    async function obtenerFavorito(id,item){
         return fetch('http://127.0.0.1:8000/api/obtenerFavorito/'+id).then((response1)=>{
             if(response1.ok){
                 return response1.json().then((data1) =>{
@@ -179,7 +202,7 @@
                         </div>
                 
                         <div class="plan-coment mt2 mb2">
-                            <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="darLike(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
+                            <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="agregarFavorito(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
                             <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
                         </div>

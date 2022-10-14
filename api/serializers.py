@@ -16,6 +16,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields =['username']
+class FavoritoSerializerAdd(serializers.ModelSerializer):
+    class Meta:
+        model = Favorito
+        exclude =('fecha_agregad',)
+
 class FavoritoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorito

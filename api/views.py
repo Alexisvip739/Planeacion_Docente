@@ -78,12 +78,12 @@ class PlaneacionListViewUser(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+'''from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
-        return
+        return'''
 
 #para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
@@ -364,20 +364,23 @@ class FavoritoInserView(APIView):
         return Response(status= status.HTTP_200_OK)
         
         
-#para los favoritos
+#para los favoritos--------------------------------------------------------------------------------------
 class Favorito_APIView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
     def get(self, request, format=None, *args, **kwargs):
         post = Favorito.objects.all()
-        serializer = FavoritoSerielizers(post, many=True)
+        serializer = FavoritoSerializerAdd(post, many=True)
         
         return Response(serializer.data)
-    def post(self, request, format=None):# aqui recibiremos los like
-        print('holaaaaaaa--------------')
-        serializer = FavoritoSerielizers(data=request.data)
+
+    def post(self, request, format=None):# aqui vamos a agregar un elemento a favoritos
+        serializer = FavoritoSerializerAdd(data=request.data)
+        print('-----------agregando')
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     def delete(self, request, pk, format=None):
         post = self.get_object(pk)
         post.delete()
