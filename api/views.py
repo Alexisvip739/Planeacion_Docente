@@ -21,6 +21,7 @@ from datetime import datetime
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.authtoken.models import Token
     
 
 # Create your views here.
@@ -78,41 +79,44 @@ class PlaneacionListViewUser(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-'''from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
-
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-
-    def enforce_csrf(self, request):
-        return'''
 
 #para obtener las planeaciones buscadas por titulo
 class Planeacion_APIView(APIView):
     permission_classes = [permissions.AllowAny]#para que cualquiera pueda encontrar una planeacion sin logearse
-    #authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
         serializer = PlaneacionSearchListSerializers(post, many=True)
 
     def get(self, request, titulo):# para obtener las planeaciones por su titulo-------------------------------------------------------------------
-        #post = Planeacion.objects.prefetch_related('favorito_set').all().filter(favorito__id_planeacion__titulo__contains=titulo).distinct()
-        post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
+        if request.auth is not None:# si el usuario esta autenticado entonces
+            token = Token.objects.get(key=request.auth)#obtenemos el objeto token para de ahi obtener el usuario
 
+            listaFavoritos = Favorito.objects.values('id_planeacion').all().filter(id_usuario=token.user.id)#buscamos las planeaciones favoritas del usuario
+            #buscamos las planeaciones favoritas del usuario excluyendo las que aya agreado a favoritos
+            post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio').exclude(id__in=listaFavoritos)
+            #exluimos las planeaciones que tengamos en favoritos
+            if len(post) == 0:
+                #mandamos el error 404 ya que no hay planeaciones con ese titulo
+                raise Http404
+            serializer = PlaneacionSearchListSerializers(post, many=True)
+            return Response(serializer.data)
+        #si el usuario No esta autenticado entonces devolvemos todas las planeaciones 
+        post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
         if len(post) == 0:
             #mandamos el error 404 ya que no hay planeaciones con ese titulo
             raise Http404
-
         #post = Planeacion.objects.prefetch_related('favorito_set').all()
         #.filter(titulo__contains=titulo).
         serializer = PlaneacionSearchListSerializers(post, many=True)
         
         return Response(serializer.data)
     
-    def post(self, request, format=None):#para agregar planeaciones ---------------------------------------------------POST
+    '''def post(self, request, format=None):#para agregar planeaciones ---------------------------------------------------POST
         serializer = PlaneacionPostInicial(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
 
 
 

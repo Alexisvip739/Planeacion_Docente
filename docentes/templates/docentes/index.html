@@ -141,7 +141,12 @@
         var contPlan = document.getElementById('container-plan');
         
         if( busca != ''){
-            var resul = fetch(ulrObenerPlaneacion+busca).then(response =>{
+            var resul = fetch(ulrObenerPlaneacion+busca,{
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(response =>{
                 if(response.ok){
                     response.json().then(data =>{
                         if(data.length == 0){
