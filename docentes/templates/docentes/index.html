@@ -36,7 +36,8 @@
 <script>   
 
     {% if token %}
-        localStorage.setItem('token','{{token}}')
+        localStorage.setItem('token','{{token}}');
+        window.history.pushState('', "", "/");//quitmos el path de login para que solo aparezca el nombre de dominio
     {% endif %}
 
     var likeOff = '{% static 'icons/iconLike.svg' %}';
