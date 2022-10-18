@@ -226,15 +226,13 @@ class PlaneacionAddView(APIView):
 
 #Para clonar una planeacion--------------------------------------------------------------------------------------
 class PlaneacionClonarView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    #nota se esta pasando por parametro el id de la planeacion
-    def get_object(self, pk):
+    permission_clases = [permissions.IsAuthenticated]        
+    
+    def post(self, request, format=None):
         try:
-            return Planeacion.objects.get(id=pk)
+            post = Planeacion.objects.get(id=request.data['id'])
         except Planeacion.DoesNotExist:
             raise Http404
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
         #obtenemos el token para de ahi obtener el usuario
         token = Token.objects.get(key=request.auth)
         
@@ -261,7 +259,6 @@ class PlaneacionClonarView(APIView):
             nuevaActividad.save()#guardamos la actividad
         serializer = FavoritoSerializerAdd(post)  
         return Response(status=status.HTTP_201_CREATED)
-
 
 #para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
 class ActividadListView(APIView):
