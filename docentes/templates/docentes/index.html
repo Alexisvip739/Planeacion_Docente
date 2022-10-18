@@ -46,6 +46,11 @@
     var urlObtenerFavorito = '{% url 'api:obtenerFavoritos'  %}';
     var urlInsertarFavorito = '{% url 'api:insertarFavorito'  %}';
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
+    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' 1 %}'.replace('1','');//para clonar una planeacion
+
+
+
+
 
 
     function cerrarModal(){
@@ -64,6 +69,33 @@
 
         let id = setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
        
+    }
+     /**
+    Este metodo clona una planeacion dada por el id de la planeacion
+    */
+    async function clonarPlaneacion(id){
+        document.getElementById('info-modal').remove();
+        fetch(urlClonarPlaneacion+id,{
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization':localStorage.getItem('token'),
+            }
+          }).then(response =>{
+            if(response.ok){// la peticion fue exitosa
+                mostrarModalMensaje("Clonada con exito",950);
+            }
+          }).catch(error => console.error('Error:', error))
+    }
+    /** para mostrar un modal para la clonacion de las planeaciones
+    */
+    function mostrarModalClonacion(id){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="modal-clonacion">
+            <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+            <h3>¿Seguro que quieres clonar esta planeacion?</h3>
+            <button onclick="clonarPlaneacion(${id})">Clonar</button>
+        </div>`;
     }
     
     /**
@@ -187,6 +219,7 @@
                                 <div class="plan-star">
                                     <h3 class="display-none">5</h3>
                                     <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                    <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" onclick="mostrarModalClonacion(${data[a].id})">
                                 </div>
                                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id},this)">
                             </div>

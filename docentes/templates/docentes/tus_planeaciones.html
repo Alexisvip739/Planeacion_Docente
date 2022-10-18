@@ -413,7 +413,12 @@
     }
 
     function borrarPlaneacion(id,element){
-        fetch(urlBorrarPlaneacion+id).then(response=>{
+        fetch(urlBorrarPlaneacion+id,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
+              }
+        }).then(response=>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 var actividad = document.getElementById('contenedor-plan-'+id);
                 actividad.remove();

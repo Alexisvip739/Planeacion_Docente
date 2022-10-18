@@ -19,6 +19,7 @@ urlpatterns = [
     path('actualizarPlaneacion/<str:id>',v.PlaneacionUpdateView.as_view(),name='actualizarPlaneacion'),# para actualizar la planeacion
     path('borrarPlaneacion/<str:id>',v.PlaneacionDeleteView.as_view(),name='borrarPlaneacion'),# para borrar una planeacion
     path('agregarPlaneacion/<str:id>',v.PlaneacionAddView.as_view(),name='agregarPlaneacion'),# para borrar la actividad dada por id
+     path('clonarPlaneacion/<str:pk>',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),#para clonar una planeacion
 
 
     path('obtenerFavorito',v.FavoritoListView.as_view(),name='obtenerFavoritos'),# para obtener la lista de planeaciones favoritas

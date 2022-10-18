@@ -334,6 +334,42 @@
     transition-duration: 300ms;
 }
 
+.modal-clonacion{
+    width: 350px;
+    height: fit-content;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom:0;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--fondo2);
+    border-radius: var(--redondo1);
+    font-family: 'Roboto', sans-serif;
+    font-size: var(--fuente);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+}
+.modal-clonacion img{
+    width: 30px;
+    align-self: flex-end;
+    padding: 5%;
+}
+.modal-clonacion h3{
+    align-self:center;
+    text-align: center;
+}
+.modal-clonacion button{
+    border-radius: 0px 0px var(--redondo1) var(--redondo1);
+    background:var(--amarillo);
+    font-size: var(--fuente);
+    width: 100%;
+    outline: none;
+    border-color: transparent;
+    padding: 5px;
+}
+
 .plan-calification{
     width: 350px;
     height: fit-content;

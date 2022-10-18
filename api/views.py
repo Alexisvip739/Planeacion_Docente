@@ -1,5 +1,6 @@
 from curses.ascii import NUL
 from nis import cat
+from sys import *
 from urllib import request
 from xmlrpc.client import Boolean
 from django.shortcuts import render
@@ -22,7 +23,8 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
-    
+import copy
+
 
 # Create your views here.
 class Customer_APIView(APIView):
@@ -222,7 +224,43 @@ class PlaneacionAddView(APIView):
         return Response(serializer.data)
 
 
-
+#Para clonar una planeacion--------------------------------------------------------------------------------------
+class PlaneacionClonarView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    #nota se esta pasando por parametro el id de la planeacion
+    def get_object(self, pk):
+        try:
+            return Planeacion.objects.get(id=pk)
+        except Planeacion.DoesNotExist:
+            raise Http404
+    def get(self, request, pk, format=None):
+        post = self.get_object(pk)
+        #obtenemos el token para de ahi obtener el usuario
+        token = Token.objects.get(key=request.auth)
+        
+        #clonamos la planeacion
+        plan = Planeacion()
+        plan.grado = post.grado
+        plan.fecha_de_finalizacion = post.fecha_de_finalizacion
+        plan.titulo = 'Copia-'+post.titulo
+        plan.tema = post.tema
+        plan.fecha_de_inicio = post.fecha_de_inicio
+        plan.anonima = post.anonima
+        plan.finalizada = post.finalizada
+        plan.observaciones = post.observaciones
+        plan.id_usuario = token.user
+        plan.save()#guardamos la nueva planeacion
+        listaActividades = Actividad.objects.all().filter(id_planeacion=post.id)#obtenemos la lista de actividades para luego copiarlas
+        for a in listaActividades:
+            nuevaActividad = Actividad()
+            nuevaActividad.id_planeacion = plan
+            nuevaActividad.titulo = a.titulo
+            nuevaActividad.fecha_de_inicio = a.fecha_de_inicio
+            nuevaActividad.descripcion = a.descripcion
+            nuevaActividad.finalizada = a.finalizada
+            nuevaActividad.save()#guardamos la actividad
+        serializer = FavoritoSerializerAdd(post)  
+        return Response(status=status.HTTP_201_CREATED)
 
 
 #para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
