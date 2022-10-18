@@ -34,11 +34,11 @@
             <a class="center-ex no-decoration text" href="{% url 'docentes:login' %}">Iniciar sesion</a>
             <a class="center-ex no-decoration text" href="{% url 'docentes:registrar_usuario' %}">Registrarse</a>
             {% else%}
-            <a class="item center-ex no-decoration text text-crear" href="{% url 'docentes:crearPlaneacion' %}"><img src="{% static 'icons/create.png' %}" alt="icono planeacion"></a>
-            <a class="item center-ex no-decoration text text-favoritos" href="{% url 'docentes:favoritos' %}"><img src="{% static 'icons/iconLikeDark.svg' %}" alt="icono favoritos"></a>
-            <a class="item center-ex no-decoration text text-mis-planeaciones" href="{% url 'docentes:misPlaneaciones' %}"><img src="{% static 'icons/iconPlan.svg' %}" alt="icono planeacion"></a>
-            <a class="item center-ex no-decoration text text-user" href="{% url 'docentes:perfil' %}"><img src="{% static 'icons/iconUser.svg' %}" alt="icono usuario"></a>
-            <a class="item center-ex no-decoration text cursor-pointer text-cerrar-sesion" onclick="cerrarSesion()"></a>
+            <a title="Crear planeación" class="item center-ex no-decoration text text-crear" href="{% url 'docentes:crearPlaneacion' %}"><img src="{% static 'icons/create.png' %}" alt="icono planeacion"></a>
+            <a title="Favoritos" class="item center-ex no-decoration text text-favoritos" href="{% url 'docentes:favoritos' %}"><img src="{% static 'icons/iconLikeDark.svg' %}" alt="icono favoritos"></a>
+            <a title="Mis planeaciones" class="item center-ex no-decoration text text-mis-planeaciones" href="{% url 'docentes:misPlaneaciones' %}"><img src="{% static 'icons/iconPlan.svg' %}" alt="icono planeacion"></a>
+            <a title="Perfil" class="item center-ex no-decoration text text-user" href="{% url 'docentes:perfil' %}"><img src="{% static 'icons/iconUser.svg' %}" alt="icono usuario"></a>
+            <a title="Cerrar sesión" class="item center-ex no-decoration text cursor-pointer text-cerrar-sesion" onclick="cerrarSesion()"></a>
             {% endif%}
         </div>
     </nav>
