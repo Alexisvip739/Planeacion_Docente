@@ -144,6 +144,9 @@
     margin: 1%;
     height: fit-content;
 }
+.plan div h3{
+    overflow-wrap: anywhere;
+}
 
 .plan{
     background: var(--fondo2);
@@ -151,6 +154,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     border-radius: 50px;
     padding: 15px;
     
@@ -166,13 +170,19 @@
 .plan-star{
     margin-right: 10px;
 }
+.plan-star img{
+    margin-left: 6px;
+    margin-right: 6px;
+}
 
 .plan-star h3{
     font-size: var(--fuente);
     font-family: 'Roboto', sans-serif;
     margin-right: 5px;
     margin-left: 10px;
+    overflow-wrap: anywhere;
 }
+
 .plan-title{
     background:var(--fondo2);
     padding-left: 5%;
@@ -180,6 +190,7 @@
 }
 .plan-title h2,.plan-title h3{
     margin:0;
+    overflow-wrap: anywhere;
 }
 
 .plan-coment{
@@ -197,6 +208,8 @@
 }
 .iconStar{
     width: 30px !important;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .plan-info{
@@ -212,6 +225,7 @@
     padding-right: 5%;
     margin-bottom: 0;
     font-family: 'Roboto', sans-serif;
+    overflow-wrap: anywhere;
 }
 .plan-info input{
     width: auto;
@@ -226,6 +240,7 @@
 }
 .plan-info h2{
     text-align: center;
+    overflow-wrap: anywhere;
 }
 .plan-info-icon{
     width: 130px;
@@ -489,6 +504,9 @@
     display: flex;
     flex-direction: column;
 }
+.display-colum h2,.display-colum h3{
+    overflow-wrap: anywhere;
+}
 .display-colum h3{
     margin: 0;
 }
@@ -569,6 +587,9 @@
     }
     .plan-search-container{
         width: 100%;
+    }
+    .plan-container{
+        width: 90%;
     }
 
     .item-plan{
