@@ -143,6 +143,7 @@
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
     margin: 1%;
     height: fit-content;
+    width: 400px;
 }
 .plan div h3{
     overflow-wrap: anywhere;
@@ -552,15 +553,11 @@
 
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){
-    .item-plan{
-        width: 400px;
-    }
+
 }
 /* Escritorio grande */
 @media only screen and (min-width: 992px) and (max-width: 1199px){
-    .item-plan{
-        width: 300px;
-    }
+
 }
 
 /* Escritorio pequeño / tablet */
@@ -570,7 +567,9 @@
 
 /* Tablets y phablets */
 @media only screen and (min-width: 576px) and (max-width: 767px){
-
+    .item-plan{
+        width: 400px;
+    }
 }
 
 /* Teléfonos */

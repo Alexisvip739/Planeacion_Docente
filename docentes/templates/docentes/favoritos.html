@@ -31,8 +31,53 @@
     var urlObtenerFavoritos = '{% url 'api:obtenerFavoritos' %}';
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
+    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' 1 %}'.replace('1','');//para clonar una planeacion
 
 
+    function cerrarModal(){
+        var modal = document.getElementById('info-modal');
+        modal.remove();
+    }
+    /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
+    */
+    function mostrarModalMensaje(texto,duracion){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="plan-calification">
+        <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+        <h3>${texto}</h3>
+        </div>`;
+
+        let id = setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
+       
+    }
+    /**
+    Este metodo clona una planeacion dada por el id de la planeacion
+    */
+    async function clonarPlaneacion(id){
+        document.getElementById('info-modal').remove();
+        fetch(urlClonarPlaneacion+id,{
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization':localStorage.getItem('token'),
+            }
+          }).then(response =>{
+            if(response.ok){// la peticion fue exitosa
+                mostrarModalMensaje("Clonada con exito",950);
+            }
+          }).catch(error => console.error('Error:', error))
+    }
+    /** para mostrar un modal para la clonacion de las planeaciones
+    */
+    function mostrarModalClonacion(id){
+        var b = document.getElementById('body');
+        b.innerHTML+=`
+        <div id="info-modal" class="modal-clonacion">
+            <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
+            <h3>¿Seguro que quieres clonar esta planeacion?</h3>
+            <button onclick="clonarPlaneacion(${id})">Clonar</button>
+        </div>`;
+    }
     /**
     este metodo agrega una planeacion usando el id de la planeacion
     */
@@ -218,6 +263,7 @@
                                 <div class="plan-star">
                                     <h3 class="display-none">5</h3>
                                     <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                    <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id_planeacion.id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
                                 </div>
                                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id_planeacion.id},this)">
                             </div>
