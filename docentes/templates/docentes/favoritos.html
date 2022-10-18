@@ -31,7 +31,7 @@
     var urlObtenerFavoritos = '{% url 'api:obtenerFavoritos' %}';
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
-    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' 1 %}'.replace('1','');//para clonar una planeacion
+    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';;//para clonar una planeacion
 
 
     function cerrarModal(){
@@ -54,9 +54,14 @@
     /**
     Este metodo clona una planeacion dada por el id de la planeacion
     */
-    async function clonarPlaneacion(id){
+    async function clonarPlaneacion(id_plan){
         document.getElementById('info-modal').remove();
-        fetch(urlClonarPlaneacion+id,{
+        var data = {
+            id:id_plan
+            };
+        fetch(urlClonarPlaneacion,{
+            method:'POST',
+            body: JSON.stringify(data), // data can be `string` or {object}!
             headers:{
               'Content-Type': 'application/json',
               'Authorization':localStorage.getItem('token'),
@@ -65,7 +70,7 @@
             if(response.ok){// la peticion fue exitosa
                 mostrarModalMensaje("Clonada con exito",950);
             }
-          }).catch(error => console.error('Error:', error))
+          }).catch(error => console.error('Error:', error));
     }
     /** para mostrar un modal para la clonacion de las planeaciones
     */
