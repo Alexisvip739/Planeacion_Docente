@@ -219,7 +219,7 @@
                                 <div class="plan-star">
                                     <h3 class="display-none">5</h3>
                                     <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
-                                    <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" onclick="mostrarModalClonacion(${data[a].id})">
+                                    <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
                                 </div>
                                 <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id},this)">
                             </div>
