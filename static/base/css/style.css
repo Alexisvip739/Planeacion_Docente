@@ -80,3 +80,44 @@ body,html{/*
 .item img{
     width:40px;
 }
+.text-crear::after{
+    content: 'Crear';
+}
+.text-favoritos::after{
+    content: 'Favoritos';
+}
+.text-mis-planeaciones::after{
+    content: 'Mis planeaciónes';
+}
+.text-marca::after{
+    content: 'LAPSOFT';
+}
+.text-cerrar-sesion::after{
+    content:'Cerrar sesión';
+}
+
+/* Teléfonos */
+@media only screen and (max-width: 575px){
+    .link-movil::after{
+        content: 'Crear';
+    }
+    .text-crear::after{
+        content: '';
+    }
+    .text-favoritos::after{
+        content: '';
+    }
+    .text-mis-planeaciones::after{
+        content: '';
+    }
+    .text-marca::after{
+        content: '';
+    }
+    .text-user::after{
+        content: '' !important;
+    }
+    .text-cerrar-sesion::after{
+        content:'Cerrar';
+    }
+
+}

@@ -572,6 +572,7 @@
     }
 }
 
+
 /* Teléfonos */
 @media only screen and (max-width: 575px){
     .search-container{
@@ -599,5 +600,4 @@
         width: 80%;
         padding:5%;
     }
-    
 }
