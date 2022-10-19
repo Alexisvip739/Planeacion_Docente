@@ -129,9 +129,12 @@ class Planeacion_APIView(APIView):
                 return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request, pk, format=None):#borrar una planeacion
+        token = Token.objects.get(key=request.auth)
         post = self.get_object(pk)
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if post.id_usuario.id ==  token.user.id:#para solo si el usuario es el creador de dicha planeacion se pueda borrar
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
