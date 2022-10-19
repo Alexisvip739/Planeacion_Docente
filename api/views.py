@@ -260,24 +260,7 @@ class PlaneacionClonarView(APIView):
         serializer = FavoritoSerializerAdd(post)  
         return Response(status=status.HTTP_201_CREATED)
 
-#para obtener la lista de actividades de una planeacion---------------------------------------------------------------------------------
-class ActividadListView(APIView):
-    def get(self, request,id):
-        post = Actividad.objects.all().filter(id_planeacion=id).order_by('fecha_de_inicio')#ordenamos por fecha de inicio
-        serializer = ActividadSerielizers(post, many=True)
-        
-        return Response(serializer.data)
-    def post(self, request, format=None):
-        serializer = ActividadSerielizers(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def delete(self, request, id, format=None):
-        print('borrando ---------------------------------------------')
-        post = self.get_object(id)
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 #para las Actividades (obtener actividades de un plan) sin logearse
 class Actividad_APIViewFree(APIView):
@@ -289,7 +272,7 @@ class Actividad_APIViewFree(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):#obtener las actividades de una planeacion
-        post = Actividad.objects.all().filter(id_planeacion=pk)
+        post = Actividad.objects.all().filter(id_planeacion=pk).order_by('fecha_de_inicio')#ordenamos por fecha de inicio
         serializer = ActividadSerielizers(post, many=True)  
         return Response(serializer.data)
 
@@ -303,7 +286,7 @@ class Actividad_APIView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):#obtener las actividades de una planeacion
-        post = Actividad.objects.all().filter(id_planeacion=pk)
+        post = Actividad.objects.all().filter(id_planeacion=pk).order_by('fecha_de_inicio')#ordenamos por fecha de inicio
         serializer = ActividadSerielizers(post, many=True)  
         return Response(serializer.data)
 
