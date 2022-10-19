@@ -22,15 +22,13 @@ urlpatterns = [
     path('clonarPlaneacion',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),#para clonar una planeacion
 
 
-    path('obtenerFavorito',v.FavoritoListView.as_view(),name='obtenerFavoritos'),# para obtener la lista de planeaciones favoritas
-    path('favoritos',v.Favorito_APIView.as_view(),name='favoritos'),
-    path('favoritos/<str:pk>',v.Favorito_APIView.as_view(),name='favoritos'),
+    path('favoritos',v.Favorito_APIView.as_view(),name='favoritos'),#para los favoritos
+    path('favoritos/<str:pk>',v.Favorito_APIView.as_view(),name='favoritos'),#para los favoritos
 
     path('obtenerActividades/<str:id>',v.ActividadListView.as_view(),name='obtenerActividades'),# para obtener la lista de actividades de una planeacion
     path('borrarActividad/<str:id>',v.ActividadDeleteView.as_view(),name='borrarActividad'),# para borrar la actividad dada por id
     path('actualizarActividad/<str:id>',v.ActividadUpdateView.as_view(),name='actualizarActividad'),# para borrar la actividad dada por id
     path('agregarActividad/<str:id>',v.ActividadAddView.as_view(),name='agregarActividad'),# para borrar la actividad dada por id
 
-    path('insertarFavorito',v.FavoritoInserView.as_view(),name='insertarFavorito'),
 
 ]

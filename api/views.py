@@ -373,35 +373,9 @@ class ActividadAddView(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-#para obtener la lista de planeaciones favoritas de cada usuario---------------------------------------------
-class FavoritoListView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request, format=None, *args, **kwargs):
-        post = Favorito.objects.all()
-        serializer = FavoritoListSerielizers(post, many=True)
-    def get(self,request):
-        #print('hola:',request.user)
-        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
-        serializer = FavoritoListSerielizers(post, many=True)
-        return Response(serializer.data)
-
-
-class FavoritoInserView(APIView):
-    def get(self, request,id_plan):
-        try:
-            
-            fav = Favorito.objects.get(id_planeacion=id_plan,id_usuario=request.user.id)
-            print(fav)
-            
-        except ObjectDoesNotExist:
-            print('insertando')
-            fav = Favorito(id_planeacion=id_plan,id_usuario=request.user.id)
-            
-            return Response(status= status.HTTP_200_OK)
-        return Response(status= status.HTTP_200_OK)
         
         
-#para los favoritos--------------------------------------------------------------------------------------
+#para los favoritos (insertar y borrar) --------------------------------------------------------------------------------------
 class Favorito_APIView(APIView):
     permission_clases = [permissions.IsAuthenticated]
     #nota se esta pasando por parametro el id de la planeacion
@@ -410,9 +384,9 @@ class Favorito_APIView(APIView):
             return Favorito.objects.get(id_planeacion=pk)
         except Favorito.DoesNotExist:
             raise Http404
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = FavoritoSerializerAdd(post)  
+    def get(self, request, format=None):
+        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
+        serializer = FavoritoListSerielizers(post, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):# aqui vamos a agregar un elemento a favoritos
@@ -427,27 +401,7 @@ class Favorito_APIView(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class Favorito_APIView_Detail(APIView):
-    def get_object(self, pk):
-        try:
-            return Favorito.objects.get(id_planeacion=pk)
-        except Favorito.DoesNotExist:
-            raise Http404
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = FavoritoSerielizers(post)  
-        return Response(serializer.data)
-    def put(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = FavoritoSerielizers(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class Rating_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):

@@ -28,7 +28,6 @@
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
 
     //url para la api
-    var urlObtenerFavoritos = '{% url 'api:obtenerFavoritos' %}';
     var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
     var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';;//para clonar una planeacion
@@ -232,7 +231,7 @@
     Para obtener las planeaciones favoritas
     */
     async function obtenerFavoritos(){
-            fetch(urlObtenerFavoritos,{
+            fetch(urlFavorito,{
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization':localStorage.getItem('token'),
