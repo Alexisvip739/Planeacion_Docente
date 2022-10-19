@@ -293,18 +293,32 @@ class Actividad_APIView(APIView):
 
     def post(self, request, format=None):
         token = Token.objects.get(key=request.auth)
-        serializer = ActividadSerielizers(data=request.data)
-        print(request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:#validamos que la planeacion exista
+            plan = Planeacion.objects.get(id=request.data['id_planeacion'])
+            if plan.id_usuario.id == token.user.id:#si el usuario creo la planeacion entonces ponemos agregar una actividad
+                serializer = ActividadSerielizers(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+            else:
+                raise Http404
+        except Planeacion.DoesNotExist:
+            raise Http404
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = ActividadSerielizers(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+        token = Token.objects.get(key=request.auth)
+        try:#validamos que la planeacion exista
+            plan = Planeacion.objects.get(id=request.data['id_planeacion'])
+            if plan.id_usuario.id == token.user.id:#si el usuario creo la planeacion entonces ponemos modificar una actividad
+                post = self.get_object(pk)
+                serializer = ActividadSerielizers(post, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+            else:
+                raise Http404
+        except Planeacion.DoesNotExist:
+            raise Http404
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request, pk, format=None):
         post = self.get_object(pk)
