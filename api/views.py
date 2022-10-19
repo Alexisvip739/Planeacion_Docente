@@ -1,4 +1,5 @@
 from curses.ascii import NUL
+from itertools import count
 from nis import cat
 from sys import *
 from urllib import request
@@ -325,7 +326,7 @@ class Favorito_APIView(APIView):
     def get(self, request, format=None):
         token = Token.objects.get(key=request.auth)
         post =  Favorito.objects.all().filter(id_usuario=token.user.id)
-        print(post)
+        #print(Favorito.objects.annotate(suma = sum('id_usuario')).query )
         serializer = FavoritoListSerielizers(post, many=True)
         return Response(serializer.data)
 
