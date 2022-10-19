@@ -27,9 +27,11 @@ class FavoritoSerializer(serializers.ModelSerializer):
         fields ='__all__'
 
 class PlaneacionFullSerializer(serializers.ModelSerializer):
+    id_usuario = UserSerializer()
     class Meta:
         model = Planeacion
         fields ='__all__'
+        depth = 1
 
 #para cuando se agrega una planeacion
 class PlaneacionPostInicial(serializers.ModelSerializer):

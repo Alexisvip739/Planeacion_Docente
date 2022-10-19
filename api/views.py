@@ -323,7 +323,9 @@ class Favorito_APIView(APIView):
         except Favorito.DoesNotExist:
             raise Http404
     def get(self, request, format=None):
-        post =  Favorito.objects.select_related('id_planeacion').all().filter(id_usuario=request.user.id)
+        token = Token.objects.get(key=request.auth)
+        post =  Favorito.objects.all().filter(id_usuario=token.user.id)
+        print(post)
         serializer = FavoritoListSerielizers(post, many=True)
         return Response(serializer.data)
 

@@ -29,7 +29,8 @@
 
     //url para la api
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
-    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';;//para clonar una planeacion
+    var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';//para clonar una planeacion
+    var urlActividad='{% url 'api:actividades' %}';//insertar o borrar favoritos
 
 
     function cerrarModal(){
@@ -129,7 +130,7 @@
         var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML == ''){
             //console.log('siii')
-            fetch(urlObtenerActividades+id,{
+            fetch(urlActividad+'/'+id,{
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization':localStorage.getItem('token'),
@@ -260,7 +261,7 @@
                         <div class="plan border-bottom">
                             <div>
                                 <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].id_planeacion.anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
+                                <h3>${data[a].id_planeacion.anonima==false?data[a].id_planeacion.id_usuario.username:'Anonima'}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
