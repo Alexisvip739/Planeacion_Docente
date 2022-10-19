@@ -25,7 +25,7 @@
         <div id="plan-info-1" class="plan-info display-flex border-radius-top">
             <img src="{% static 'icons/iconPlan.svg' %}" alt="icono de planeación" class="plan-info-icon">
             <h3>Título</h3>
-            <input type="text" name="" id="plan-titulo" placeholder="Tema">
+            <input type="text" name="" id="plan-titulo" placeholder="Título">
             <h3>Tema</h3>
             <input type="text" name="" id="plan-tema" placeholder="Tema">
             <h3>Grado</h3>
@@ -93,9 +93,10 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
 
-    var urlAgregarPlaneacion = '{% url 'api:agregarPlaneacion' 1 %}'.replace('1','');
+    var urlAgregarPlaneacion = '';
 
     var urlActividad = '{% url 'api:actividades' %}';
+    var urlPlaneacion ='{% url 'api:planeaciones' %}';
 
     var listaActividades=[];
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
@@ -157,7 +158,19 @@
         var fechaInicio = document.getElementById('plan-fecha-inicio').value;
         var fechaFin = document.getElementById('plan-fecha-fin').value;
         var anonima = document.getElementById('plan-anonima').checked;
-        fetch(urlAgregarPlaneacion+titulo+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima,{
+        var data={
+            id_usuario:{{user.id}},
+            titulo:titulo,
+            tema:tema,
+            grado:grado,
+            fecha_de_inicio: fechaInicio,
+            fecha_de_finalizacion: fechaFin,
+            anonima: anonima,
+            finalizada:false
+        };
+        fetch(urlPlaneacion,{
+            method: 'POST',
+            body:JSON.stringify(data),
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -165,7 +178,7 @@
         }).then(response=>{
             if(response.ok){
                 response.json().then(lista =>{
-                    var id_planeacion = lista[0].id;
+                    var id_planeacion = lista.id;
                     for( i in listaActividades){//recorremos todas las actividades de la lista y las agregamos a la planeacion
                         agregarActividad(id_planeacion,
                         listaActividades[i].fecha,

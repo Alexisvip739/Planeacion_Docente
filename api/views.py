@@ -84,7 +84,7 @@ class PlaneacionListViewUser(APIView):
 
 
 #para obtener las planeaciones buscadas por titulo
-class Planeacion_APIView(APIView):
+class Planeacion_APIViewFree(APIView):
     permission_classes = [permissions.AllowAny]#para que cualquiera pueda encontrar una planeacion sin logearse
     def get(self, request, format=None, *args, **kwargs):
         post = Planeacion.objects.all()
@@ -113,18 +113,11 @@ class Planeacion_APIView(APIView):
         serializer = PlaneacionSearchListSerializers(post, many=True)
         
         return Response(serializer.data)
-    
-    '''def post(self, request, format=None):#para agregar planeaciones ---------------------------------------------------POST
-        serializer = PlaneacionPostInicial(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
 
 
 
 #para las Planeaciones
-class Planeacion_APIView_Detail(APIView):
+class Planeacion_APIView(APIView):
     def get_object(self, pk):
         try:
             return Planeacion.objects.get(pk=pk)
@@ -134,6 +127,12 @@ class Planeacion_APIView_Detail(APIView):
         post = self.get_object(pk)
         serializer = PlaneacionSerializers(post)  
         return Response(serializer.data)
+    def post(self, request, format=None):
+        serializer = PlaneacionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):
         post = self.get_object(pk)
         serializer = PlaneacionSerializers(post, data=request.data)
