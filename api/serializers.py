@@ -74,6 +74,11 @@ class ActividadSerielizers(serializers.ModelSerializer):
     class Meta:
         model=Actividad
         fields='__all__'
+        
+class ActividadAddSerielizers(serializers.ModelSerializer):
+    class Meta:
+        model=Actividad
+        exclude =('finalizada',)
 
 
 #lista de planeacionnes favoritas de un usuario

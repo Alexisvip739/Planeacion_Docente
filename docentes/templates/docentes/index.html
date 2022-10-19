@@ -43,9 +43,9 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1','');
-    var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
     var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';//para clonar una planeacion
+    var urlActividadFree='{% url 'api:actividadesFree' %}';//para clonar una planeacion
 
 
 
@@ -305,7 +305,7 @@
         var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML.trim() == ''){
             //console.log('siii')
-            fetch(urlObtenerActividades+id).then(response=>{
+            fetch(urlActividadFree+'/'+id).then(response=>{
                 //console.log(response.url)
                 if(response.ok){
                     response.json().then(lista=>{

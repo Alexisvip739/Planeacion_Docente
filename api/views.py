@@ -279,17 +279,42 @@ class ActividadListView(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#para las Actividades
-class Actividad_APIView_Detail(APIView):
+#para las Actividades (obtener actividades de un plan) sin logearse
+class Actividad_APIViewFree(APIView):
+    permission_clases = [permissions.AllowAny]
     def get_object(self, pk):
         try:
             return Actividad.objects.get(pk=pk)
         except Actividad.DoesNotExist:
             raise Http404
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = ActividadSerielizers(post)  
+
+    def get(self, request, pk, format=None):#obtener las actividades de una planeacion
+        post = Actividad.objects.all().filter(id_planeacion=pk)
+        serializer = ActividadSerielizers(post, many=True)  
         return Response(serializer.data)
+
+#para las Actividades
+class Actividad_APIView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, pk):
+        try:
+            return Actividad.objects.get(pk=pk)
+        except Actividad.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):#obtener las actividades de una planeacion
+        post = Actividad.objects.all().filter(id_planeacion=pk)
+        serializer = ActividadSerielizers(post, many=True)  
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        token = Token.objects.get(key=request.auth)
+        serializer = ActividadSerielizers(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):
         post = self.get_object(pk)
         serializer = ActividadSerielizers(post, data=request.data)
@@ -302,76 +327,6 @@ class Actividad_APIView_Detail(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-
-#para borrar las actividades
-class ActividadDeleteView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            return Actividad.objects.get(pk=id)
-        except Actividad.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        post = self.get_object(id)
-        print('----------------------------- Borrando')
-        if post.id_planeacion.id_usuario.id == request.user.id:
-            post.delete()
-            print('')
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-#para actualizar las actividades
-class ActividadUpdateView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            list = str(id).split(',')
-            return Actividad.objects.get(pk=int(list[0]))
-        except Actividad.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        list = str(id).split(',')
-        post = self.get_object(int(list[0]))
-        if post.id_planeacion.id_usuario.id == request.user.id:
-            post.fecha_de_inicio=list[1]
-            post.titulo = list[2]
-            post.descripcion = list[3]
-            if list[4] == 'true':
-                post.finalizada = True
-            else:
-                post.finalizada = False
-            post.save()
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-#para guardar las actividades
-class ActividadAddView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            list = str(id).split(',')
-            return Planeacion.objects.get(pk=int(list[0]))#verificamos que la planeacion exista
-        except Planeacion.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        list = str(id).split(',')#lista con los datos pasados por el path
-        post = self.get_object(int(list[0]))
-        if post.id_usuario.id == request.user.id: #revisamos que la planeacion aya sido echa por ese usuario    
-            act = Actividad()
-            act.id_planeacion = post
-            act.fecha_de_inicio=list[1]
-            act.titulo = list[2]
-            act.descripcion = list[3]
-            act.save()
-            p = Actividad.objects.all().filter(id=act.id)# mandamos la lista con elementos en este caso solo es 1
-            serializer = ActividadSerializer(p, many=True) 
-            return Response(serializer.data)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
 
         
         

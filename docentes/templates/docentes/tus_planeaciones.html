@@ -34,10 +34,9 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
     var urlObtenerPlaneacionesUsuario ='{% url 'api:obtenerPlaneacionUsuario' %}';
-    var urlObtenerActividades = '{% url 'api:obtenerActividades' 1 %}'.replace('1','');
-    var urlBorrarActividad = '{% url 'api:borrarActividad' 1 %}'.replace('1','');
-    var urlActualizarActividad = '{% url 'api:actualizarActividad' 1 %}'.replace('1','');
-    var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
+
+    var urlActividad ='{% url 'api:actividades' %}';
+
     var urlActualizarPlaneacion = '{% url 'api:actualizarPlaneacion' 1 %}'.replace('1','');
     var urlBorrarPlaneacion = '{% url 'api:borrarPlaneacion' 1 %}'.replace('1','');
 
@@ -78,7 +77,7 @@
         var contAct = document.getElementById('container-activities-'+id);
         if(contAct.innerHTML.trim() == ''){
             //console.log('siii')
-            fetch(urlObtenerActividades+id,{
+            fetch(urlActividad+'/'+id,{
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization':localStorage.getItem('token'),
@@ -108,7 +107,7 @@
                                         <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
                                         <h3>Descripción</h3>
                                         <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
-                                        <input class="button-succes margin-top" type="button" name="" value="Guardar actividad" id="" onclick="actualizarActividad(${lista[a].id})">
+                                        <input class="button-succes margin-top" type="button" name="" value="Guardar actividad" id="" onclick="actualizarActividad(${lista[a].id},${lista[a].id_planeacion})">
                                         
                                 </div>
                                 
@@ -321,7 +320,8 @@
     }
 
     function borrarActividad(id,element){
-        fetch(urlBorrarActividad+id,{
+        fetch(urlActividad+'/'+id,{
+            method:'DELETE',
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -337,7 +337,7 @@
         });
     }
 
-    async function actualizarActividad(id){
+    async function actualizarActividad(id,id_plan){
         
         var date2 = document.getElementById('info-act-date-'+id).value;
         var titulo2 = document.getElementById('info-act-titulo-'+id).value;
@@ -345,7 +345,16 @@
         var ch = document.getElementById('info-act-check-'+id).checked;
         var exito = false;
 
-        fetch(urlActualizarActividad+id+','+date2+','+titulo2+','+desc2+','+ch.toString(),{
+        var data={
+            id_planeacion:id_plan,
+            fecha_de_inicio:date2,
+            titulo:titulo2,
+            descripcion:desc2,
+            finalizada:ch
+        };
+        fetch(urlActividad+'/'+id,{
+            method: 'PUT', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -357,6 +366,7 @@
                 tituloPrincipal.innerHTML=titulo2+' '+dias[f1.getDay()];
             
                 //mostrarModalMensaje('Actualizada correctamente',800);
+                alert('Actualizada correctamente');
             }else{
                 mostrarModalMensaje('Error al actualizar',600);
             }
@@ -368,7 +378,16 @@
         var date1 = document.getElementById('info-add-date-'+id_plan).value;
         var titulo1 = document.getElementById('info-add-titulo-'+id_plan).value;
         var desc1 = document.getElementById('info-add-descripcion-'+id_plan).value;
-        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1,{
+        var data={
+            id_planeacion:id_plan,
+            fecha_de_inicio:date1,
+            titulo:titulo1,
+            descripcion:desc1,
+            finalizada:false
+        };
+        fetch(urlActividad,{
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -380,26 +399,26 @@
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 response.json().then(lista =>{
     
-                var contenedorActividades = document.getElementById('container-activities-'+lista[0].id_planeacion);//contenedor de las actividades
+                var contenedorActividades = document.getElementById('container-activities-'+lista.id_planeacion);//contenedor de las actividades
                 var f1= new Date(date1);
                 //tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
                 contenedorActividades.innerHTML+=`
-                <div id="container-activitie-${lista[0].id}" class="container-activitie">
+                <div id="container-activitie-${lista.id}" class="container-activitie">
                     <div class="head-activities">
-                        <h3 id="info-act-titulo-principal-${lista[0].id}">${lista[0].titulo} ${dias[f1.getDay()]}</h3>
-                        <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[0].id},this)">
-                        <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[0].id},this)">
-                        <input class="check-box" type="checkbox" ${lista[0].finalizada==true?'checked':'unchecked'}>
+                        <h3 id="info-act-titulo-principal-${lista.id}">${lista.titulo} ${dias[f1.getDay()]}</h3>
+                        <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista.id},this)">
+                        <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista.id},this)">
+                        <input id="info-act-check-${lista.id}" class="check-box" type="checkbox" ${lista.finalizada==true?'checked':'unchecked'}>
     
                     </div>
-                    <div id="info-actividad-${lista[0].id}" class="body-activities">
+                    <div id="info-actividad-${lista.id}" class="body-activities">
                             <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="info-act-date-${lista[0].id}" value="${f1.toISOString().split('T')[0]}">
+                            <input type="date" name="" id="info-act-date-${lista.id}" value="${f1.toISOString().split('T')[0]}">
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="info-act-titulo-${lista[0].id}" placeholder="Titulo" value="${lista[0].titulo}">
+                            <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Titulo" value="${lista.titulo}">
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="info-act-descripcion-${lista[0].id}" placeholder="Descripción" value="${lista[0].descripcion}">
-                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista[0].id})">
+                            <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}">
+                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
                     </div>
                     
                 </div>`;

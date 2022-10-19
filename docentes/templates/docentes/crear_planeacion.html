@@ -42,8 +42,7 @@
                 <div class="container-activitie">
                     <div class="head-activities">
                         <h3>Agregar actividad</h3>
-                        <img id="btn-agregar-actividad" class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de slide" onclick="desplegarAgregarActividad('1',this)">
-    
+                        <img id="btn-agregar-actividad" class="iconStar" src="{% static 'icons/iconAdd.svg' %}" alt="icono de agregar" onclick="desplegarAgregarActividad('1',this)" >
                     </div>
                     <div id="info-add-actividad-1" class="body-activities">
                             <h3>Fecha inicio</h3>
@@ -94,8 +93,9 @@
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
 
-    var urlAgregarActividad = '{% url 'api:agregarActividad' 1 %}'.replace('1','');
     var urlAgregarPlaneacion = '{% url 'api:agregarPlaneacion' 1 %}'.replace('1','');
+
+    var urlActividad = '{% url 'api:actividades' %}';
 
     var listaActividades=[];
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
@@ -124,8 +124,17 @@
         setTimeout(function(){document.getElementById('info-modal').remove();},duracion);
     }
 
-    async function agregarActividad(id_plan,date1,titulo1,desc1){
-        fetch(urlAgregarActividad+id_plan+','+date1+','+titulo1+','+desc1,{
+    async function agregarActividad(id_plan1,date1,titulo1,desc1){
+        var data={
+            id_planeacion:id_plan1,
+            fecha_de_inicio:date1,
+            titulo:titulo1,
+            descripcion:desc1,
+            finalizada:false
+        };
+        fetch(urlActividad,{
+            method:'POST',
+            body:JSON.stringify(data),
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -136,7 +145,7 @@
             }else{
                 console.error('error al guardar actividad');
             }
-        });
+        }).catch(error => console.error(error))
     }
 
     /** Este metodo nos ayuda a agregar una planeacion a la base de datos
