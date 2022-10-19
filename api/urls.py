@@ -10,8 +10,6 @@ from docentes import views
 app_name = 'api'
 urlpatterns = [
 
-
-
     path('planeaciones',v.Planeacion_APIView.as_view(),name='planeaciones'),
     path('planeaciones/<str:pk>',v.Planeacion_APIView.as_view(),name='planeaciones'),
     path('clonarPlaneacion',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),

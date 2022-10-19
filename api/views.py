@@ -112,17 +112,21 @@ class Planeacion_APIView(APIView):
         serializer = PlaneacionSearchListSerializers(post, many=True)
         return Response(serializer.data)
     def post(self, request, format=None):#crear una planeacion
-        serializer = PlaneacionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        token = Token.objects.get(key=request.auth)
+        if token.user.id == request.data['id_usuario']:
+            serializer = PlaneacionSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):#actualizar una planeacion
-        post = self.get_object(pk)
-        serializer = PlaneacionSerializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+        token = Token.objects.get(key=request.auth)
+        if token.user.id == request.data['id_usuario']:
+            post = self.get_object(pk)
+            serializer = PlaneacionSerializer(post, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request, pk, format=None):#borrar una planeacion
         post = self.get_object(pk)
