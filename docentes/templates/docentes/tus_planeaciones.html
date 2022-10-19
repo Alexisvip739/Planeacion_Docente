@@ -45,6 +45,11 @@
 
     let dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado","Domingo"];
 
+    /** este metodo desabilita un checkbox para que no se cambie el valor del mismo */
+    function desabilitar(check){
+        check.checked = !check.checked;
+    }
+
     /** para mostrar un modal en la pantalla (texto= texto a mostrar duracion=duracion del modal en milisegundos)
     */
     function mostrarModalMensaje(texto,duracion){
@@ -223,7 +228,7 @@
                     <img title="Borrar planeación" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
                 <img title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
-                <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
+                <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'} onclick="desabilitar(this)">
             </div>
         </div>
         <div id="plan-info-${lista[a].id}" class="plan-info border-bottom">
@@ -301,6 +306,8 @@
         var anonima = document.getElementById('plan-anonima-'+id).checked;
         var observaciones = document.getElementById('plan-observaciones-'+id).value;
         var finalizacion = document.getElementById('plan-finalizacion-'+id).checked;   
+
+
 
         fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion,{
             headers:{
