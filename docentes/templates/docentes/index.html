@@ -42,7 +42,8 @@
 
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
-    var ulrObenerPlaneacion = '{% url 'api:obtenerPlaneacion' 1 %}'.replace('1','');
+    
+    var urlBuscarPlaneacion='{% url 'api:buscarPlaneacion' %}';//insertar o borrar favoritos
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
     var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';//para clonar una planeacion
     var urlActividadFree='{% url 'api:actividadesFree' %}';//para clonar una planeacion
@@ -177,7 +178,7 @@
         var contPlan = document.getElementById('container-plan');
         
         if( busca != ''){
-            var resul = fetch(ulrObenerPlaneacion+busca,{
+            var resul = fetch(urlBuscarPlaneacion+'/'+busca,{
                 headers:{
                   'Content-Type': 'application/json',
                   'Authorization':localStorage.getItem('token'),

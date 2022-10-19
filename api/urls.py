@@ -10,17 +10,14 @@ from docentes import views
 app_name = 'api'
 urlpatterns = [
 
-    path('obtenerPlaneacion',v.Planeacion_APIView.as_view(),name='obtenerPlaneacion11'),
-    path('obtenerPlaneacion/<str:titulo>',v.Planeacion_APIView.as_view(),name='obtenerPlaneacion'), #para obtener las planeaciones por un titulo dado por el usuario
-
-     path('obtenerPlaneacionUsuario',v.PlaneacionListViewUser.as_view(),name='obtenerPlaneacionUsuario'), #para obtener las planeaciones de un usuario 
 
 
-    path('planeaciones',v.Planeacion_APIView.as_view(),name='planeaciones'),# para actualizar la planeacion
-    path('planeaciones/<str:pk>',v.Planeacion_APIView.as_view(),name='planeaciones'),# para borrar una planeacion 
-    path('clonarPlaneacion',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),# para borrar una planeacion
+    path('planeaciones',v.Planeacion_APIView.as_view(),name='planeaciones'),
+    path('planeaciones/<str:pk>',v.Planeacion_APIView.as_view(),name='planeaciones'),
+    path('clonarPlaneacion',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),
 
-
+    path('buscarPlaneacion',v.Planeacion_APIViewFree.as_view(),name='buscarPlaneacion'),
+    path('buscarPlaneacion/<str:titulo>',v.Planeacion_APIViewFree.as_view(),name='buscarPlaneacion'),
 
     path('favoritos',v.Favorito_APIView.as_view(),name='favoritos'),#para los favoritos
     path('favoritos/<str:pk>',v.Favorito_APIView.as_view(),name='favoritos'),#para los favoritos
