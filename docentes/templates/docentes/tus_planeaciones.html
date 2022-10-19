@@ -33,12 +33,12 @@
 <script>
     var likeOff = '{% static 'icons/iconLike.svg' %}';
     var likeOn = '{% static 'icons/iconLikeOn.svg' %}';
-    var urlObtenerPlaneacionesUsuario ='{% url 'api:obtenerPlaneacionUsuario' %}';
+
 
     var urlActividad ='{% url 'api:actividades' %}';
+    var urlPlaneacion ='{% url 'api:planeaciones' %}';
 
     var urlActualizarPlaneacion ='';
-    var urlBorrarPlaneacion = '';
 
 
     
@@ -195,7 +195,7 @@
     async function obtenerPlaneacionUsuario(){
         var planSi = document.getElementById('contenedor-planeaciones-si-terminadas');
         var planNo = document.getElementById('contenedor-planeaciones-no-terminadas');
-        fetch(urlObtenerPlaneacionesUsuario,{
+        fetch(urlPlaneacion,{
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -210,8 +210,12 @@
                         }else{
                             direccion = planNo;
                         }
-                        var f1= new Date(lista[a].fecha_de_inicio);
-                        var f2= new Date(lista[a].fecha_de_finalizacion);
+                        var f1= String(lista[a].fecha_de_inicio).split('-')
+                        var f2= String(lista[a].fecha_de_finalizacion).split('-')
+
+                        var ff1= new Date(lista[a].fecha_de_inicio);
+                        var ff2= new Date(lista[a].fecha_de_finalizacion);
+
                         direccion.innerHTML+=`
                         <!--  planeacion-->
     <div id="contenedor-plan-${lista[a].id}" class="plan-container position-relative margin-1">
@@ -220,8 +224,8 @@
         
         <div id='plan-${lista[a].id}' class="plan">
             <div class="display-colum">
-                <h2>${lista[a].titulo}</h2>
-                <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
+                <h2 id="plan-titulo1-${lista[a].id}" >${lista[a].titulo}</h2>
+                <h3 id="plan-fecha1-${lista[a].id}">${f1[2]+'/'+f1[1]+'/'+f1[0]} a ${f2[2]+'/'+f2[1]+'/'+f2[0]}</h3>
             </div>
             <div>
                 <div class="plan-star">
@@ -232,14 +236,16 @@
             </div>
         </div>
         <div id="plan-info-${lista[a].id}" class="plan-info border-bottom">
+            <h3>Título</h3>
+            <input type="text" name="" id="plan-titulo-${lista[a].id}" placeholder="Título" value="${lista[a].titulo}">
             <h3>Tema</h3>
             <input type="text" name="" id="plan-tema-${lista[a].id}" placeholder="Tema" value="${lista[a].tema}">
             <h3>Grado</h3>
             <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}">
             <h3>Fecha inicio</h3>
-            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}">
             <h3>Fecha finalización</h3>
-            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${f2.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${ff2.toISOString().split('T')[0]}">
             <h2>Actividades</h2>
 
              <!--Agregar actividad-->
@@ -296,9 +302,10 @@
         });
     }
 
-    obtenerPlaneacionUsuario();
+    obtenerPlaneacionUsuario();//obtenemos las planeaciones y las ponemos en la pantalla
+
     async function actualizarPlaneacion(id){
-        
+        var titulo = document.getElementById('plan-titulo-'+id).value;
         var tema = document.getElementById('plan-tema-'+id).value;
         var grado = document.getElementById('plan-grado-'+id).value;
         var fechaInicio = document.getElementById('plan-fecha-inicio-'+id).value;
@@ -308,8 +315,20 @@
         var finalizacion = document.getElementById('plan-finalizacion-'+id).checked;   
 
 
-
-        fetch(urlActualizarPlaneacion+id+','+tema+','+grado+','+fechaInicio+','+fechaFin+','+anonima+','+observaciones+','+finalizacion,{
+        var data={
+            id_usuario:{{user.id}},
+            titulo: titulo,
+            tema: tema,
+            grado:grado,
+            fecha_de_inicio: fechaInicio,
+            fecha_de_finalizacion: fechaFin,
+            anonima: anonima,
+            observaciones: observaciones,
+            finalizacion: finalizacion
+        }
+        fetch(urlPlaneacion+'/'+id,{
+            method:'PUT',
+            body:JSON.stringify(data),
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),
@@ -317,6 +336,11 @@
         }).then(response =>{
             if(response.ok){// si la respuesta fue ok entonces se borro correctamente
                 document.getElementById('plan-check-'+id).checked = finalizacion;// es el check de la parte superior cambie por el valor de la parte inferior
+                document.getElementById('plan-titulo1-'+id).innerHTML=titulo;
+                var f1= String(fechaInicio).split('-')
+                var f2= String(fechaFin).split('-')
+
+                document.getElementById('plan-fecha1-'+id).innerHTML=`${f1[2]+'/'+f1[1]+'/'+f1[0] +' a '+ f2[2]+'/'+f2[1]+'/'+f2[0]}`;
                 
                 alert('guardado correctamente');
             }else{
@@ -439,7 +463,8 @@
     }
 
     function borrarPlaneacion(id,element){
-        fetch(urlBorrarPlaneacion+id,{
+        fetch(urlPlaneacion+'/'+id,{
+            method:'DELETE',
             headers:{
                 'Content-Type': 'application/json',
                 'Authorization':localStorage.getItem('token'),

@@ -116,112 +116,41 @@ class Planeacion_APIViewFree(APIView):
 
 
 
-#para las Planeaciones
+#para las Planeaciones ------------------------------------------------------------ REAL
 class Planeacion_APIView(APIView):
+    permission_clases = [permissions.IsAuthenticated] 
     def get_object(self, pk):
         try:
             return Planeacion.objects.get(pk=pk)
         except Planeacion.DoesNotExist:
             raise Http404
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = PlaneacionSerializers(post)  
+    def get(self, request, format=None):#obtenemos las planeaciones del usuario
+        token = Token.objects.get(key = request.auth)
+        post = Planeacion.objects.all().filter(id_usuario=token.user.id).order_by('fecha_de_inicio')#ordenamos por la fecha de inicio
+        serializer = PlaneacionSearchListSerializers(post, many=True)
         return Response(serializer.data)
-    def post(self, request, format=None):
+    def post(self, request, format=None):#crear una planeacion
         serializer = PlaneacionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def put(self, request, pk, format=None):
+    def put(self, request, pk, format=None):#actualizar una planeacion
         post = self.get_object(pk)
-        serializer = PlaneacionSerializers(post, data=request.data)
+        serializer = PlaneacionSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def delete(self, request, pk, format=None):
+    def delete(self, request, pk, format=None):#borrar una planeacion
         post = self.get_object(pk)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#para actualizar la Planeacion------------------------------------------------ Actualizar la planeacion
-class PlaneacionUpdateView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            list = str(id).split(',')
-            return Planeacion.objects.get(pk=int(list[0]))
-        except Planeacion.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        list = str(id).split(',')
-        post = self.get_object(int(list[0]))
-        if post.id_usuario.id == request.user.id:
-            post.tema=list[1]
-            post.grado = list[2]
-            post.fecha_de_inicio = list[3]
-            post.fecha_de_finalizacion = list[4]
-            if list[5] == 'true':
-                post.anonima = True
-            else:
-                post.anonima = False
-            post.observaciones = list[6]
-            if list[7] == 'true':
-                post.finalizada = True
-            else:
-                post.finalizada = False
-            post.save()
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-#---------------------------------------------------------------------------- Para borrar una planeacion
-class PlaneacionDeleteView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            return Planeacion.objects.get(pk=id)
-        except Planeacion.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        post = self.get_object(id)
-        print('----------------------------- Borrando')
-        if post.id_usuario.id == request.user.id:
-            post.delete()
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-#----------------------------------------------------------------------------- Para agregar una planeacion
-#para guardar las actividades
-class PlaneacionAddView(APIView):
-    permission_clases = [permissions.IsAuthenticated]
-    def get_object(self, id):
-        try:
-            list = str(id).split(',')
-            return Planeacion.objects.get(pk=int(list[0]))#verificamos que la planeacion exista
-        except Planeacion.DoesNotExist:
-            raise Http404
-    def get(self, request, id, format=None):
-        list = str(id).split(',')#lista con los elementos
-        u = User.objects.get(id=request.user.id)
-        plan = Planeacion()
-        plan.id_usuario = u
-        plan.titulo = list[0]
-        plan.tema = list[1]
-        plan.grado = list[2]
-        plan.fecha_de_inicio = list[3]
-        plan.fecha_de_finalizacion = list[4]
-        if list[5] == 'true':
-            plan.anonima = True
-        else:
-            plan.anonima = False
-        plan.save()
-        lista = Planeacion.objects.all().filter(id=plan.id)
-        serializer = PlaneacionFullSerializer(lista, many=True) 
-        return Response(serializer.data)
+
+
 
 
 #Para clonar una planeacion--------------------------------------------------------------------------------------

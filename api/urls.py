@@ -17,7 +17,7 @@ urlpatterns = [
 
 
     path('planeaciones',v.Planeacion_APIView.as_view(),name='planeaciones'),# para actualizar la planeacion
-    path('planeaciones/<str:id>',v.Planeacion_APIView.as_view(),name='planeaciones'),# para borrar una planeacion 
+    path('planeaciones/<str:pk>',v.Planeacion_APIView.as_view(),name='planeaciones'),# para borrar una planeacion 
     path('clonarPlaneacion',v.PlaneacionClonarView.as_view(),name='clonarPlaneacion'),# para borrar una planeacion
 
 
