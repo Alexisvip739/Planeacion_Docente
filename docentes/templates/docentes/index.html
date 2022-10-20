@@ -47,7 +47,7 @@
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
     var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';//para clonar una planeacion
     var urlActividadFree='{% url 'api:actividadesFree' %}';//para clonar una planeacion
-
+    var username = '{{user.username}}';
 
 
 
@@ -218,7 +218,7 @@
                         <div class="plan border-bottom">
                             <div>
                                 <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
+                                <h3>${data[a].id_usuario.username==username?'Tú':data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
