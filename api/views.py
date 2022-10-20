@@ -251,7 +251,7 @@ class Favorito_APIView(APIView):
     #nota se esta pasando por parametro el id de la planeacion
     def get_object(self, pk):
         try:
-            return Favorito.objects.get(id_planeacion=pk)
+            return Favorito.objects.get(id_planeacion=pk,id_usuario=token.user)
         except Favorito.DoesNotExist:
             raise Http404
     def get(self, request, format=None):
@@ -269,7 +269,11 @@ class Favorito_APIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
     def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
+        token = Token.objects.get(key=request.auth)
+        try:
+            post = Favorito.objects.get(id_planeacion=pk,id_usuario=token.user)
+        except Favorito.DoesNotExist:
+            raise Http404
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
