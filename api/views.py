@@ -154,14 +154,16 @@ class PlaneacionClonarView(APIView):
             raise Http404
         #obtenemos el token para de ahi obtener el usuario
         token = Token.objects.get(key=request.auth)
+
+        print(request.data)
         
         #clonamos la planeacion
         plan = Planeacion()
         plan.grado = post.grado
-        plan.fecha_de_finalizacion = post.fecha_de_finalizacion
+        plan.fecha_de_finalizacion = request.data['fecha_de_finalizacion']
         plan.titulo = 'Copia-'+post.titulo
         plan.tema = post.tema
-        plan.fecha_de_inicio = post.fecha_de_inicio
+        plan.fecha_de_inicio = request.data['fecha_de_inicio']
         plan.anonima = post.anonima
         plan.finalizada = post.finalizada
         plan.observaciones = post.observaciones
