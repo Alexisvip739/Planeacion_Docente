@@ -147,6 +147,7 @@
 }
 .plan div h3{
     overflow-wrap: anywhere;
+    margin-left: 5px;
 }
 
 .plan{
