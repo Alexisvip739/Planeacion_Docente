@@ -121,8 +121,9 @@ class Planeacion_APIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):#actualizar una planeacion
         token = Token.objects.get(key=request.auth)
-        if token.user.id == request.data['id_usuario']:
-            post = self.get_object(pk)
+        post = self.get_object(pk)
+        if token.user.id == request.data['id_usuario'] and post.id_usuario == token.user:#para saber si el usuario creo la planeacion
+            print(request.data)
             serializer = PlaneacionSerializer(post, data=request.data)
             if serializer.is_valid():
                 serializer.save()

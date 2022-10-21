@@ -25,15 +25,15 @@
         <div id="plan-info-1" class="plan-info display-flex border-radius-top">
             <img src="{% static 'icons/iconPlan.svg' %}" alt="icono de planeación" class="plan-info-icon">
             <h3>Título</h3>
-            <input type="text" name="" id="plan-titulo" placeholder="Título">
+            <input type="text" name="" id="plan-titulo" placeholder="Título" required>
             <h3>Tema</h3>
-            <input type="text" name="" id="plan-tema" placeholder="Tema">
+            <input type="text" name="" id="plan-tema" placeholder="Tema" required>
             <h3>Grado</h3>
-            <input type="number" name="" id="plan-grado" placeholder="Grado" onkeypress="quitarNumeros(event)">
+            <input type="number" name="" id="plan-grado" placeholder="Grado" onkeypress="quitarNumeros(event)" required>
             <h3>Fecha inicio</h3>
-            <input type="date" name="" id="plan-fecha-inicio">
+            <input type="date" name="" id="plan-fecha-inicio" required>
             <h3>Fecha finalización</h3>
-            <input type="date" name="" id="plan-fecha-fin">
+            <input type="date" name="" id="plan-fecha-fin" required>
             <h2>Actividades</h2>
 
             <!--Agregar actividad-->
@@ -168,40 +168,70 @@
             anonima: anonima,
             finalizada:false
         };
-        fetch(urlPlaneacion,{
-            method: 'POST',
-            body:JSON.stringify(data),
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization':localStorage.getItem('token'),
-              }
-        }).then(response=>{
-            if(response.ok){
-                response.json().then(lista =>{
-                    var id_planeacion = lista.id;
-                    for( i in listaActividades){//recorremos todas las actividades de la lista y las agregamos a la planeacion
-                        agregarActividad(id_planeacion,
-                        listaActividades[i].fecha,
-                        listaActividades[i].titulo,
-                        listaActividades[i].descripcion);
-                    }
-                    document.getElementById('contenedor-actividades').innerHTML='';//vaciamos el contenedor de actividades
-                    document.getElementById('plan-titulo').value='';
-                    document.getElementById('plan-tema').value='';
-                    document.getElementById('plan-grado').value='';
-                    document.getElementById('plan-fecha-inicio').value='';
-                    document.getElementById('plan-fecha-fin').value='';
-                    document.getElementById('plan-anonima').checked=false;
-                    mostrarModalMensaje('Planeación agregada correctamente',850);
-                });
+        var banderaFechas;
+        var banderaCamposNoVacios;
+        if(fechaInicio <= fechaFin && fechaFin >= fechaInicio){
+            banderaFechas = true;
+        }else{
+            banderaFechas = false;
+        }
+
+        if(titulo != '' && tema != '' && grado != '' && fechaInicio != '' && fechaFin != ''){
+            banderaCamposNoVacios = true;
+        }else{
+            banderaCamposNoVacios = false;
+        }
+        if(banderaFechas && banderaCamposNoVacios){
+            fetch(urlPlaneacion,{
+                method: 'POST',
+                body:JSON.stringify(data),
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response=>{
+                if(response.ok){
+                    response.json().then(lista =>{
+                        var id_planeacion = lista.id;
+                        for( i in listaActividades){//recorremos todas las actividades de la lista y las agregamos a la planeacion
+                            agregarActividad(id_planeacion,
+                            listaActividades[i].fecha,
+                            listaActividades[i].titulo,
+                            listaActividades[i].descripcion);
+                        }
+                        document.getElementById('contenedor-actividades').innerHTML='';//vaciamos el contenedor de actividades
+                        document.getElementById('plan-titulo').value='';
+                        document.getElementById('plan-tema').value='';
+                        document.getElementById('plan-grado').value='';
+                        document.getElementById('plan-fecha-inicio').value='';
+                        document.getElementById('plan-fecha-fin').value='';
+                        document.getElementById('plan-anonima').checked=false;
+                        mostrarModalMensaje('Planeación agregada correctamente',850);
+                    });
+                }
+            }).catch(console.error());
+
+        }else{
+            var mensajeError='';
+            console.error(banderaCamposNoVacios)
+            if(banderaFechas==false){
+                mensajeError+='-La fecha de inició debe ser menor o igual a la de finalización y la de finalización debe ser mayor o igual a la de inició';
             }
-        }).catch(console.error());
+            if(banderaCamposNoVacios == false){
+                mensajeError+='  -Faltan rellenar campos';
+                console.error('ajajja')
+            }
+            alert(mensajeError);
+        }
     }
 
     function guardarActividad(){
         var fecha = document.getElementById('actividad-fecha-inicio').value;
         var titulo = document.getElementById('actividad-titulo').value;
         var descripcion = document.getElementById('actividad-descripcion').value;
+
+        var fechaInicio = document.getElementById('plan-fecha-inicio');
+        var fechaFin = document.getElementById('plan-fecha-fin');
 
         var contenedor = document.getElementById('contenedor-actividades');
         var f= new Date(fecha);
@@ -211,8 +241,14 @@
             titulo: titulo,
             descripcion: descripcion
         };
-        listaActividades.push(actividad);
-        contenedor.innerHTML+=`
+        
+        if(fecha != '' && titulo != '' && descripcion != '' && fecha >= fechaInicio.value && fecha <= fechaFin.value){
+            if(listaActividades.length == 0){// si la lista esta vacia entonces bloquemos los input de fecha inicio y fin
+                fechaInicio.disabled = true;
+                fechaFin.disabled = true;
+            }
+            listaActividades.push(actividad);
+            contenedor.innerHTML+=`
         <div id="add-actividad-${contador}" class="container-activitie">
             <div class="head-activities">
                 <h3>${titulo} ${dias[f.getDay()]}</h3>
@@ -230,11 +266,21 @@
             </div>
         </div>
         `;
-        contador++;
-        document.getElementById('actividad-fecha-inicio').value=''
-        document.getElementById('actividad-titulo').value=''
-        document.getElementById('actividad-descripcion').value=''
-        document.getElementById('btn-agregar-actividad').click();
+            contador++;
+            document.getElementById('actividad-fecha-inicio').value=''
+            document.getElementById('actividad-titulo').value=''
+            document.getElementById('actividad-descripcion').value=''
+            document.getElementById('btn-agregar-actividad').click();
+        }else{
+            var mensajeError='';
+            if(fecha == '' || titulo == '' || descripcion == ''){
+                mensajeError+='Faltan rellenar campos';
+            }
+            if(!(fecha >= fechaInicio.value && fecha <= fechaFin.value)){
+                mensajeError+=' La fecha de la actividad debe se Mayor o igual a la fecha de inicio y menor o igual a la fecha de finalización';
+            }
+            alert(mensajeError);
+        }
     }
 
     function desplegarPlan(id,slide){
@@ -254,6 +300,12 @@
     Este metodo nos ayuda a borrar una actividad de la lista del actividades 
     */
     function borrarActividad(id,slide){
+        if(listaActividades.length == 1){
+            var fechaInicio = document.getElementById('plan-fecha-inicio');
+            var fechaFin = document.getElementById('plan-fecha-fin');
+            fechaInicio.disabled = false;
+            fechaFin.disabled = false;
+        }
         var pl = document.getElementById('add-actividad-'+id);
         pl.remove();
         var lista2=[]

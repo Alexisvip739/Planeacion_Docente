@@ -10,7 +10,7 @@
 
 
     
-    <h1 class="text-center">Tus Planeaciónes</h1>    
+    <h1 class="text-center">Tus Planeaciones</h1>    
 
 
     <div id="contenedor-planeaciones-no-terminadas" class="plan-favoritos-container">
@@ -18,7 +18,7 @@
 
     
 
-    <h1 class="text-center">Tus planeaciónes terminadas</h1>   
+    <h1 class="text-center">Tus planeaciones terminadas</h1>   
 
 
     <!-- Contenedor de planeaciones no realizadas-->
@@ -101,7 +101,7 @@
                                 <div class="head-activities">
                                     <h3 id="info-act-titulo-principal-${lista[a].id}">${lista[a].titulo} ${dias[f1.getDay()]}</h3>
                                     <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista[a].id},this)">
-                                    <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
+                                    <img id="plan-actividad-slide-${lista[a].id}" title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista[a].id},this)">
                                     <input id="info-act-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'}>
                 
                                 </div>
@@ -231,7 +231,7 @@
                 <div class="plan-star">
                     <img title="Borrar planeación" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
-                <img title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
+                <img id="plan-slide-${lista[a].id}" title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
                 <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'} onclick="desabilitar(this)">
             </div>
         </div>
@@ -243,9 +243,9 @@
             <h3>Grado</h3>
             <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}">
             <h3>Fecha inicio</h3>
-            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}" readonly>
             <h3>Fecha finalización</h3>
-            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${ff2.toISOString().split('T')[0]}">
+            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${ff2.toISOString().split('T')[0]}" readonly>
             <h2>Actividades</h2>
 
              <!--Agregar actividad-->
@@ -324,7 +324,7 @@
             fecha_de_finalizacion: fechaFin,
             anonima: anonima,
             observaciones: observaciones,
-            finalizacion: finalizacion
+            finalizada: finalizacion
         }
         fetch(urlPlaneacion+'/'+id,{
             method:'PUT',
@@ -339,8 +339,9 @@
                 document.getElementById('plan-titulo1-'+id).innerHTML=titulo;
                 var f1= String(fechaInicio).split('-')
                 var f2= String(fechaFin).split('-')
+                document.getElementById('plan-slide-'+id).click();
 
-                document.getElementById('plan-fecha1-'+id).innerHTML=`${f1[2]+'/'+f1[1]+'/'+f1[0] +' a '+ f2[2]+'/'+f2[1]+'/'+f2[0]}`;
+                //document.getElementById('plan-fecha1-'+id).innerHTML=`${f1[2]+'/'+f1[1]+'/'+f1[0] +' a '+ f2[2]+'/'+f2[1]+'/'+f2[0]}`;
                 
                 alert('guardado correctamente');
             }else{
@@ -383,26 +384,48 @@
             descripcion:desc2,
             finalizada:ch
         };
-        fetch(urlActividad+'/'+id,{
-            method: 'PUT', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization':localStorage.getItem('token'),
-              }
-        }).then(response =>{
-            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
-                var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
-                var f1= new Date(date2);
-                tituloPrincipal.innerHTML=titulo2+' '+dias[f1.getDay()];
-            
-                //mostrarModalMensaje('Actualizada correctamente',800);
-                alert('Actualizada correctamente');
-            }else{
-                mostrarModalMensaje('Error al actualizar',600);
-            }
-        }).catch(console.error());
+        var fechaInicio = document.getElementById('plan-fecha-inicio-'+id_plan).value;
+        var fechaFin = document.getElementById('plan-fecha-fin-'+id_plan).value;
 
+        var banderaFechas=false;
+        var banderaCamposNoVacios=false;
+        if(fechaInicio <= date2 && fechaFin >= date2){// si la fecha esta en el rango entonces ponemos en true
+            banderaFechas = true;
+        }
+        if(titulo2 != '' && desc2!= '' && date2 !=''){
+            banderaCamposNoVacios = true;
+        }
+        if(banderaFechas && banderaCamposNoVacios){
+            fetch(urlActividad+'/'+id,{
+                method: 'PUT', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response =>{
+                if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                    var tituloPrincipal = document.getElementById('info-act-titulo-principal-'+id);
+                    var f1= new Date(date2);
+                    tituloPrincipal.innerHTML=titulo2+' '+dias[f1.getDay()];
+                    document.getElementById('plan-actividad-slide-'+id).click();
+                
+                    //mostrarModalMensaje('Actualizada correctamente',800);
+                    alert('Actualizada correctamente');
+                }else{
+                    mostrarModalMensaje('Error al actualizar',600);
+                }
+            }).catch(console.error());
+        }else{
+            var mensajeError='';
+            if(banderaFechas == false){
+                mensajeError+='-La fecha de inici de la actividad debe ser mayor o igual a la de inicio de la planeacion y menor o igual a la de finalización';
+            }
+            if(banderaCamposNoVacios == false){
+                mensajeError+=banderaFechas==false?'\n-Falta llenar campos':'-Falta llenar campos';// si tambien va a tener el mensaje anterior entonces ponemos un salto de linea
+            }
+            alert(mensajeError);
+        }
     }
     function agregarActividad(id_plan){
         
@@ -416,50 +439,72 @@
             descripcion:desc1,
             finalizada:false
         };
-        fetch(urlActividad,{
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization':localStorage.getItem('token'),
-              }
-        }).then(response =>{
-            mostrarModalMensaje('Actividad agregada con exito',850);
-            var btnOK = document.getElementById('boton-agregar-actividad-'+id_plan);
-            btnOK.click()
-            if(response.ok){// si la respuesta fue ok entonces se borro correctamente
-                response.json().then(lista =>{
-    
-                var contenedorActividades = document.getElementById('container-activities-'+lista.id_planeacion);//contenedor de las actividades
-                var f1= new Date(date1);
-                //tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
-                contenedorActividades.innerHTML+=`
-                <div id="container-activitie-${lista.id}" class="container-activitie">
-                    <div class="head-activities">
-                        <h3 id="info-act-titulo-principal-${lista.id}">${lista.titulo} ${dias[f1.getDay()]}</h3>
-                        <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista.id},this)">
-                        <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista.id},this)">
-                        <input id="info-act-check-${lista.id}" class="check-box" type="checkbox" ${lista.finalizada==true?'checked':'unchecked'}>
-    
-                    </div>
-                    <div id="info-actividad-${lista.id}" class="body-activities">
-                            <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="info-act-date-${lista.id}" value="${f1.toISOString().split('T')[0]}">
-                            <h3>Titulo</h3>
-                            <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Titulo" value="${lista.titulo}">
-                            <h3>Descripción</h3>
-                            <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}">
-                            <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
-                    </div>
-                    
-                </div>`;
+        var fechaInicio = document.getElementById('plan-fecha-inicio-'+id_plan).value;
+        var fechaFin = document.getElementById('plan-fecha-fin-'+id_plan).value;
 
-                }).catch(console.error());
-                
-            }else{
-                mostrarModalMensaje('Error al guardar',850);
+        var banderaFechas=false;
+        var banderaCamposNoVacios=false;
+        if(fechaInicio <= date1 && fechaFin >= date1){// si la fecha esta en el rango entonces ponemos en true
+            banderaFechas = true;
+        }
+        if(titulo1 != '' && desc1!= '' && date1 !=''){
+            banderaCamposNoVacios = true;
+        }
+        if(banderaFechas && banderaCamposNoVacios){
+            fetch(urlActividad,{
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token'),
+                  }
+            }).then(response =>{
+                mostrarModalMensaje('Actividad agregada con exito',850);
+                var btnOK = document.getElementById('boton-agregar-actividad-'+id_plan);
+                btnOK.click()
+                if(response.ok){// si la respuesta fue ok entonces se borro correctamente
+                    response.json().then(lista =>{
+        
+                    var contenedorActividades = document.getElementById('container-activities-'+lista.id_planeacion);//contenedor de las actividades
+                    var f1= new Date(date1);
+                    //tituloPrincipal.innerHTML=titulo1+' '+dias[f1.getDay()];
+                    contenedorActividades.innerHTML+=`
+                    <div id="container-activitie-${lista.id}" class="container-activitie">
+                        <div class="head-activities">
+                            <h3 id="info-act-titulo-principal-${lista.id}">${lista.titulo} ${dias[f1.getDay()]}</h3>
+                            <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista.id},this)">
+                            <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista.id},this)">
+                            <input id="info-act-check-${lista.id}" class="check-box" type="checkbox" ${lista.finalizada==true?'checked':'unchecked'}>
+        
+                        </div>
+                        <div id="info-actividad-${lista.id}" class="body-activities">
+                                <h3>Fecha inicio</h3>
+                                <input type="date" name="" id="info-act-date-${lista.id}" value="${f1.toISOString().split('T')[0]}">
+                                <h3>Titulo</h3>
+                                <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Titulo" value="${lista.titulo}">
+                                <h3>Descripción</h3>
+                                <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}">
+                                <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
+                        </div>
+                        
+                    </div>`;
+    
+                    }).catch(console.error());
+                    
+                }else{
+                    mostrarModalMensaje('Error al guardar',850);
+                }
+            });
+        }else{
+            var mensajeError='';
+            if(banderaFechas == false){
+                mensajeError+='-La fecha de inici de la actividad debe ser mayor o igual a la de inicio de la planeacion y menor o igual a la de finalización';
             }
-        });
+            if(banderaCamposNoVacios == false){
+                mensajeError+=banderaFechas==false?'\n-Falta llenar campos':'-Falta llenar campos';// si tambien va a tener el mensaje anterior entonces ponemos un salto de linea
+            }
+            alert(mensajeError);
+        }
     }
 
     function borrarPlaneacion(id,element){

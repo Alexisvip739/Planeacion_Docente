@@ -87,7 +87,7 @@ body,html{/*
     content: 'Favoritos';
 }
 .text-mis-planeaciones::after{
-    content: 'Mis planeaciónes';
+    content: 'Mis planeaciones';
 }
 .text-marca::after{
     content: 'LAPSOFT';
