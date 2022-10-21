@@ -174,7 +174,7 @@ class PlaneacionClonarView(APIView):
             nuevaActividad = Actividad()
             nuevaActividad.id_planeacion = plan
             nuevaActividad.titulo = a.titulo
-            nuevaActividad.fecha_de_inicio = a.fecha_de_inicio
+            nuevaActividad.fecha_de_inicio = request.data['fecha_de_inicio']
             nuevaActividad.descripcion = a.descripcion
             nuevaActividad.finalizada = a.finalizada
             nuevaActividad.save()#guardamos la actividad

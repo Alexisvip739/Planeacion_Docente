@@ -74,22 +74,53 @@
     Este metodo clona una planeacion dada por el id de la planeacion
     */
     async function clonarPlaneacion(id_plan){
-        document.getElementById('info-modal').remove();
-        var data = {
-            id:id_plan
+        var fechaInicio = document.getElementById('plan-clon-fecha-inicio-'+id_plan).value;
+        var fechaFin = document.getElementById('plan-clon-fecha-fin-'+id_plan).value;
+
+        var banderaFechas;
+        var banderaCamposNoVacios;
+        if(fechaInicio <= fechaFin && fechaFin >= fechaInicio){
+            banderaFechas = true;
+        }else{
+            banderaFechas = false;
+        }
+
+        if(fechaInicio != '' && fechaFin != ''){
+            banderaCamposNoVacios = true;
+        }else{
+            banderaCamposNoVacios = false;
+        }
+        if(banderaFechas && banderaCamposNoVacios){
+            document.getElementById('info-modal').remove();
+            var data = {
+                id:id_plan,
+                fecha_de_inicio: fechaInicio,
+                fecha_de_finalizacion: fechaFin
             };
-        fetch(urlClonarPlaneacion,{
-            method:'POST',
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers:{
-              'Content-Type': 'application/json',
-              'Authorization':localStorage.getItem('token'),
+            fetch(urlClonarPlaneacion,{
+                method:'POST',
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                'Content-Type': 'application/json',
+                'Authorization':localStorage.getItem('token'),
             }
-          }).then(response =>{
+            }).then(response =>{
             if(response.ok){// la peticion fue exitosa
                 mostrarModalMensaje("Clonada con exito",950);
+            }else{
+                alert('Error al clonar')
             }
-          }).catch(error => console.error('Error:', error))
+            }).catch(error => console.error('Error:', error));
+        }else{
+            var mensajeError='';
+            if(banderaFechas==false){// si las fechas no estan en el rango mandamos mensaje de error
+                mensajeError+='-La fecha de inició debe ser menor o igual a la de finalización y la de finalización debe ser mayor o igual a la de inició';
+            }
+            if(banderaCamposNoVacios == false){//si los campos estan vacios mandamos error
+                mensajeError+='  -Faltan rellenar campos';
+            }
+            alert(mensajeError);
+        }
     }
     /** para mostrar un modal para la clonacion de las planeaciones
     */
@@ -98,7 +129,12 @@
         b.innerHTML+=`
         <div id="info-modal" class="modal-clonacion">
             <img id="btn-info-modal" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModal()">
-            <h3>¿Seguro que quieres clonar esta planeacion?</h3>
+            <h3>Elige el rango de fechas de la planeación</h3>
+            <h4>Fecha de inicio</h4>
+            <input id="plan-clon-fecha-inicio-${id}" type="date">
+            <h4>Fecha de finlaización</h4>
+            <input id="plan-clon-fecha-fin-${id}"  type="date">
+
             <button onclick="clonarPlaneacion(${id})">Clonar</button>
         </div>`;
     }
