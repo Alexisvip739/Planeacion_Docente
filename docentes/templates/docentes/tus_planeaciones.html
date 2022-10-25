@@ -109,9 +109,9 @@
                                         <h3>Fecha inicio</h3>
                                         <input type="date" name="" id="info-act-date-${lista[a].id}" value="${f1.toISOString().split('T')[0]}">
                                         <h3>Titulo</h3>
-                                        <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}">
+                                        <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}" maxlength="50" required>
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}">
+                                        <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}" maxlength="50" required>
                                         <input class="button-succes margin-top" type="button" name="" value="Guardar actividad" id="" onclick="actualizarActividad(${lista[a].id},${lista[a].id_planeacion})">
                                         
                                 </div>
@@ -483,9 +483,9 @@
                                 <h3>Fecha inicio</h3>
                                 <input type="date" name="" id="info-act-date-${lista.id}" value="${f1.toISOString().split('T')[0]}">
                                 <h3>Título</h3>
-                                <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Título" value="${lista.titulo}">
+                                <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Título" value="${lista.titulo}" maxlength="50" required>
                                 <h3>Descripción</h3>
-                                <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}">
+                                <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}" maxlength="50" required>
                                 <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
                         </div>
                         
