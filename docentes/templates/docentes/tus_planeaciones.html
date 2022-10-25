@@ -239,15 +239,15 @@
         </div>
         <div id="plan-info-${lista[a].id}" class="plan-info border-bottom">
             <h3>Título</h3>
-            <input type="text" name="" id="plan-titulo-${lista[a].id}" placeholder="Título" value="${lista[a].titulo}">
+            <input type="text" name="" id="plan-titulo-${lista[a].id}" placeholder="Título" value="${lista[a].titulo}" maxlength="60" required>
             <h3>Tema</h3>
-            <input type="text" name="" id="plan-tema-${lista[a].id}" placeholder="Tema" value="${lista[a].tema}">
+            <input type="text" name="" id="plan-tema-${lista[a].id}" placeholder="Tema" value="${lista[a].tema}" maxlength="60" required>
             <h3>Grado</h3>
-            <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}">
+            <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}" required>
             <h3>Fecha inicio</h3>
-            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}" readonly>
+            <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}" readonly required>
             <h3>Fecha finalización</h3>
-            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${ff2.toISOString().split('T')[0]}" readonly>
+            <input type="date" name="" id="plan-fecha-fin-${lista[a].id}" value="${ff2.toISOString().split('T')[0]}" readonly required>
             <h2>Actividades</h2>
 
              <!--Agregar actividad-->
@@ -262,11 +262,11 @@
                     <div id="info-add-actividad-${lista[a].id}" class="body-activities">
                         
                             <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="info-add-date-${lista[a].id}">
+                            <input type="date" name="" id="info-add-date-${lista[a].id}" required>
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Título">
+                            <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Título" maxlength="50" required>
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción">
+                            <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción" maxlength="50" required>
                             <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="agregarActividad(${lista[a].id})">
                     </div>
             
