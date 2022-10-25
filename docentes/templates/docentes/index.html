@@ -15,7 +15,7 @@
     <div class="search-container">
         <h1 class="search-title">Escribe el nombre de tu  tema</h1>
         <div class="search">
-            <input id="input-buscar-planeacion" type="text" placeholder="Titulo del tema" onkeypress="enter(event)">
+            <input id="input-buscar-planeacion" type="text" placeholder="Título del tema" onkeypress="enter(event)">
             <a onclick="buscarPlaneacion()">
                 <img src="{% static 'icons/iconSearch.svg' %}" alt="icono buscar">
             </a>
@@ -254,7 +254,7 @@
                         <div class="plan border-bottom">
                             <div>
                                 <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].id_usuario.username==username?'Tú':data[a].anonima==false?data[a].id_usuario.username:'Anonima'}</h3>
+                                <h3>${data[a].id_usuario.username==username?'Tú':data[a].anonima==false?data[a].id_usuario.username:'Anónima'}</h3>
                             </div>
                             <div>
                                 <div class="plan-star">
@@ -321,9 +321,15 @@
                     }).catch(console.error());
                 }
                 else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
-                    contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
-                    mostrarModalMensaje('No se enontraron planeaciones',850);
+                    throw Error(response.status)
+                    //contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
+                    //mostrarModalMensaje('No se enontraron planeaciones',850);
                 }
+            }).catch(error =>{
+                
+                console.error('Errores:', error);
+                contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
+                //mostrarModalMensaje('No se enontraron planeaciones',850);
             });
         }
     }

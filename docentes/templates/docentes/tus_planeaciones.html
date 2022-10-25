@@ -262,7 +262,7 @@
                             <h3>Fecha inicio</h3>
                             <input type="date" name="" id="info-add-date-${lista[a].id}">
                             <h3>Titulo</h3>
-                            <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Titulo">
+                            <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Título">
                             <h3>Descripción</h3>
                             <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción">
                             <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="agregarActividad(${lista[a].id})">
@@ -419,7 +419,7 @@
         }else{
             var mensajeError='';
             if(banderaFechas == false){
-                mensajeError+='-La fecha de inici de la actividad debe ser mayor o igual a la de inicio de la planeacion y menor o igual a la de finalización';
+                mensajeError+='-La fecha de inicio de la actividad debe ser mayor o igual a la de inicio de la planeacion y menor o igual a la de finalización';
             }
             if(banderaCamposNoVacios == false){
                 mensajeError+=banderaFechas==false?'\n-Falta llenar campos':'-Falta llenar campos';// si tambien va a tener el mensaje anterior entonces ponemos un salto de linea
@@ -480,8 +480,8 @@
                         <div id="info-actividad-${lista.id}" class="body-activities">
                                 <h3>Fecha inicio</h3>
                                 <input type="date" name="" id="info-act-date-${lista.id}" value="${f1.toISOString().split('T')[0]}">
-                                <h3>Titulo</h3>
-                                <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Titulo" value="${lista.titulo}">
+                                <h3>Título</h3>
+                                <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Título" value="${lista.titulo}">
                                 <h3>Descripción</h3>
                                 <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}">
                                 <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
