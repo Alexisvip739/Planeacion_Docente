@@ -138,8 +138,10 @@
               }).then(response =>{
                 if(response.ok){// la peticion fue exitosa
                     li.src = likeOn;// like off like amarillo
+                }else{
+                    throw new Error(response.status);
                 }
-              }).catch(error => console.error('Error:', error))
+              }).catch(error => {console.error('Error:', error);alert("Error al dar like");})
         }else{//si no tiene like entonces vamos a borrar el like
             fetch(urlFavorito+'/'+id,{
                 method: 'DELETE', // or 'PUT'
@@ -150,8 +152,10 @@
               }).then(response =>{
                 if(response.ok){// la peticion fue exitosa
                     li.src = likeOff;// like off like gris
+                }else{
+                    throw new Error(response.status);
                 }
-              }).catch(error => console.error('Error:', error));
+              }).catch(error => {console.error('Error:', error);alert("Error al quitar like");})
         }
     }
 

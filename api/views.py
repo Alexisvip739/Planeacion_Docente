@@ -275,9 +275,10 @@ class Favorito_APIView(APIView):
         token = Token.objects.get(key=request.auth)
         try:
             post = Favorito.objects.get(id_planeacion=pk,id_usuario=token.user)
+            post.delete()
         except Favorito.DoesNotExist:
             raise Http404
-        post.delete()
+        
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

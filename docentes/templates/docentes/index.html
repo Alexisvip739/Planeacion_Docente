@@ -214,123 +214,124 @@
         var contPlan = document.getElementById('container-plan');
         
         if( busca != ''){
-            var resul = fetch(urlBuscarPlaneacion+'/'+busca,{
-                headers:{
-                  'Content-Type': 'application/json',
-                  'Authorization':localStorage.getItem('token'),
-                }
-              }).then(response =>{
-                if(response.ok){
-                    response.json().then(data =>{
-                        if(data.length == 0){
-                            contPlan.innerHTML='';
-                            //mostrarModalMensaje('No se enontraron planeaciones',850)
-                        }
-                        contPlan.innerHTML='';
-                        for(a in data){
-                            
-                            /*obtenerFavorito(data[a].id).then((data1)=>{
-                                fav = data1;
-                                console.log(data1)
-                            });
-                            console.log(fav)*/
-                            
-                            var favIcon='';
-                            
-                            if(fav == true){
-                                favIcon = '{% static 'icons/iconLikeOn.svg' %}';
-                                
-                            }else{
-                                favIcon = '{% static 'icons/iconLike.svg' %}';
+            try{
+                var resul = fetch(urlBuscarPlaneacion+'/'+busca,{
+                    headers:{
+                      'Content-Type': 'application/json',
+                      'Authorization':localStorage.getItem('token'),
+                    }
+                  }).then(response =>{
+                    if(response.ok){
+                        response.json().then(data =>{
+                            if(data.length == 0){
+                                contPlan.innerHTML='';
+                                //mostrarModalMensaje('No se enontraron planeaciones',850)
                             }
-                            
-                            var f1= new Date(data[a].fecha_de_inicio);
-                            var f2= new Date(data[a].fecha_de_finalizacion);
-                            
-                            
-                            contPlan.innerHTML+=`
-                    <!-- Inicio de la planeacion-->
-                    <div class="item-plan">
-                        <div class="plan border-bottom">
-                            <div>
-                                <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
-                                <h3>${data[a].id_usuario.username==username?'Tú':data[a].anonima==false?data[a].id_usuario.username:'Anónima'}</h3>
-                            </div>
-                            <div>
-                                <div class="plan-star">
-                                    <h3 class="display-none">5</h3>
-                                    <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
-                                    <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
+                            contPlan.innerHTML='';
+                            for(a in data){
+                                
+                                /*obtenerFavorito(data[a].id).then((data1)=>{
+                                    fav = data1;
+                                    console.log(data1)
+                                });
+                                console.log(fav)*/
+                                
+                                var favIcon='';
+                                
+                                if(fav == true){
+                                    favIcon = '{% static 'icons/iconLikeOn.svg' %}';
+                                    
+                                }else{
+                                    favIcon = '{% static 'icons/iconLike.svg' %}';
+                                }
+                                
+                                var f1= new Date(data[a].fecha_de_inicio);
+                                var f2= new Date(data[a].fecha_de_finalizacion);
+                                
+                                
+                                contPlan.innerHTML+=`
+                        <!-- Inicio de la planeacion-->
+                        <div class="item-plan">
+                            <div class="plan border-bottom">
+                                <div>
+                                    <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
+                                    <h3>${data[a].id_usuario.username==username?'Tú':data[a].anonima==false?data[a].id_usuario.username:'Anónima'}</h3>
                                 </div>
-                                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id},this)">
-                            </div>
-                        </div>
-                        <div class="plan-title">
-                            <h2>${data[a].titulo}</h2>
-                            <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
-                        </div>
-                        <div id="plan-info-${data[a].id}" class="plan-info">
-                            <h3>Tema</h3>
-                            <input type="text" name="" id="" placeholder="Tema" value="${data[a].tema}" readonly>
-                            <h3>Grado</h3>
-                            <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}" readonly>
-                            <h3>Fecha inicio</h3>
-                            <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
-                            <h3>Fecha finalización</h3>
-                            <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}" readonly>
-                            <h2>Actividades</h2>
-                
-                            <div id="container-activities-${data[a].id}" class="container-activities"></div>
-                
-                            <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}" readonly>
-                
-                        </div>
-                
-                        <div class="plan-coment mt2 mb2">
-                            <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="agregarFavorito(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
-                            <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
-                            <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
-                        </div>
-                
-                        <div id="info-coment-${data[a].id}" class="plan-coments">
-                            <div class="container-coments">
-                                <div class="coment">
-                                    <img src="{% static 'icons/iconUser.svg' %}" alt="icono de like">
-                                    <div class="coment-message">
-                                        <h3>Karen</h3>
-                                        <p>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</p>
+                                <div>
+                                    <div class="plan-star">
+                                        <h3 class="display-none">5</h3>
+                                        <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
+                                        <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
                                     </div>
-                
+                                    <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id},this)">
                                 </div>
-                
                             </div>
-                            <div class="plan-coment-send">
-                                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
-                                <input type="text" name="" id="" placeholder="Escribe un comentario">
-                                <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
+                            <div class="plan-title">
+                                <h2>${data[a].titulo}</h2>
+                                <h3>${f1.getDate()+'/'+f1.getMonth()+'/'+f1.getFullYear()} a ${f2.getDate()+'/'+f2.getMonth()+'/'+f2.getFullYear()}</h3>
+                            </div>
+                            <div id="plan-info-${data[a].id}" class="plan-info">
+                                <h3>Tema</h3>
+                                <input type="text" name="" id="" placeholder="Tema" value="${data[a].tema}" readonly>
+                                <h3>Grado</h3>
+                                <input type="text" name="" id="" placeholder="Grado" value="${data[a].grado}" readonly>
+                                <h3>Fecha inicio</h3>
+                                <input type="date" name="" id="" value="${f1.toISOString().split('T')[0]}" readonly>
+                                <h3>Fecha finalización</h3>
+                                <input type="date" name="" id="" value="${f2.toISOString().split('T')[0]}" readonly>
+                                <h2>Actividades</h2>
+                    
+                                <div id="container-activities-${data[a].id}" class="container-activities"></div>
+                    
+                                <h2>Observaciones</h2>
+                                <input type="text" placeholder="Observaciones" value="${data[a].observaciones==null?'':data[a].observaciones}" readonly>
+                    
+                            </div>
+                    
+                            <div class="plan-coment mt2 mb2">
+                                <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="agregarFavorito(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
+                                <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
+                                <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
+                            </div>
+                    
+                            <div id="info-coment-${data[a].id}" class="plan-coments">
+                                <div class="container-coments">
+                                    <div class="coment">
+                                        <img src="{% static 'icons/iconUser.svg' %}" alt="icono de like">
+                                        <div class="coment-message">
+                                            <h3>Karen</h3>
+                                            <p>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</p>
+                                        </div>
+                    
+                                    </div>
+                    
+                                </div>
+                                <div class="plan-coment-send">
+                                    <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                    <input type="text" name="" id="" placeholder="Escribe un comentario">
+                                    <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
+                                </div>
+                            </div>
+                    
                             </div>
                         </div>
-                
-                        </div>
-                    </div>
-                    <!-- Fin de planeacion-->
-                        
-                        `;
-                        }
-                    }).catch(console.error());
-                }
-                else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
-                    throw Error(response.status)
-                    //contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
+                        <!-- Fin de planeacion-->
+                            
+                            `;
+                            }
+                        });
+                    }else{// cuando le peticion tuvo un eror 404 lo que indica que no hay nincuna planeacion con ese titulo
+                        throw new Error(response.status);
+                    }
+                }).catch(error => {
+                    console.error('Errores:', error.message);
+                    contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones   
+                    alert('No se enontraron planeaciones');
                     //mostrarModalMensaje('No se enontraron planeaciones',850);
-                }
-            }).catch(error =>{
+                });
+            }catch(Error){
                 
-                console.error('Errores:', error);
-                contPlan.innerHTML='';//limpiarmos el contenedor de planeaciones
-                //mostrarModalMensaje('No se enontraron planeaciones',850);
-            });
+            }
         }
     }
 
