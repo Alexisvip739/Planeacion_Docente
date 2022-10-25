@@ -208,8 +208,10 @@
                         document.getElementById('plan-anonima').checked=false;
                         mostrarModalMensaje('Planeación agregada correctamente',850);
                     });
+                }else{
+                    throw new Error(response.status);
                 }
-            }).catch(console.error());
+            }).catch(error => {console.error('Error:', error);alert("Error al guardar la planeación");})
 
         }else{
             var mensajeError='';

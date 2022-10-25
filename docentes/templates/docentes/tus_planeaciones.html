@@ -80,7 +80,7 @@
 
         
         var contAct = document.getElementById('container-activities-'+id);
-        if(contAct.innerHTML.trim() == ''){
+        if(contAct.innerHTML.trim() == '' && slide.classList.contains('rotar') ){// si la lista esta vacia y ademas el plan no esta desplegado
             //console.log('siii')
             fetch(urlActividad+'/'+id,{
                 headers:{
@@ -118,9 +118,11 @@
                                 
                             </div>`;
                         }
-                    }).catch(console.error())
+                    });
+                }else{
+                    throw new Error(response.status);
                 }
-            });
+            }).catch(error => {console.error('Error:', error);alert("Error al deplegar el plan");})
         }else{
             //console.log('esta lleno')
         }
@@ -345,9 +347,9 @@
                 
                 alert('guardado correctamente');
             }else{
-                mostrarModalMensaje('Error al actualizar',600);
+                throw new Error(response.status);
             }
-        }).catch(console.error());
+        }).catch(error => {console.error('Error:', error);alert("Error al actualizar la planeación");});
 
     }
 
@@ -364,9 +366,9 @@
                 actividad.remove();
                 mostrarModalMensaje('Registro eliminado con exito',650);
             }else{
-                mostrarModalMensaje('Error al eliminar',650);
+                throw new Error(response.status);
             }
-        });
+        }).catch(error => {console.error('Error:', error);alert("Error al eliminar actividad");});
     }
 
     async function actualizarActividad(id,id_plan){
@@ -413,9 +415,9 @@
                     //mostrarModalMensaje('Actualizada correctamente',800);
                     alert('Actualizada correctamente');
                 }else{
-                    mostrarModalMensaje('Error al actualizar',600);
+                    throw new Error(response.status);
                 }
-            }).catch(console.error());
+            }).catch(error => {console.error('Error:', error);alert("Error al actualizar");})
         }else{
             var mensajeError='';
             if(banderaFechas == false){
@@ -520,9 +522,9 @@
                 actividad.remove();
                 mostrarModalMensaje('Registro eliminado con exito',650);
             }else{
-                mostrarModalMensaje('Error al eliminar',650);
+                throw new Error(response.status);
             }
-        });
+        }).catch(error => {console.error('Error:', error);alert("Error al eliminar la planeación");})
     }
     
     function borrarModal(){

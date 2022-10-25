@@ -108,9 +108,9 @@
             if(response.ok){// la peticion fue exitosa
                 mostrarModalMensaje("Clonada con exito",950);
             }else{
-                alert('Error al clonar')
+                throw new Error(response.status);
             }
-            }).catch(error => console.error('Error:', error));
+        }).catch(error => {console.error('Error:', error);alert("Error al clonar la planeación");});
         }else{
             var mensajeError='';
             if(banderaFechas==false){// si las fechas no estan en el rango mandamos mensaje de error
@@ -158,8 +158,10 @@
               }).then(response =>{
                 if(response.ok){// la peticion fue exitosa
                     li.src = likeOn;// like off like amarillo
+                }else{
+                    throw new Error(response.status);
                 }
-              }).catch(error => console.error('Error:', error))
+            }).catch(error => {console.error('Error:', error);alert("Error al dar like");});
         }else{//si no tiene like entonces vamos a borrar el like
             fetch(urlFavorito+'/'+id,{
                 method: 'DELETE', // or 'PUT'
@@ -170,8 +172,10 @@
               }).then(response =>{
                 if(response.ok){// la peticion fue exitosa
                     li.src = likeOff;// like off like gris
+                }else{
+                    throw new Error(response.status);
                 }
-              }).catch(error => console.error('Error:', error));
+            }).catch(error => {console.error('Error:', error);alert("Error al quitar like");});
         }
     }
      /**
@@ -347,7 +351,7 @@
         slide.classList.toggle('rotar');
 
         var contAct = document.getElementById('container-activities-'+id);
-        if(contAct.innerHTML.trim() == ''){
+        if(contAct.innerHTML.trim() == '' && slide.classList.contains('rotar')){
             //console.log('siii')
             fetch(urlActividadFree+'/'+id).then(response=>{
                 //console.log(response.url)
@@ -375,9 +379,11 @@
                                 </div>
                             </div>`;
                         }
-                    }).catch(console.error());
+                    });
+                }else{
+                    throw new Error(response.status);
                 }
-            });
+            }).catch(error => {console.error('Error:', error);alert("Error al desplegar la planeación");});
         }else{
             //console.log('esta lleno')
         }

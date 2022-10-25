@@ -89,9 +89,9 @@
             if(response.ok){// la peticion fue exitosa
                 mostrarModalMensaje("Clonada con exito",950);
             }else{
-                alert('Error al clonar')
+                throw new Error(response.status);
             }
-            }).catch(error => console.error('Error:', error));
+        }).catch(error => {console.error('Error:', error);alert("Error al clonar la planeación");});
         }else{
             var mensajeError='';
             if(banderaFechas==false){// si las fechas no estan en el rango mandamos mensaje de error
@@ -169,7 +169,7 @@
         //plan1.classList.toggle('border-bottom');
         
         var contAct = document.getElementById('container-activities-'+id);
-        if(contAct.innerHTML == ''){
+        if(contAct.innerHTML == '' && slide.classList.contains('rotar')){
             //console.log('siii')
             fetch(urlActividad+'/'+id,{
                 headers:{
@@ -202,8 +202,10 @@
                             </div>`;
                         }
                     }).catch(console.error())
+                }else{
+                    throw new Error(response.status);
                 }
-            });
+            }).catch(error => {console.error('Error:', error);alert("Error al desplegar la planeación");})
         }else{
             //console.log('esta lleno')
         }
