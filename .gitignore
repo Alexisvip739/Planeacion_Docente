@@ -3,4 +3,4 @@
 
 
 #ignoramos el archivo sql
-db.sqlite3
+*.sqlite3
