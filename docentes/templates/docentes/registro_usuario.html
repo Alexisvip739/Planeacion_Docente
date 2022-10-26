@@ -13,13 +13,13 @@
     {% csrf_token %}
     <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
     <h3>Username</h3>
-    <input name="username" type="text">
+    <input name="username" type="text" placeholder="Username">
     <h3>Correo Electrónico</h3>
-    <input name="email" type="text">
+    <input name="email" type="text" placeholder="Correo Electrónico">
     <h3>Contraseña</h3>
-    <input name="password" type="password">
+    <input name="password" type="password" placeholder="Contraseña">
     <h3>Confirma la contraseña</h3>
-    <input name="password2" type="password">
+    <input name="password2" type="password" placeholder="Confirmar contraseña">
     <input class="login-button" type="submit" value="Registrarme">
     <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
