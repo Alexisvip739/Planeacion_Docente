@@ -265,11 +265,16 @@ class Favorito_APIView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):# aqui vamos a agregar un elemento a favoritos
-        serializer = FavoritoSerializerAdd(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            token = Token.objects.get(key=request.auth)
+            fav = Favorito.objects.get(id_planeacion=request.data['id_planeacion'],id_usuario=token.user)
+            raise Http404#si existe el registro entonces regresamos un 404 
+        except Favorito.DoesNotExist:
+            serializer = FavoritoSerializerAdd(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
     def delete(self, request, pk, format=None):
         token = Token.objects.get(key=request.auth)
