@@ -113,6 +113,8 @@ class Planeacion_APIView(APIView):
         return Response(serializer.data)
     def post(self, request, format=None):#crear una planeacion
         token = Token.objects.get(key=request.auth)
+        if int(request.data['grado']) not in [1,2,3,4,5,6]:
+            return Response( status=status.HTTP_400_BAD_REQUEST)
         if token.user.id == request.data['id_usuario']:
             serializer = PlaneacionSerializer(data=request.data)
             if serializer.is_valid():
@@ -120,6 +122,8 @@ class Planeacion_APIView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, pk, format=None):#actualizar una planeacion
+        if int(request.data['grado']) not in [1,2,3,4,5,6]:
+            return Response( status=status.HTTP_400_BAD_REQUEST)
         token = Token.objects.get(key=request.auth)
         post = self.get_object(pk)
         if token.user.id == request.data['id_usuario'] and post.id_usuario == token.user:#para saber si el usuario creo la planeacion
