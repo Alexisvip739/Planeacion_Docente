@@ -40,13 +40,13 @@
 
     var urlActualizarPlaneacion ='';
 
-    function quitarNumeros(e){
+    function quitarNumeros(e,id){
         if( e.charCode > 48 && e.charCode <=54){
-            console.log(e.charCode)
+            //console.log(e.charCode)
         }else{
             e.preventDefault();
         }
-        if( document.getElementById('plan-grado').value.length > 0){
+        if( document.getElementById('plan-grado-'+id).value.length > 0){
             e.preventDefault();
         }
     }
@@ -253,7 +253,7 @@
             <h3>Tema</h3>
             <input type="text" name="" id="plan-tema-${lista[a].id}" placeholder="Tema" value="${lista[a].tema}" maxlength="60" required>
             <h3>Grado</h3>
-            <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}" onkeypress="quitarNumeros(event)" min="1" max="6"  required>
+            <input type="number" name="" id="plan-grado-${lista[a].id}" placeholder="Grado" value="${lista[a].grado}" onkeypress="quitarNumeros(event,${lista[a].id})" min="1" max="6"  required>
             <h3>Fecha inicio</h3>
             <input type="date" name="" id="plan-fecha-inicio-${lista[a].id}" value="${ff1.toISOString().split('T')[0]}" readonly required>
             <h3>Fecha finalización</h3>
