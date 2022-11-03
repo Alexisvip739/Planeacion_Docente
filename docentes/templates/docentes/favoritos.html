@@ -159,8 +159,9 @@
         }
     }
 
-    async function desplegarPlan(id,slide){
+    async function desplegarPlan(id){
         var pl = document.getElementById('plan-info-'+id);
+        var slide = document.getElementById('plan-slide-'+id);
         pl.classList.toggle('display-flex');
         slide.classList.toggle('rotar');
         //btn.classList.toggle('display-flex');
@@ -301,7 +302,7 @@
                             contPlan.innerHTML+=`
                     <!-- Inicio de la planeacion-->
                     <div id="item-plan-${data[a].id_planeacion.id}" class="item-plan">
-                        <div class="plan border-bottom">
+                        <div class="plan border-bottom" >
                             <div>
                                 <img src="{% static 'icons/iconUser.svg' %}" alt="imagen usuario">
                                 <h3>${data[a].id_planeacion.id_usuario.username==username?'Tú':data[a].id_planeacion.anonima==false?data[a].id_planeacion.id_usuario.username:'Anónima'}</h3>
@@ -312,10 +313,10 @@
                                     <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
                                     <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id_planeacion.id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
                                 </div>
-                                <img class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id_planeacion.id},this)">
+                                <img id="plan-slide-${data[a].id_planeacion.id}" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarPlan(${data[a].id_planeacion.id})">
                             </div>
                         </div>
-                        <div class="plan-title">
+                        <div class="plan-title" onclick="desplegarPlan(${data[a].id_planeacion.id})">
                             <h2>${data[a].id_planeacion.titulo}</h2>
                             <h3>${f1.toISOString().split('T')[0]} a ${f2.toISOString().split('T')[0]}</h3>
                         </div>

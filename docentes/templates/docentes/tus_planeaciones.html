@@ -78,8 +78,9 @@
         slide.classList.toggle('rotar');
 
     }
-    function desplegarTuPlan(id,slide){
+    function desplegarTuPlan(id){
         var pl = document.getElementById('plan-info-'+id);
+        var slide = document.getElementById('plan-slide-'+id);
         var btn = document.getElementById('plan-button-save-'+id);
         var planx = document.getElementById('plan-'+id);
         pl.classList.toggle('display-flex');
@@ -234,8 +235,8 @@
 
         
         
-        <div id='plan-${lista[a].id}' class="plan">
-            <div class="display-colum">
+        <div id='plan-${lista[a].id}' class="plan" >
+            <div class="display-colum" onclick="desplegarTuPlan(${lista[a].id})">
                 <h2 id="plan-titulo1-${lista[a].id}" >${lista[a].titulo}</h2>
                 <h3 id="plan-fecha1-${lista[a].id}">${f1[2]+'/'+f1[1]+'/'+f1[0]} a ${f2[2]+'/'+f2[1]+'/'+f2[0]}</h3>
             </div>
@@ -243,7 +244,7 @@
                 <div class="plan-star">
                     <img title="Borrar planeación" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono estrella" onclick="borrarPlaneacion(${lista[a].id},this)">
                 </div>
-                <img id="plan-slide-${lista[a].id}" title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id},this)">
+                <img id="plan-slide-${lista[a].id}" title="Desplegar plan" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarTuPlan(${lista[a].id})" >
                 <input id="plan-check-${lista[a].id}" class="check-box" type="checkbox" ${lista[a].finalizada==true?'checked':'unchecked'} onclick="desabilitar(this)">
             </div>
         </div>

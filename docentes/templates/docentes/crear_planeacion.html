@@ -207,6 +207,10 @@
                         document.getElementById('plan-fecha-inicio').value='';
                         document.getElementById('plan-fecha-fin').value='';
                         document.getElementById('plan-anonima').checked=false;
+                        var fechaInicio1 = document.getElementById('plan-fecha-inicio');
+                        var fechaFin1 = document.getElementById('plan-fecha-fin');
+                        fechaInicio1.disabled = false;
+                        fechaFin1.disabled = false;
                         mostrarModalMensaje('Planeación agregada correctamente',850);
                     });
                 }else{
