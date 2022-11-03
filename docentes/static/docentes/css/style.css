@@ -573,6 +573,9 @@
 .mb2{
     margin-bottom: 2%;
 }
+.cursor-default{
+    cursor: default !important;
+}
 
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){

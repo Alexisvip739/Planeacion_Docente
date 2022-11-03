@@ -308,7 +308,7 @@
                                 <h3>${data[a].id_planeacion.anonima==false?data[a].id_planeacion.id_usuario.username:'Anónima'}</h3>
                             </div>
                             <div>
-                                <div class="plan-star">
+                                <div class="plan-star"> 
                                     <h3 class="display-none">5</h3>
                                     <img class="iconStar display-none" src="{% static 'icons/iconStar.svg' %}" alt="icono estrella" onclick="mostrarModalCalificacion()">
                                     <img title="Clonar planeación" class="iconStar" src="{% static 'icons/iconCopy.svg' %}" alt="Icono clonar planeación" {% if user.is_authenticated %} onclick="mostrarModalClonacion(${data[a].id_planeacion.id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder clonar una planeación',5500)" {% endif %}>
@@ -317,8 +317,8 @@
                             </div>
                         </div>
                         <div class="plan-title" onclick="desplegarPlan(${data[a].id_planeacion.id})">
-                            <h2>${data[a].id_planeacion.titulo}</h2>
-                            <h3>${f1.toISOString().split('T')[0]} a ${f2.toISOString().split('T')[0]}</h3>
+                            <h2 class="cursor-default">${data[a].id_planeacion.titulo}</h2>
+                            <h3 class="cursor-default">${f1.toISOString().split('T')[0]} a ${f2.toISOString().split('T')[0]}</h3>
                         </div>
                         <div id="plan-info-${data[a].id_planeacion.id}" class="plan-info">
                             <h3>Tema</h3>
