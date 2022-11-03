@@ -78,7 +78,8 @@ class Planeacion_APIViewFree(APIView):
 
             listaFavoritos = Favorito.objects.values('id_planeacion').all().filter(id_usuario=token.user.id)#buscamos las planeaciones favoritas del usuario
             #buscamos las planeaciones favoritas del usuario excluyendo las que aya agreado a favoritos
-            post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio').exclude(id__in=listaFavoritos)
+            #quitamos las planeaciones creadas por el usuario logeado   
+            post = Planeacion.objects.all().filter(titulo__contains=titulo).order_by('fecha_de_inicio').exclude(id__in=listaFavoritos).exclude(id_usuario=token.user)
             #exluimos las planeaciones que tengamos en favoritos
             if len(post) == 0:
                 #mandamos el error 404 ya que no hay planeaciones con ese titulo
