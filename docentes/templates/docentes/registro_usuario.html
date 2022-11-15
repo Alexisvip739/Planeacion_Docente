@@ -13,29 +13,17 @@
     {% csrf_token %}
     <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
     <h3>Username</h3>
-    <input name="username" type="text" placeholder="Username">
+    <input name="username" minlength="5" type="text" placeholder="Username" required>
     <h3>Correo Electrónico</h3>
-    <input name="email" type="text" placeholder="Correo Electrónico">
+    <input name="email" type="text" minlength="8" placeholder="Correo Electrónico" required>
     <h3>Contraseña</h3>
-    <input name="password" type="password" placeholder="Contraseña">
+    <input name="password"  minlength="5" type="password" placeholder="Contraseña" required>
     <h3>Confirma la contraseña</h3>
-    <input name="password2" type="password" placeholder="Confirmar contraseña">
+    <input name="password2" type="password" minlength="5" placeholder="Confirmar contraseña" required>
     <input class="login-button" type="submit" value="Registrarme">
     <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
-    {% if noregistrado %}
-        <p style="color:red">{{noregistrado}}</p>
-    {% endif %}
-
     
-    {% if campoERROR %}
-        <p style="color:red">Campos no completados</p>
-    {% endif %}
-    
-    {% if mensajeError %}
-        <p style="color:red">Password no considen</p>    
-    {% endif %}
-
     {% if noUser %}
             <p style="color:red">{{noUser}}</p>
     {% endif %}
