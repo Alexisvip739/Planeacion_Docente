@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from docentes.models import Actividad, Comentario, Favorito, Planeacion, Rating
+from docentes.models import Actividad, Comentario, Favorito, Planeacion
 from rest_framework.authtoken.models import Token
 
 # Register your models here.
@@ -23,6 +23,5 @@ class ComentarioAdmin(admin.ModelAdmin):
 admin.site.register(Planeacion,PlaneacionAdmin)
 admin.site.register(Actividad,ActividadesAdmin)
 admin.site.register(Comentario,ComentarioAdmin)
-admin.site.register(Rating)
 admin.site.register(Favorito)
 admin.site.register(Token)
