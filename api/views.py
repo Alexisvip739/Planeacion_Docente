@@ -11,7 +11,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from .serializers import *
 #importamos todos los serializadores
-from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer, Rating
+from docentes.models import Actividad, Comentario, Favorito, Planeacion,Customer
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.http import Http404
