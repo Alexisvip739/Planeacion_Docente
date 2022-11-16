@@ -1,6 +1,5 @@
 from curses.ascii import NUL
 from itertools import count
-from nis import cat
 from sys import *
 from urllib import request
 from xmlrpc.client import Boolean

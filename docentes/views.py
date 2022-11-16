@@ -106,8 +106,6 @@ def cerrar_sesion(request):
 #para registrar un usuario nuevo
 
 def registrar_usuario(request):
-    
-
     if request.method == 'GET':
         if request.user.is_authenticated:
             return redirect('docentes:index')
@@ -117,17 +115,11 @@ def registrar_usuario(request):
         for user_ahutenticate in allUser:
             if user_ahutenticate.username==request.POST['username']:
                 return render(request,'docentes/registro_usuario.html',{'noUser':'Usuario ya existente'})
-
-        if request.POST['username']=='' and request.POST['email']=='' and request.POST['password']=='' and request.POST['password2']=='':
-            return render(request,'docentes/registro_usuario.html',{'noregistrado':'Los campos no estan completados'})
-        
-        if request.POST['username']=='' or request.POST['email']=='' or request.POST['password']=='' or request.POST['password2']=='':
-            return render(request,'docentes/registro_usuario.html',{'mensajeError':'Los campos no estan completados'})
-        
-        
+                
         if request.POST['password'] == request.POST['password2'] or request.POST['password2']==request.POST['password']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
-        
+           
+                
         elif request.POST['password'] != request.POST['password2'] or request.POST['password2']!=request.POST['password']:
             return render(request,'docentes/registro_usuario.html',{'mensajeError':'Contrasena no valida'})
         return redirect('docentes:login')
