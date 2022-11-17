@@ -43,10 +43,6 @@ class Comentario(models.Model):
     def __str__(self)->str:
         return self.comentario
 
-
-class Rating(models.Model):
-    id_usuario=models.ForeignKey(User,on_delete=models.CASCADE)
-    id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
    
     
 
