@@ -594,7 +594,12 @@
 .cursor-default{
     cursor: default !important;
 }
-
+.align-start{
+    justify-content: flex-start  !important;
+}
+.ml{
+    margin-left: 5%;
+}
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){
 

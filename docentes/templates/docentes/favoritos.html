@@ -338,7 +338,7 @@
                 
                         </div>
                 
-                        <div class="plan-coment mt2 mb2">
+                        <div class="plan-coment mt2 mb2 align-start ml">
                             <img src="${favIcon}" alt="icono de like" onclick="agregarFavorito(${data[a].id_planeacion.id},this)" >
                             <h3 class="display-none" onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id_planeacion.id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id_planeacion.id},this)">
@@ -357,7 +357,7 @@
                 
                             </div>
                             <div class="plan-coment-send">
-                                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                <img class="" src="{% static 'icons/logo.svg' %}" alt="icono de like">
                                 <input type="text" name="" id="" placeholder="Escribe un comentario">
                                 <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
                             </div>
