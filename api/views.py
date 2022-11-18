@@ -156,12 +156,7 @@ class PlaneacionClonarView(APIView):
             post = Planeacion.objects.get(id=request.data['id'])
         except Planeacion.DoesNotExist:
             raise Http404
-        #obtenemos el token para de ahi obtener el usuario
         token = Token.objects.get(key=request.auth)
-
-        #print(request.data)
-        
-        #clonamos la planeacion
         plan = Planeacion()
         plan.grado = post.grado
         plan.fecha_de_finalizacion = request.data['fecha_de_finalizacion']
@@ -173,6 +168,7 @@ class PlaneacionClonarView(APIView):
         plan.observaciones = post.observaciones
         plan.id_usuario = token.user
         plan.save()#guardamos la nueva planeacion
+        print("datoss")
         listaActividades = Actividad.objects.all().filter(id_planeacion=post.id)#obtenemos la lista de actividades para luego copiarlas
         for a in listaActividades:
             nuevaActividad = Actividad()
