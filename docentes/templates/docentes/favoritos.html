@@ -198,7 +198,7 @@
                                         <h3>Titulo</h3>
                                         <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}" readonly>
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="" placeholder="Descripción" value="${lista[a].descripcion}" readonly>
+                                        <textarea rows="6" cols="50" placeholder="Descripción" value="${lista[a].descripcion}" readonly></textarea>
                                 </div>
                             </div>`;
                         }
@@ -334,7 +334,7 @@
                             <div id="container-activities-${data[a].id_planeacion.id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
-                            <input type="text" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}" readonly>
+                            <textarea rows="4" cols="50" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}" readonly></textarea>
                 
                         </div>
                 

@@ -94,6 +94,12 @@ class FavoritoListSerielizers(serializers.ModelSerializer):
 
 
 class ComentarioSerielizers(serializers.ModelSerializer):
+    id_usuario = UserSerializer()
+    class Meta:
+        model = Comentario
+        fields = ['comentario','id_usuario','id_planeacion']
+
+class ComentarioValidSerielizers(serializers.ModelSerializer):
     class Meta:
         model = Comentario
         fields = '__all__'

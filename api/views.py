@@ -290,36 +290,40 @@ class Favorito_APIView(APIView):
 
 
 class Comentario_APIView(APIView):
+    permission_clases = [permissions.IsAuthenticated]
+    def get_object(self, pk):
+        try:
+            return Planeacion.objects.get(pk=pk)
+        except Planeacion.DoesNotExist:
+            raise Http404
     def get(self, request, format=None, *args, **kwargs):
         post = Comentario.objects.all()
         serializer = ComentarioSerielizers(post, many=True)
         
         return Response(serializer.data)
     def post(self, request, format=None):
-        serializer = ComentarioSerielizers(data=request.data)
+        plan = self.get_object(request.data['id_planeacion'])#buscamos la planeacion para ver si existe Si no existe devolvemos 404
+        try:
+            token = Token.objects.get(key=request.auth)
+        except Token.DoesNotExist:
+            raise Http404
+        if request.data['id_usuario'] != str(token.user.id):
+            return Response({'eror:no pueder agregar un comentario como si fueras otro usuario'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = ComentarioValidSerielizers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Comentario_APIView_Detail(APIView):
+class Comentario_APIViewFree(APIView):
+    permission_clases = [permissions.AllowAny]
     def get_object(self, pk):
         try:
-            return Comentario.objects.get(pk=pk)
+            return Comentario.objects.all().filter(id_planeacion = pk)
         except Comentario.DoesNotExist:
             raise Http404
     def get(self, request, pk, format=None):
         post = self.get_object(pk)
-        serializer = ComentarioSerielizers(post)  
+        serializer = ComentarioSerielizers(post,many=True)  
         return Response(serializer.data)
-    def put(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = ComentarioSerielizers(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
