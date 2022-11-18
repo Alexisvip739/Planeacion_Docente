@@ -13,7 +13,7 @@
     {% csrf_token %}
     <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
     <h3>Username</h3>
-    <input name="username" minlength="5" type="text" placeholder="Username" required>
+    <input name="username" minlength="5" type="text" placeholder="Usuario" required>
     <h3>Correo Electrónico</h3>
     <input name="email" type="text" minlength="8" placeholder="Correo Electrónico" required>
     <h3>Contraseña</h3>

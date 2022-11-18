@@ -40,7 +40,7 @@ def actualizarPassword(request):
             user.set_password(password1)
             user.save()
             logout(request)
-            return redirect('docentes:login')
+            return redirect('docentes/login.html')
         if password1!=password2 or password2!=password1:
             return render(request,'docentes/actualizacion_password.html',{'mensajeError1':'Una de las contrasenas no es valida'})
         if password1=='' and password2!='' or  password1!='' and password2=='':
