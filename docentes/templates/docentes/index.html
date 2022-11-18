@@ -304,7 +304,7 @@
                                 <div class="plan-coment-send">
                                     <img src="{% static 'icons/iconUser.svg' %}" alt="icono de usuario">
                                     <input type="text" name="" id="plan-coment-info-${data[a].id}" placeholder="Escribe un comentario" onkeypress="enterEnviarComentario(event,${data[a].id})">
-                                    <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like" onclick="enviarComentario(${data[a].id})">
+                                    <img title="Enviar comentario" src="{% static 'icons/iconSend.svg' %}" alt="icono enviar comentario" onclick="enviarComentario(${data[a].id})">
                                 </div>
                             </div>
                     
