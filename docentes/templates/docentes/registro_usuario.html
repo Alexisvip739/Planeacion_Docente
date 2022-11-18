@@ -12,7 +12,7 @@
 <form class="login" action="{% url 'docentes:registrar_usuario' %}" method="POST">
     {% csrf_token %}
     <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
-    <h3>Username</h3>
+    <h3>Nombre de usuario</h3>
     <input name="username" minlength="5" type="text" placeholder="Usuario" required>
     <h3>Correo Electrónico</h3>
     <input name="email" type="text" minlength="8" placeholder="Correo Electrónico" required>

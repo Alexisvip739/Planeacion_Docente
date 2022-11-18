@@ -33,17 +33,16 @@ def perfil(request):
 @login_required(login_url='docentes:login')
 def actualizarPassword(request):
     if request.method == 'POST':
-        password1=request.POST['password1']
-        password2=request.POST['password2']
         user=User.objects.get(id=request.user.id)
-        if password1 == password2 and password1!='' or password2!='':
-            user.set_password(password1)
+
+        if request.POST['password1'] == request.POST['password2'] and request.POST['password1']!='' or request.POST['password2']!='':
+            user.set_password(str(request.POST['password1']))
             user.save()
             logout(request)
-            return redirect('docentes/login.html')
-        if password1!=password2 or password2!=password1:
+           
+        if request.POST['password1']!=request.POST['password2'] or request.POST['password2']!=request.POST['password2']:
             return render(request,'docentes/actualizacion_password.html',{'mensajeError1':'Una de las contrasenas no es valida'})
-        if password1=='' and password2!='' or  password1!='' and password2=='':
+        if request.POST['password1']=='' and request.POST['password2']!='' or  request.POST['password1']!='' and request.POST['password2']=='':
             return render(request,'docentes/actualizacion_password.html',{'mensajeError2':'La contrasena no esta asignada'})
  
 
@@ -73,7 +72,7 @@ def actualizarUsuario(request):
             user.username = name
             user.email = email
             user.save()
-            return render(request,'docentes/index.html',{})
+            return redirect('docentes:index')
     return render(request,'docentes/actualizacion_informacion.html',{'mensajeError' : 'Rellene los campos para hacer el cambio'})
     
 #para logiar al usuario
