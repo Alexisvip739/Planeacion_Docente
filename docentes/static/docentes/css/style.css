@@ -198,15 +198,15 @@
 .plan-coment{
     display: flex;
     flex-direction: row;
-    /*justify-content: space-around; <-- para cuando se vean los comentarios*/
-    justify-content: flex-start;
+    justify-content: space-around;
     /*background: var(--white);*/
-    padding-left: 5%;
-    padding-right: 5%;
     border-radius: 0 0 50px 50px;
 }
 .plan-coment h3,.plan-coment img{
     cursor:pointer;
+}
+.opacidad-0{
+    opacity: 0;
 }
 .iconStar{
     width: 30px !important;
@@ -322,6 +322,7 @@
 }
 .coment img{
     width: 50px;
+    padding: 1%;
 }
 
 

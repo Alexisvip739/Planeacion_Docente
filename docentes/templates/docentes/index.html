@@ -291,10 +291,10 @@
                     
                             </div>
                     
-                            <div class="plan-coment mt2 mb2">
+                            <div class="plan-coment">
                                 <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="agregarFavorito(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
-                                <h3 class="display-none" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
-                                <img class="display-none" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id},this)">
+                                <h3 class="" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
+                                <img class="opacidad-0" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id})">
                             </div>
                     
                             <div id="info-coment-${data[a].id}" class="plan-coments">
@@ -400,13 +400,15 @@
         pl.classList.toggle('display-flex');
 
         var pl1 = document.getElementById('plan-coment-close-'+id);
-        pl1.classList.toggle('display-flex');
+        pl1.classList.toggle('opacidad-0');
 
     }
-    function cerrarComentarios(id,x){
+    function cerrarComentarios(id){
         var pl = document.getElementById('info-coment-'+id);
         pl.classList.toggle('display-flex');
-        x.classList.toggle('display-flex');
+
+        var pl1 = document.getElementById('plan-coment-close-'+id);
+        pl1.classList.toggle('opacidad-0')
     }
     function darLike(id,li){
         if(li.src.includes(likeOff)){// si el src de la imagen contiene el likeOff entonces lo invertimos
