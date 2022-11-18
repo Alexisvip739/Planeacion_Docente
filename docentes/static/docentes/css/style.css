@@ -240,6 +240,20 @@
     border-color: transparent;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
 }
+
+.plan-info textarea{
+    padding:5%;
+    width: auto;
+    background: white;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: var(--redondo1);
+    outline: none;
+    font-size: var(--fuente);
+    border-color: transparent;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+}
+
 .plan-info h2{
     text-align: center;
     overflow-wrap: anywhere;
