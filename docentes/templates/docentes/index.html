@@ -303,8 +303,8 @@
                                 <div id="plan-container-coments-${data[a].id}" class="container-coments"></div>
                                 <div class="plan-coment-send">
                                     <img src="{% static 'icons/iconUser.svg' %}" alt="icono de usuario">
-                                    <input type="text" name="" id="plan-coment-info-${data[a].id}" placeholder="Escribe un comentario" onkeypress="enterEnviarComentario(event,${data[a].id})">
-                                    <img title="Enviar comentario" src="{% static 'icons/iconSend.svg' %}" alt="icono enviar comentario" onclick="enviarComentario(${data[a].id})">
+                                    <input type="text" name="" id="plan-coment-info-${data[a].id}" placeholder="Escribe un comentario" {% if user.is_authenticated %} onkeypress="enterEnviarComentario(event,${data[a].id})" {% else %} onkeypress="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder agregar comentarios',5500)" {% endif %}>
+                                    <img title="Enviar comentario" src="{% static 'icons/iconSend.svg' %}" alt="icono enviar comentario" {% if user.is_authenticated %} onclick="enviarComentario(${data[a].id})" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder agregar comentarios',5500)" {% endif %}>
                                 </div>
                             </div>
                     

@@ -341,6 +341,7 @@
 }
 .coment-message p{
     overflow-wrap: anywhere;
+    margin: 0px;
 }
 .display-none{
     display: none;
