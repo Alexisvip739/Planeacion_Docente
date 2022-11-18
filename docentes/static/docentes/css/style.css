@@ -493,6 +493,7 @@
 
 .container-button-add-activitie{
     width: 100%;
+    justify-content: center;
 }
 .container-button-add-activitie-info{
     display: flex;
