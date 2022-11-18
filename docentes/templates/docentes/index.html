@@ -46,6 +46,8 @@
     var urlFavorito='{% url 'api:favoritos' %}';//insertar o borrar favoritos
     var urlClonarPlaneacion='{% url 'api:clonarPlaneacion' %}';//para clonar una planeacion
     var urlActividadFree='{% url 'api:actividadesFree' %}';//para clonar una planeacion
+    var urlObtenerComentarios='{% url 'api:obtenerComentarios' %}';// para obtener los comentarios de una planeacion
+    var urlComentarios='{% url 'api:comentarios' %}';// para obtener los comentarios de una planeacion
     var username = '{{user.username}}';
 
 
@@ -293,26 +295,16 @@
                     
                             <div class="plan-coment">
                                 <img src="${favIcon}" alt="icono de like" {% if user.is_authenticated %} onclick="agregarFavorito(${data[a].id},this)" {% else %} onclick="mostrarModalMensajeRegistro('Registrate o inicia sesión para poder dar like',5500)" {% endif %} >
-                                <h3 class="" onclick="desplegarComentarios(${data[a].id},this)">Comentarios</h3>
-                                <img class="opacidad-0" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id})">
+                                <h3 class="" onclick="desplegarComentarios(${data[a].id})">Comentarios</h3>
+                                <img class="opacidad-0" id="plan-coment-close-${data[a].id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="desplegarComentarios(${data[a].id})">
                             </div>
                     
                             <div id="info-coment-${data[a].id}" class="plan-coments">
-                                <div class="container-coments">
-                                    <div class="coment">
-                                        <img src="{% static 'icons/iconUser.svg' %}" alt="icono de like">
-                                        <div class="coment-message">
-                                            <h3>Karen</h3>
-                                            <p>Me gusto mucho ajjajajajjajajajajajjajajajjajajajajajjajajajjajajajaj</p>
-                                        </div>
-                    
-                                    </div>
-                    
-                                </div>
+                                <div id="plan-container-coments-${data[a].id}" class="container-coments"></div>
                                 <div class="plan-coment-send">
                                     <img src="{% static 'icons/iconUser.svg' %}" alt="icono de usuario">
-                                    <input type="text" name="" id="" placeholder="Escribe un comentario">
-                                    <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
+                                    <input type="text" name="" id="plan-coment-info-${data[a].id}" placeholder="Escribe un comentario" onkeypress="enterEnviarComentario(event,${data[a].id})">
+                                    <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like" onclick="enviarComentario(${data[a].id})">
                                 </div>
                             </div>
                     
@@ -338,9 +330,55 @@
         }
     }
 
+    // para cuando se presione enter en el input de buscar planeacion
     function enter(tecla){// para cuando presionamos la tecla enter
         if (tecla.keyCode == 13) {
             buscarPlaneacion();
+        }
+    }
+
+
+    // para cuando se presione enter en el input de envio de comentario
+    function enterEnviarComentario(tecla,id){// para cuando presionamos la tecla enter
+        if (tecla.keyCode == 13) {
+            enviarComentario(id)
+        }
+    }
+    // para enviar comentarios por el id de la planeacion
+    async function enviarComentario(id){
+        var coment = document.getElementById('plan-coment-info-'+id);
+        var data = {
+            id_usuario:'{{user.id}}',
+            id_planeacion: String(id),
+            comentario:coment.value
+            };
+        if(coment.value != ''){
+            fetch(urlComentarios,{
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization':localStorage.getItem('token'),
+                }
+              }).then(response =>{
+                if(response.ok){// la peticion fue exitosa
+                    var contenedorComentarios = document.getElementById('plan-container-coments-'+id);
+                    contenedorComentarios.innerHTML+=`
+                    <div class="coment">
+                        <img src="{% static 'icons/iconUser.svg' %}" alt="icono usuario">
+                        <div class="coment-message">
+                            <h3>${'{{user.username}}'}</h3>
+                            <p>${coment.value}</p>
+                        </div>
+    
+                    </div>`;
+                    coment.value='';//limpiamos la caja de texto del envio de comentarios
+                }else{
+                    throw new Error(response.status);
+                }
+            }).catch(error => {console.error('Error:', error);alert("Error al agregar el comentario");});
+        }else{
+            alert('Escribe un comentario');
         }
     }
 
@@ -395,12 +433,36 @@
         slide.classList.toggle('rotar');
 
     }
-    function desplegarComentarios(id,slide){
+    function desplegarComentarios(id){
         var pl = document.getElementById('info-coment-'+id);
         pl.classList.toggle('display-flex');
 
         var pl1 = document.getElementById('plan-coment-close-'+id);
         pl1.classList.toggle('opacidad-0');
+
+        if(document.getElementById('plan-container-coments-'+id).innerHTML ==''){//si el contenedor de comentarios esta vacio entonces buscamos los comentarios
+            fetch(urlObtenerComentarios+'/'+id).then(response =>{
+                if(response.ok){
+                    response.json().then(lista=>{
+                        var comentarios = document.getElementById('plan-container-coments-'+id);
+                        if(lista.length ==0){
+                            comentarios.innerHTML=' ';
+                        }
+                        for(a in lista){
+                            comentarios.innerHTML+=`
+                            <div class="coment">
+                                <img src="{% static 'icons/iconUser.svg' %}" alt="icono de like">
+                                <div class="coment-message">
+                                    <h3>${lista[a].id_usuario.username}</h3>
+                                    <p>${lista[a].comentario}</p>
+                                </div>
+            
+                            </div>`;
+                        }
+                    });
+                }
+            }).catch(error=>{console.error(error);});
+        }
 
     }
     function cerrarComentarios(id){
@@ -425,38 +487,10 @@
             }).catch(console.error());
         }
     }
-    function calificarPlaneacion(puntaje){
-        var pc = document.getElementById('plan-calification-star');
-        pc.innerHTML='';
-        for(var a = 1; a <= puntaje;a++){//agregamos las estrellas amarillas
-            pc.innerHTML+='<img src="{% static 'icons/iconStar.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
-        }
-        for(a ; a <= 5;a++){//agregamos la estrellas grises
-            pc.innerHTML+='<img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion('+a+')" >';
-        }
-        var modal = document.getElementById('plan-calificar-modal');
-        setTimeout(function(){modal.remove();},790);
-    }
     function cerrarModalCalificacion(){
         var modal = document.getElementById('plan-calificar-modal');
         modal.remove();
     }
-    function mostrarModalCalificacion(){
-        var b = document.getElementById('body');
-        b.innerHTML+=`
-        <div id="plan-calificar-modal" class="plan-calification">
-        <img src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar ventana" onclick="cerrarModalCalificacion()">
-        <h3>Calificame</h3>
-        <div id="plan-calification-star" >
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(1)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(2)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(3)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(4)">
-            <img src="{% static 'icons/iconStarOff.svg' %}" alt="icono de estrella" onclick="calificarPlaneacion(5)">
-        </div>
-        </div>`;
-    }
-
 
    
 
