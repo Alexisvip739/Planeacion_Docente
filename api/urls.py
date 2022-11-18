@@ -25,5 +25,10 @@ urlpatterns = [
     path('actividadesFree',v.Actividad_APIView.as_view(),name='actividadesFree'),#para los favoritos sin logearse
     path('actividadesFree/<str:pk>',v.Actividad_APIView.as_view(),name='actividadesFree'),#para los favoritos sin logearse
 
+    path('obtenerComentarios',v.Comentario_APIViewFree.as_view(),name='obtenerComentarios'),
+    path('obtenerComentarios/<str:pk>',v.Comentario_APIViewFree.as_view(),name='obtenerComentarios'),
+    path('comentarios',v.Comentario_APIView.as_view(),name='comentarios'),
+    path('comentarios/<str:pk>',v.Comentario_APIView.as_view(),name='comentarios'),
+
 
 ]
