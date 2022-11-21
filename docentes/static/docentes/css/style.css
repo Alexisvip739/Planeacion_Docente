@@ -604,7 +604,7 @@
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){
     .plan-container{
-        width: 20%;
+        width: 400px;
     }
 }
 /* Escritorio grande */
