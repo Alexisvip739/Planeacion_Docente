@@ -569,6 +569,7 @@
     width: 20px !important;
     margin-top: 0;
     accent-color: var(--verde);
+    margin-left: 10px;
 }
 
 .border-bottom{
@@ -602,16 +603,23 @@
 }
 /* Escritorio extra grande */
 @media only screen and (min-width: 1200px){
-
+    .plan-container{
+        width: 20%;
+    }
 }
 /* Escritorio grande */
 @media only screen and (min-width: 992px) and (max-width: 1199px){
+    .plan-container{
+        width: 30%;
+    }
 
 }
 
 /* Escritorio pequeño / tablet */
 @media only screen and (min-width: 768px) and (max-width: 991px){
-
+    .plan-container{
+        width: 40%;
+    }
 }
 
 /* Tablets y phablets */
