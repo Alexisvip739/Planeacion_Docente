@@ -33,23 +33,20 @@ def perfil(request):
 @login_required(login_url='docentes:login')
 def actualizarPassword(request):
     if request.method == 'POST':
-       
         user=User.objects.get(id=request.user.id)
-        print('______________________________________________________')
-        print(request.POST['password'])
+        print(len(request.POST['password']))
         print(request.POST['password2'])
-        if request.POST['password'] == request.POST['password2']:
-        
+        if request.POST['password'] == request.POST['password2'] and request.POST['password']!='' and request.POST['password2']!='':
             user.set_password(request.POST['password'])
             user.save()
             logout(request)
-            return redirect('docentes:index')
-        if request.POST['password']!=request.POST['password2'] or request.POST['password2']!=request.POST['password2']:
-            return render(request,'docentes/actualizacion_password.html',{'mensajeError1':'Una de las contrasenas no es valida'})
-        if request.POST['password']=='' and request.POST['password2']!='' or  request.POST['password']!='' and request.POST['password2']=='':
-            return render(request,'docentes/actualizacion_password.html',{'mensajeError2':'La contrasena no esta asignada'})
-        
-
+            return redirect('docentes:login')
+        elif request.POST['password']!=request.POST['password2'] or request.POST['password2']!=request.POST['password']:
+            return render(request,'docentes/actualizacion_password.html',{'password_distintos':'Contrasena no valida'})
+   
+        elif request.POST['password']=='' and request.POST['password2']=='' or request.POST['password']=='' or request.POST['password2']=='':
+            return render(request,'docentes/actualizacion_password.html',{'password_vacio':'Contrasena no valida'})
+    
     return render(request,'docentes/actualizacion_password.html',{})
     
 @login_required(login_url='docentes:login')  
