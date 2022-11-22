@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import  login_required
 from rest_framework.authtoken.models import Token
+import re
 # Create your views here.
 
 
@@ -33,23 +34,20 @@ def perfil(request):
 @login_required(login_url='docentes:login')
 def actualizarPassword(request):
     if request.method == 'POST':
-       
         user=User.objects.get(id=request.user.id)
-        print('______________________________________________________')
-        print(request.POST['password'])
+        print(len(request.POST['password']))
         print(request.POST['password2'])
-        if request.POST['password'] == request.POST['password2']:
-        
+        if request.POST['password'] == request.POST['password2'] and request.POST['password']!='' and request.POST['password2']!='':
             user.set_password(request.POST['password'])
             user.save()
             logout(request)
-            return redirect('docentes:index')
-        if request.POST['password']!=request.POST['password2'] or request.POST['password2']!=request.POST['password2']:
-            return render(request,'docentes/actualizacion_password.html',{'mensajeError1':'Una de las contrasenas no es valida'})
-        if request.POST['password']=='' and request.POST['password2']!='' or  request.POST['password']!='' and request.POST['password2']=='':
-            return render(request,'docentes/actualizacion_password.html',{'mensajeError2':'La contrasena no esta asignada'})
-        
-
+            return redirect('docentes:login')
+        elif request.POST['password']!=request.POST['password2'] or request.POST['password2']!=request.POST['password']:
+            return render(request,'docentes/actualizacion_password.html',{'password_distintos':'Contrasena no valida'})
+   
+        elif request.POST['password']=='' and request.POST['password2']=='' or request.POST['password']=='' or request.POST['password2']=='':
+            return render(request,'docentes/actualizacion_password.html',{'password_vacio':'Contrasena no valida'})
+    
     return render(request,'docentes/actualizacion_password.html',{})
     
 @login_required(login_url='docentes:login')  
@@ -70,6 +68,7 @@ def actualizarUsuario(request):
             user.email=email
             user.save()
             return render(request,'docentes/index.html',{})
+       
         elif  email=='' and name=='':
             return render(request,'docentes/actualizacion_informacion.html',{'noAcualizado':'No se actualiza ningun dato'})
         if len(name)!=0 and len(email)!=0:
@@ -95,7 +94,7 @@ def login_user(request):
             #regresamos el token del usuario
             return render(request,'docentes/index.html',{'token':'token '+str(token[0])})
         else:# si los datos del usuario no concuerdan mandamos un error
-            return render(request,'docentes/login.html',{'mensajeError':'Tu usuario o contaseña son invalidos'})
+            return render(request,'docentes/login.html',{'datos_invalidos':'Tu usuario o contaseña son invalidos'})
 
 #para cerrar sesion
 @login_required(login_url='docentes:login')  
@@ -118,11 +117,13 @@ def registrar_usuario(request):
         for user_ahutenticate in allUser:
             if user_ahutenticate.username==request.POST['username']:
                 return render(request,'docentes/registro_usuario.html',{'noUser':'Usuario ya existente'})
-                
+
+      
         if request.POST['password'] == request.POST['password2'] or request.POST['password2']==request.POST['password']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
-           
+
                 
         elif request.POST['password'] != request.POST['password2'] or request.POST['password2']!=request.POST['password']:
-            return render(request,'docentes/registro_usuario.html',{'mensajeError':'Contrasena no valida'})
+            return render(request,'docentes/registro_usuario.html',{'password_no_valido':'Contraseña no valida'})
+       
         return redirect('docentes:login')

@@ -27,9 +27,14 @@
         {% if noUser %}
         <p style="color:red">{{noUser}}</p>
 
-        {% endif %}        
+        {% endif %}  
+
         {% if noAcualizado %}
-        <p style="color:red">{{noAcualizado}}</p>
+         <p style="color:red">{{noAcualizado}}</p>
+        {% endif %}
+
+        {% if email_no_valido %}
+            <p style="color:red">{{email_no_valido}}</p>
         {% endif %}
         
         
