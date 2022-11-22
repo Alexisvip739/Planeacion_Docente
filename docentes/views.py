@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import  login_required
 from rest_framework.authtoken.models import Token
+import re
 # Create your views here.
 
 
@@ -92,7 +93,7 @@ def login_user(request):
             #regresamos el token del usuario
             return render(request,'docentes/index.html',{'token':'token '+str(token[0])})
         else:# si los datos del usuario no concuerdan mandamos un error
-            return render(request,'docentes/login.html',{'mensajeError':'Tu usuario o contaseña son invalidos'})
+            return render(request,'docentes/login.html',{'datos_invalidos':'Tu usuario o contaseña son invalidos'})
 
 #para cerrar sesion
 @login_required(login_url='docentes:login')  
@@ -104,6 +105,9 @@ def cerrar_sesion(request):
     return redirect('docentes:login')
 
 #para registrar un usuario nuevo
+def es_correo_valido(correo):
+    expresion_regular = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+    return re.match(expresion_regular, correo) is not None
 
 def registrar_usuario(request):
     if request.method == 'GET':
@@ -115,11 +119,15 @@ def registrar_usuario(request):
         for user_ahutenticate in allUser:
             if user_ahutenticate.username==request.POST['username']:
                 return render(request,'docentes/registro_usuario.html',{'noUser':'Usuario ya existente'})
-                
+
+        if es_correo_valido(request.POST['email'])==False:
+            return render(request,'docentes/registro_usuario.html',{'email_no_valido':'email no valida'} )
+
         if request.POST['password'] == request.POST['password2'] or request.POST['password2']==request.POST['password']:
             user = User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
-           
+
                 
         elif request.POST['password'] != request.POST['password2'] or request.POST['password2']!=request.POST['password']:
-            return render(request,'docentes/registro_usuario.html',{'mensajeError':'Contrasena no valida'})
+            return render(request,'docentes/registro_usuario.html',{'password_no_valido':'Contraseña no valida'})
+       
         return redirect('docentes:login')

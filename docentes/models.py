@@ -27,7 +27,7 @@ class Planeacion(models.Model):
 class Actividad(models.Model):
     titulo=models.CharField(max_length=50,null=False)
     fecha_de_inicio=models.DateField(null=False)
-    descripcion=models.CharField(max_length=50, null=False)
+    descripcion=models.TextField(null=True,blank=True)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
     finalizada = models.BooleanField(default=False)
     def __str__(self) -> str:
@@ -39,7 +39,7 @@ class Actividad(models.Model):
 class Comentario(models.Model):
     id_usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_planeacion=models.ForeignKey(Planeacion,on_delete=models.CASCADE)
-    comentario=models.CharField(max_length=80,blank=True,null=True)
+    comentario=models.TextField(null=True,blank=True)
     def __str__(self)->str:
         return self.comentario
 

@@ -122,7 +122,7 @@
                                         <h3>Titulo</h3>
                                         <input type="text" name="" id="info-act-titulo-${lista[a].id}" placeholder="Titulo" value="${lista[a].titulo}" maxlength="50" required>
                                         <h3>Descripción</h3>
-                                        <input type="text" name="" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" value="${lista[a].descripcion}" maxlength="50" required>
+                                        <textarea rows="6" cols="26" id="info-act-descripcion-${lista[a].id}" placeholder="Descripción" required>${lista[a].descripcion}</textarea>
                                         <input class="button-succes margin-top" type="button" name="" value="Guardar actividad" id="" onclick="actualizarActividad(${lista[a].id},${lista[a].id_planeacion})">
                                         
                                 </div>
@@ -277,7 +277,7 @@
                             <h3>Titulo</h3>
                             <input type="text" name="" id="info-add-titulo-${lista[a].id}" placeholder="Título" maxlength="50" required>
                             <h3>Descripción</h3>
-                            <input type="text" name="" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción" maxlength="50" required>
+                            <textarea rows="6" cols="28" type="text" id="info-add-descripcion-${lista[a].id}" placeholder="Descripción" required></textarea>
                             <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="agregarActividad(${lista[a].id})">
                     </div>
             
@@ -294,7 +294,7 @@
             </div>
 
             <h2>Observaciones</h2>
-            <input id="plan-observaciones-${lista[a].id}" type="text" placeholder="Observaciones" value="${lista[a].observaciones==null?'':lista[a].observaciones}">
+            <textarea rows="6" cols="26" id="plan-observaciones-${lista[a].id}" type="text" placeholder="Observaciones">${lista[a].observaciones==null?'':lista[a].observaciones}</textarea>
 
             <div class="plan-anonimo">
                 <h3>Finalización</h3>
@@ -486,7 +486,7 @@
                         <div class="head-activities">
                             <h3 id="info-act-titulo-principal-${lista.id}">${lista.titulo} ${dias[f1.getDay()]}</h3>
                             <img title="Borrar actividad" class="iconStar" src="{% static 'icons/iconDelete.svg' %}" alt="icono de slide" onclick="borrarActividad(${lista.id},this)">
-                            <img title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista.id},this)">
+                            <img id="plan-actividad-slide-${lista.id}" title="Desplegar actividad" class="iconStar" src="{% static 'icons/iconSlide.svg' %}" alt="icono de slide" onclick="desplegarActividad(${lista.id},this)">
                             <input id="info-act-check-${lista.id}" class="check-box" type="checkbox" ${lista.finalizada==true?'checked':'unchecked'}>
         
                         </div>
@@ -496,7 +496,7 @@
                                 <h3>Título</h3>
                                 <input type="text" name="" id="info-act-titulo-${lista.id}" placeholder="Título" value="${lista.titulo}" maxlength="50" required>
                                 <h3>Descripción</h3>
-                                <input type="text" name="" id="info-act-descripcion-${lista.id}" placeholder="Descripción" value="${lista.descripcion}" maxlength="50" required>
+                                <textarea rows="6" cols="28" id="info-act-descripcion-${lista.id}" placeholder="Descripción" required>${lista.descripcion}</textarea>
                                 <input class="button-succes margin-top" type="button" name="" id="" value="Guardar actividad" onclick="actualizarActividad(${lista.id},${lista.id_planeacion})">
                         </div>
                         

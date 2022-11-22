@@ -12,6 +12,20 @@
 <form class="login" action="{% url 'docentes:registrar_usuario' %}" method="POST">
     {% csrf_token %}
     <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
+    
+    {% if noUser %}
+            <p style="color:red">{{noUser}}</p>
+    {% endif %}
+
+    {% if password_no_valido %}
+        <p style="color:red">{{password_no_valido}}</P>
+    {% endif %}
+
+    {% if email_no_valido %}
+        <p style="color:red">{{email_no_valido}}</P>
+    {% endif %}
+    
+
     <h3>Nombre de usuario</h3>
     <input name="username" minlength="5" type="text" placeholder="Usuario" required>
     <h3>Correo Electrónico</h3>
@@ -24,9 +38,7 @@
     <a href="{% url 'docentes:login' %}">Iniciar sesión</a>
 
     
-    {% if noUser %}
-            <p style="color:red">{{noUser}}</p>
-    {% endif %}
+    
 
    
 </form>

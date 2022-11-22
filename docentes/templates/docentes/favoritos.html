@@ -198,7 +198,7 @@
                                         <h3>Titulo</h3>
                                         <input type="text" name="" id="" placeholder="Titulo" value="${lista[a].titulo}" readonly>
                                         <h3>Descripción</h3>
-                                        <textarea rows="6" cols="50" placeholder="Descripción" value="${lista[a].descripcion}" readonly></textarea>
+                                        <textarea rows="6" cols="50" placeholder="Descripción" readonly>${lista[a].descripcion}</textarea>
                                 </div>
                             </div>`;
                         }
@@ -334,11 +334,11 @@
                             <div id="container-activities-${data[a].id_planeacion.id}" class="container-activities"></div>
                 
                             <h2>Observaciones</h2>
-                            <textarea rows="4" cols="50" placeholder="Observaciones" value="${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}" readonly></textarea>
+                            <textarea rows="4" cols="50" placeholder="Observaciones" readonly>${data[a].id_planeacion.observaciones==null?'':data[a].id_planeacion.observaciones}</textarea>
                 
                         </div>
                 
-                        <div class="plan-coment mt2 mb2">
+                        <div class="plan-coment mt2 mb2 align-start ml">
                             <img src="${favIcon}" alt="icono de like" onclick="agregarFavorito(${data[a].id_planeacion.id},this)" >
                             <h3 class="display-none" onclick="desplegarComentarios(${data[a].id_planeacion.id},this)">Comentarios</h3>
                             <img class="display-none" id="plan-coment-close-${data[a].id_planeacion.id}" src="{% static 'icons/iconClose.svg' %}" alt="icono de cerrar Comentarios" onclick="cerrarComentarios(${data[a].id_planeacion.id},this)">
@@ -357,7 +357,7 @@
                 
                             </div>
                             <div class="plan-coment-send">
-                                <img src="{% static 'icons/logo.svg' %}" alt="icono de like">
+                                <img class="" src="{% static 'icons/logo.svg' %}" alt="icono de like">
                                 <input type="text" name="" id="" placeholder="Escribe un comentario">
                                 <img src="{% static 'icons/iconSend.svg' %}" alt="icono de like">
                             </div>

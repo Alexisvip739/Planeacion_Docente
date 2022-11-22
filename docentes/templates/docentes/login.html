@@ -15,7 +15,6 @@
     <form class="login" action="{% url 'docentes:login' %}" method="POST">
         {% csrf_token %}
 
-
         <img src="{% static 'icons/logo.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
         <h3>Nombre de usuario</h3>
         <input name="username" minlength="4" type="text" placeholder="Usuario" required>
@@ -24,8 +23,8 @@
         <input class="login-button" type="submit" value="Iniciar sesión">
         <a href="{% url 'docentes:registrar_usuario' %}">Registrarme</a>
 
-        {%if mensajeError%}
-            <p class="text-user-login">Usuario no existente</p>
+        {%if datos_invalidos%}
+            <p style="color:red">{{datos_invalidos}}</p>
         {%endif%}
 
         {% if no_user %}
