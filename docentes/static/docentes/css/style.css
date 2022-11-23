@@ -18,25 +18,17 @@
     margin: auto;
     background-color: var(--fondo2);
     border-radius: var(--redondo1);
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-bottom: 1%;
+    padding: 1%;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
     font-family: 'Roboto', sans-serif;
 }
 .login img{
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     justify-self: center;
     cursor: pointer;
 }
-.login h3{
-    font-size: var(--fuente);
-    margin-bottom: 5px;
-    align-self:flex-start;
-    padding-left: 4%;
-    padding-right: 4%;
-}
+
 .login input{
     border-radius: var(--redondo1);
     border-color: transparent;
@@ -45,7 +37,24 @@
 
     padding-left: 4%;
     padding-right: 4%;
-    width: 85%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+.text-username{
+    background-color: rgba(255, 255, 255, 0.833);
+    padding-left: 5px;
+    padding-right: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: -5px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+}
+.search input{
+    font-size: var(--fuente3);
+    border-radius: 50px 0 0 50px;
+    border-color: transparent;
+    padding-left: 2%;
+    outline: none;
     font-family: 'Roboto', sans-serif;
 }
 .login-button{
@@ -84,14 +93,14 @@
     /*box-shadow: 0 4px 8px 0 rgb(255 255 255 / 19%), 0 6px 20px 0 rgb(217 217 217 / 19%);*/
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
 }
-.search input{
-    font-size: var(--fuente3);
-    border-radius: 50px 0 0 50px;
-    border-color: transparent;
-    padding-left: 2%;
-    outline: none;
-    font-family: 'Roboto', sans-serif;
+.text-correo{
+    background-color: rgba(255, 255, 0, 0.833);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 19%), 0 6px 20px 0 rgb(44 41 41 / 19%);
+
 }
+
 .search a img{
     height: 49px;
 }
