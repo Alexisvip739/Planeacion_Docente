@@ -13,14 +13,13 @@
 
     <form class="login">
         <img src="{% static 'icons/iconUser.svg' %}" alt="logo de la empresa" onclick="window.location='{% url 'docentes:index' %}'">
-        <h2>{{user.username}}</h2>
+        <h2 class="text-username">{{user.username}}</h2>
         {% if user.email %}
-            <p>{{user.email}}</p>
-        
+            <p class="text-correo">{{user.email}}</p>
         {% else %}
-            <p>Sin Correo Electronico</p>
+            <p class="text-correo">Sin Correo Electronico</p>
         {% endif %}
-        <a href="{% url 'docentes:actualizarUsuario' %}"><h2>Cambiar información</h2></a>
-        <a href="{% url 'docentes:actualizarPassword' %}"><h2>Cambiar contraseña</h2></a> 
+        <a class="cambiar-datos" href="{% url 'docentes:actualizarUsuario' %}"><h2>Cambiar información</h2></a>
+        <a class="cambiar-datos"href="{% url 'docentes:actualizarPassword' %}"><h2>Cambiar contraseña</h2></a> 
     </form>
 {% endblock %}
