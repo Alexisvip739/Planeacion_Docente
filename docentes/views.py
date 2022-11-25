@@ -35,8 +35,6 @@ def perfil(request):
 def actualizarPassword(request):
     if request.method == 'POST':
         user=User.objects.get(id=request.user.id)
-        print(len(request.POST['password']))
-        print(request.POST['password2'])
         if request.POST['password'] == request.POST['password2'] and request.POST['password']!='' and request.POST['password2']!='':
             user.set_password(request.POST['password'])
             user.save()
@@ -46,7 +44,7 @@ def actualizarPassword(request):
             return render(request,'docentes/actualizacion_password.html',{'password_distintos':'Contrasena no valida'})
    
         elif request.POST['password']=='' and request.POST['password2']=='' or request.POST['password']=='' or request.POST['password2']=='':
-            return render(request,'docentes/actualizacion_password.html',{'password_vacio':'Contrasena no valida'})
+            return render(request,'docentes/actualizacion_password.html',{'password_vacio':'Campos Sin Implementar'})
     
     return render(request,'docentes/actualizacion_password.html',{})
     
